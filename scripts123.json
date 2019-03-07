@@ -1,0 +1,204 @@
+[
+  {
+    "id": "0-0-0-0-0",
+    "command": "hello",
+    "description": "Respond when a human says hello!",
+    "script": [
+      {
+        "topic": "default",
+        "script": [
+          {
+            "text": [
+              "Hello Human!",
+              "How do you do?",
+              "Nice to meet you Human.",
+              "Hi!",
+              "How’s it going?",
+              "Hey!",
+              "Hey there!",
+              "Howdy!",
+              "G`day human!",
+              "Salut!",
+              "Ciao!",
+              "Hola!",
+              "Shalom!"
+            ]
+          },
+          {
+            "action": "complete"
+          }
+        ]
+      }
+    ],
+    "triggers": [
+      {
+        "pattern": "hell.*",
+        "type": "regexp",
+        "id": "495"
+      },
+      {
+        "type": "string",
+        "pattern": "hello"
+      },
+      {
+        "type": "string",
+        "pattern": "hey"
+      },
+      {
+        "type": "string",
+        "pattern": "hi"
+      },
+      {
+        "type": "string",
+        "pattern": "howdy"
+      }
+    ],
+    "variables": [],
+    "modified": "2018-12-12T15:23:41.416Z",
+    "name": "hello"
+  },
+  {
+    "command": "luis_test",
+    "botId": 1,
+    "description": "Testing Luis integration",
+    "triggers": [
+      {
+        "pattern": "Deutschkurs Suchen",
+        "type": "intent",
+        "id": 427
+      },
+      {
+        "pattern": "Deutschkurs",
+        "type": "string",
+        "id": 164
+      },
+      {
+        "type": "string",
+        "pattern": "luis_test"
+      }
+    ],
+    "variables": [
+      {
+        "name": "question_1",
+        "type": "string"
+      },
+      {
+        "name": "question_2",
+        "type": "string"
+      },
+      {
+        "name": "question_3",
+        "type": "string"
+      }
+    ],
+    "script": [
+      {
+        "topic": "default",
+        "script": [
+          {
+            "text": [
+              "Suchen sie nach einem Deutschkurs?"
+            ],
+            "collect": {
+              "key": "question_1",
+              "options": [
+                {
+                  "default": true,
+                  "pattern": "default",
+                  "action": "next"
+                },
+                {
+                  "pattern": "Ja",
+                  "type": "regex",
+                  "action": "next"
+                }
+              ]
+            },
+            "quick_replies": [
+              {
+                "title": "Ja",
+                "payload": "ja",
+                "content_type": "text"
+              },
+              {
+                "title": "Nein",
+                "payload": "nein",
+                "content_type": "text"
+              }
+            ],
+            "platforms": {
+              "web": {
+                "files": []
+              }
+            },
+            "meta": []
+          },
+          {
+            "text": [
+              "Wo möchten Sie einen Deutschkurs besuchen?"
+            ],
+            "collect": {
+              "key": "question_1",
+              "options": [
+                {
+                  "default": true,
+                  "pattern": "default",
+                  "action": "next"
+                }
+              ]
+            },
+            "quick_replies": [
+              {
+                "title": "Aargau",
+                "payload": "aargau",
+                "content_type": "text"
+              },
+              {
+                "title": "Aargau Umgebung",
+                "payload": "aargau_umgebung",
+                "content_type": "text"
+              },
+              {
+                "title": "Ich suche etwas anderes",
+                "payload": "other",
+                "content_type": "text"
+              }
+            ]
+          },
+          {
+            "action": "complete"
+          }
+        ]
+      },
+      {
+        "topic": "on_timeout",
+        "script": [
+          {
+            "text": [
+              "Looks like you got distracted. We can continue later."
+            ]
+          },
+          {
+            "action": "timeout"
+          }
+        ]
+      },
+      {
+        "topic": "on_other_choice",
+        "script": [
+          {
+            "text": [
+              "This is on_other_choice"
+            ]
+          },
+          {
+            "action": "complete"
+          }
+        ]
+      }
+    ],
+    "id": "360e5f6b-998b-44d9-91cf-14f9cdc09888",
+    "modified": "2019-02-23T09:30:14.817Z",
+    "name": "luis_test"
+  }
+]

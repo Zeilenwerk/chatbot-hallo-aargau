@@ -1,0 +1,96 @@
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ ______     ______     ______   __  __     __     ______
+ /\  == \   /\  __ \   /\__  _\ /\ \/ /    /\ \   /\__  _\
+ \ \  __<   \ \ \/\ \  \/_/\ \/ \ \  _"-.  \ \ \  \/_/\ \/
+ \ \_____\  \ \_____\    \ \_\  \ \_\ \_\  \ \_\    \ \_\
+ \/_____/   \/_____/     \/_/   \/_/\/_/   \/_/     \/_/
+
+ This is a sample Slack bot built with Botkit.
+
+ This bot demonstrates many of the core features of Botkit:
+
+ * Connect to Slack using the real time API
+ * Receive messages based on "spoken" patterns
+ * Send a message with attachments
+ * Send a message via direct message (instead of in a public channel)
+
+ # RUN THE BOT:
+
+ Get a Bot token from Slack:
+
+ -> http://my.slack.com/services/new/bot
+
+ Run your bot from the command line:
+
+ token=<MY TOKEN> serviceUri=<LUIS_SERVICE_URI>node demo_bot.js
+
+ # USE THE BOT:
+
+ Find your bot inside Slack to send it a direct message.
+
+ Say: "Hello"
+
+ The bot will reply "Hello!"
+
+ Make sure to invite your bot into other channels using /invite @<my bot>!
+
+ # EXTEND THE BOT:
+
+ Botkit has many features for building cool and useful bots!
+
+ Read all about it here:
+
+ -> http://howdy.ai/botkit
+
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+var env = require('node-env-file');
+env(__dirname + '/.env');
+
+
+var Botkit = require('botkit');
+var debug = require('debug')('botkit:main');
+
+var bot_options = {
+    replyWithTyping: false,
+};
+
+var luis = require('./node_modules/botkit-middleware-luis/src/luis-middleware');
+
+if (!process.env.serviceUri) {
+    console.log('Error: Specify Luis service uri');
+    process.exit(1);
+}
+
+var luisOptions = {serviceUri: process.env.serviceUri};
+
+// Use a mongo database if specified, otherwise store in a JSON file local to the app.
+// Mongo is automatically configured when deploying to Heroku
+if (process.env.MONGO_URI) {
+    // create a custom db access method
+    var db = require(__dirname + '/components/database.js')({});
+    bot_options.storage = db;
+} else {
+    bot_options.json_file_store = __dirname + '/.data/db/'; // store user data in a simple JSON format
+}
+
+// Create the Botkit controller, which controls all instances of the bot.
+var controller = Botkit.socketbot(bot_options);
+
+// Set up an Express-powered webserver to expose oauth and webhook endpoints
+var webserver = require(__dirname + '/components/express_webserver.js')(controller);
+
+// Open the web socket server
+controller.openSocketServer(controller.httpserver);
+
+controller.middleware.receive.use(luis.middleware.receive(luisOptions));
+
+// Start the bot brain in motion!!
+controller.startTicking();
+
+var normalizedPath = require("path").join(__dirname, "skills");
+require("fs").readdirSync(normalizedPath).forEach(function(file) {
+    require("./skills/" + file)(controller);
+});
+
+console.log('I AM ONLINE! COME TALK TO ME: http://localhost:' + (process.env.PORT || 3000));
