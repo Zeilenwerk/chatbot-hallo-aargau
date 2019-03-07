@@ -12,6 +12,7 @@
     "botkit-cms": "0.0.4",
     "botkit-middleware-luis": "^1.0.0",
     "botkit-storage-mongo": "^1.0.6",
+    "botkit-storage-postgres": "^0.1.0",
     "debug": "^3.1.0",
     "express": "^4.16.4",
     "express-hbs": "^1.0.4",
