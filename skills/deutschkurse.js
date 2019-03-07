@@ -156,9 +156,9 @@ module.exports = function (controller) {
 
         if (convo.vars.kursOrt !== "None" && convo.vars.kursTag !== "None" && convo.vars.kursZeit !== "None" && convo.vars.kursNiveau !== "None") {
             currentDeutschkurs(convo);
-            convo.addMessage("Zusätzliche Infromationen helfen mir die Kurse besser für Sie anzuzeigen.");
         }
 
+        convo.addMessage("Zusätzliche Infromationen helfen mir die Kurse besser für Sie anzuzeigen.");
 
         // create a path for when a user says YES
         convo.addMessage({
@@ -180,6 +180,8 @@ module.exports = function (controller) {
 
         convo.on('end', function (convo) {
 
+            convo.say('This is the end of the conversation.');
+
             if (convo.status === 'completed') {
                 // do something useful with the users responses
                 var res = convo.extractResponses();
@@ -193,14 +195,12 @@ module.exports = function (controller) {
                 // something happened that caused the conversation to stop prematurely
             }
 
-            convo.say('This is the end of the conversation.');
-
         });
 
         convo.onTimeout(function (convo) {
 
             convo.say('Oh no! The time limit has expired.');
-            convo.next();
+            convo.gotoThread("end")
 
         });
 
@@ -216,15 +216,18 @@ module.exports = function (controller) {
      * */
     function currentDeutschkurs(convo) {
 
+        console.log("Start currentDeutschkurs");
+
         var reply = "Ihre Angaben:";
 
-        if (convo.vars.kursOrt !== "None") reply += "Kursort: '" + kursOrt + "'\n";
-        if (convo.vars.kursZeit !== "None") reply += "Kurszeit: '" + kursZeit + "'\n";
-        if (convo.vars.kursIntensitaet !== "None") reply += "Kurs Intensität: '" + kursIntensitaet + "'\n";
-        if (convo.vars.kursAnbieter !== "None") reply += "Kurs Anbieter: '" + kursAnbieter + "'\n";
-        if (convo.vars.kursNiveau !== "None") reply += "Kurs Niveau: '" + kursNiveau + "'\n";
-        if (convo.vars.kursSprache !== "None") reply += "Kurs Sprache: '" + kursSprahe + "'\n";
-        if (convo.vars.kursAdressatengruppe !== "None") reply += "Kurs Adressatengruppe: '" + kursAdressatengruppe + "'\n";
+        if (convo.vars.kursOrt !== "None") reply += "Kursort: '" + convo.vars.kursOrt + "'\n";
+        if (convo.vars.kursTag !== "None") reply += "Kurs Tag: '" + convo.vars.kursTag + "'\n";
+        if (convo.vars.kursZeit !== "None") reply += "Kurszeit: '" + convo.vars.kursZeit + "'\n";
+        if (convo.vars.kursIntensitaet !== "None") reply += "Kurs Intensität: '" + convo.vars.kursIntensitaet + "'\n";
+        if (convo.vars.kursAnbieter !== "None") reply += "Kurs Anbieter: '" + convo.vars.kursAnbieter + "'\n";
+        if (convo.vars.kursNiveau !== "None") reply += "Kurs Niveau: '" + convo.vars.kursNiveau + "'\n";
+        if (convo.vars.kursSprache !== "None") reply += "Kurs Sprache: '" + convo.vars.kursSprache + "'\n";
+        if (convo.vars.kursAdressatengruppe !== "None") reply += "Kurs Adressatengruppe: '" + convo.vars.kursAdressatengruppe + "'\n";
 
         convo.addMessage(reply);
 
@@ -260,6 +263,9 @@ module.exports = function (controller) {
     *
     * */
     function askKursOrt(convo) {
+
+        console.log("Start askKursOrt");
+
         // set up a menu thread which other threads can point at.
         convo.ask({
             text: 'Wo soll der Deutschkurs stattfinden?',
@@ -322,14 +328,14 @@ module.exports = function (controller) {
 
                     let aEntity = getEntityFromLuisResponse("kursOrt", res);
 
-                    if (array === undefined || array.length === 0) {
+                    if (aEntity === undefined || aEntity.length === 0) {
                         // array empty or does not exist
                         //TODO: Handle not found entity
                     }else{
-                        convo.setVar("kursOrt", aEntity["sEntity"]);
+                        convo.setVar("kursOrt", aEntity[0]);
                         console.log("kursOrt = " + convo.vars.kursZeit);
 
-                        convo.setVar("kursBezirk",  aEntity["sResolution"] );
+                        convo.setVar("kursBezirk",  aEntity[1] );
                         console.log("kursBezirk = " + convo.vars.kursBezirk);
                     }
 
@@ -356,6 +362,8 @@ module.exports = function (controller) {
     *
     * */
     function askKursTag(convo) {
+
+        console.log("Start askKursTag");
 
         let text = "";
         if(convo.vars.kursBezirk !== "None"){
@@ -496,6 +504,8 @@ module.exports = function (controller) {
     * */
     function askKursZeit(convo) {
 
+        console.log("Start askKursZeit");
+
         convo.ask({
             text: 'Um wie viel Uhr soll der Kurs am {{vars.kursTag}} stattfinden?',
         }, [
@@ -520,20 +530,22 @@ module.exports = function (controller) {
 
                     let aEntity = getEntityFromLuisResponse("kursZeit", res);
 
-                    if (array === undefined || array.length === 0) {
+                    if (aEntity === undefined || aEntity.length === 0) {
                         // array empty or does not exist
                         //TODO: Handle not found entity
                     }else{
-                        convo.setVar("kursZeit", aEntity["sEntity"]);
+                        convo.setVar("kursZeit", aEntity[0]);
                         console.log("KursZeit = " + convo.vars.kursZeit);
                     }
+
+                    convo.addMessage('Super, somit {{vars.kursTag}} um {{vars.kursZeit}} Uhr');
 
                     convo.next();
                 }
             }
         ]);
 
-        convo.addMessage('Super, somit {{vars.kursTag}} um {{vars.kursZeit}} Uhr');
+
     }
 
     /*Funktion für die Anfrage des Kurs Niveau
@@ -553,6 +565,8 @@ module.exports = function (controller) {
     *
     * */
     function askKursNiveau(convo) {
+
+        console.log("Start askKursNiveau");
 
         convo.ask({
             text: 'Für welches Sprachniveau suchen Sie den Kurs?',
@@ -669,6 +683,8 @@ module.exports = function (controller) {
     * */
     function askKursAdressatengruppe(convo) {
 
+        console.log("Start askKursAdressatengruppe");
+
         convo.ask({
             text: 'Für welches Adressatengruppe soll der Kurs sein?',
             quick_replies: [
@@ -763,6 +779,8 @@ module.exports = function (controller) {
      * */
     function askKursSprache(convo) {
 
+        console.log("Start askKursSprache");
+
         convo.ask({
             text: 'Für welches Adressatengruppe soll der Kurs sein?',
             quick_replies: [
@@ -846,6 +864,8 @@ module.exports = function (controller) {
     * */
     function askZusaetzlicheKursInformationen(convo){
 
+        console.log("Start askZusaetzlicheKursInformationen");
+
         let titleInfoKursAdressatengruppe = (convo.vars.kursAdressatengruppe === "None") ? "Adressatengruppe" : "Adressatengruppe ändern";
         let titleInfoKursAnbieter = (convo.vars.kursAnbieter === "None") ? "Gewünschter Kursanbieter" : "Gewünschter Kursanbieter ändern";
         let titleInfoKursIntensitaet = (convo.vars.kursIntensitaet === "None") ? "Kurs Intensität" : "Kurs Intensität ändern";
@@ -920,7 +940,8 @@ module.exports = function (controller) {
     * */
     function getEntityFromLuisResponse(sEntitType, res){
 
-        let aRetVal = array();
+        console.log("Start getEntityFromLuisResponse");
+
         let sEntity = "None";
         let sResolution = "None";
 
@@ -938,20 +959,19 @@ module.exports = function (controller) {
                 console.log(res.entities[i]);
 
                 sEntity = res.entities[i].entity;
+                sResolution = undefined;
 
                 if(res.entities[i].resolution && res.entities[i].resolution.value) sResolution = res.entities[i].resolution.value;
                 if(res.entities[i].resolution && res.entities[i].resolution.values) sResolution = res.entities[i].resolution.values[0];
 
-                aRetVal["sEntity"] = sEntity;
-                aRetVal["sResolution"] = sResolution;
+                aRetVal = [sEntity, sResolution];
 
-                break;
+                return aRetVal;
             }
 
         }
 
-        console.log("Ret Val: " + aRetVal);
-        return aRetVal;
+        return null;
     }
 
 
