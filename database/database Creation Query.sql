@@ -10,10 +10,10 @@ CREATE DATABASE "hallo-aargau"
 CREATE TABLE public.deutschkurs_durchfuerungsort
 (
     "id" serial NOT NULL,
-	"Durchführungsort_Strasse" text,
-	"Durchführungsort_PLZ" text,
-	"Durchführungsort_Ortschaft" text,
-	"Durchführungsort_Raum" text,
+	"Durchfuehrungsort_Strasse" text,
+	"Durchfuehrungsort_PLZ" text,
+	"Durchfuehrungsort_Ortschaft" text,
+	"Durchfuehrungsort_Raum" text,
     PRIMARY KEY (id)
 )
 WITH (

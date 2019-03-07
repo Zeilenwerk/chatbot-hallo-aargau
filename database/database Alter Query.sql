@@ -1,9 +1,9 @@
 ALTER TABLE public.deutschkurs_durchfuerungsort
   ADD COLUMN "id" serial NOT NULL,
-	ADD COLUMN "Durchführungsort_Strasse" text,
-	ADD COLUMN "Durchführungsort_PLZ" text,
-	ADD COLUMN "Durchführungsort_Ortschaft" text,
-	ADD COLUMN "Durchführungsort_Raum" text,
+	ADD COLUMN "Durchfuehrungsort_Strasse" text,
+	ADD COLUMN "Durchfuehrungsort_PLZ" text,
+	ADD COLUMN "Durchfuehrungsort_Ortschaft" text,
+	ADD COLUMN "Durchfuehrungsort_Raum" text,
   ADD PRIMARY KEY (id)
 
 
