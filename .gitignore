@@ -1,3 +1,4 @@
 components/routes/_*
 .sass-cache/
 .DS_Store
+.idea

@@ -30,8 +30,8 @@ module.exports = function (controller) {
 
             if (message.topIntent.intent === "Deutschkurs Suchen") {
 
-                // deutschkursSuchen(convo, message);
-                displayGefundeneKurse(convo);
+                deutschkursSuchen(convo, message);
+                //displayGefundeneKurse(convo);
 
             } else {
 
@@ -1134,25 +1134,45 @@ module.exports = function (controller) {
         const pgClient = new pg.Client(dbConfig);
         pgClient.connect();
 
-        var query = "SELECT * FROM " + process.env.BOTKIT_STORAGE_POSTGRES_DATABASE_TABLE_DEUTSCHKURS;
-        pgQuery(pgClient, query).then(function(res) {
-            // here I have access to the result of the query with "res".
-            console.log(res);
+        var pgQuery = "SELECT * FROM " + process.env.BOTKIT_STORAGE_POSTGRES_DATABASE_TABLE_DEUTSCHKURS;
 
-            for (var i = 0; i < res.rows.length; i++) {
+        pgClient.query(pgQuery,
+            (err, res) => {
+                if(err) throw new Error(err.stack);
 
-                var oRow = res.rows[i];
+                pgClient.end();
 
-                console.log("Kurs #1: Wird vom " + oRow.Gesamtkurs_Start + " bis zum " + oRow.Gesamtkurs_Ende +
-                    " (" + oRow.Gesamtkurs_Dauer_Tage + " Tage) durchgeführt. Der Kurs Startet um " + oRow.Einzelkurs_Start + " und endet um " +
-                    oRow.Einzelkurs_Ende + " (" + oRow.Einzelkurs_Dauer_Minuten + " Minuten)");
+                for (var i = 0; i < res.rows.length; i++) {
 
-                results.push(oRow);
+                    var oRow = res.rows[i];
 
-            }
+                    console.log("Kurs #1: Wird vom " + oRow.Gesamtkurs_Start + " bis zum " + oRow.Gesamtkurs_Ende +
+                        " (" + oRow.Gesamtkurs_Dauer_Tage + " Tage) durchgeführt. Der Kurs Startet um " + oRow.Einzelkurs_Start + " und endet um " +
+                        oRow.Einzelkurs_Ende + " (" + oRow.Einzelkurs_Dauer_Minuten + " Minuten)");
 
+                    results.push(oRow);
 
-        });
+                }
+
+            });
+        // pgQueryExecuter(pgClient, pgQuery).then(function(res) {
+        //     // here I have access to the result of the query with "res".
+        //     console.log(res);
+        //
+        //     for (var i = 0; i < res.rows.length; i++) {
+        //
+        //         var oRow = res.rows[i];
+        //
+        //         console.log("Kurs #1: Wird vom " + oRow.Gesamtkurs_Start + " bis zum " + oRow.Gesamtkurs_Ende +
+        //             " (" + oRow.Gesamtkurs_Dauer_Tage + " Tage) durchgeführt. Der Kurs Startet um " + oRow.Einzelkurs_Start + " und endet um " +
+        //             oRow.Einzelkurs_Ende + " (" + oRow.Einzelkurs_Dauer_Minuten + " Minuten)");
+        //
+        //         results.push(oRow);
+        //
+        //     }
+        //
+        //
+        // });
 
         console.log("Results: " + results);
 
@@ -1163,7 +1183,7 @@ module.exports = function (controller) {
 
     //PG Querry Handling:
     // Sotuce: https://stackoverflow.com/questions/31236478/using-data-from-a-nodejs-postgres-query
-    function pgQuery(pgClient, pgQuery) {
+    function pgQueryExecuter(pgClient, pgQuery) {
             var deferred = q.defer();
             var results = [];
 
