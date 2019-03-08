@@ -30,8 +30,10 @@ module.exports = function (controller) {
 
             if (message.topIntent.intent === "Deutschkurs Suchen") {
 
-                deutschkursSuchen(convo, message);
-                //displayGefundeneKurse(convo);
+                // deutschkursSuchen(convo, message);
+                displayGefundeneKurse(function(m){
+                  bot.reply(message, m);
+                });
 
             } else {
 
@@ -1121,8 +1123,8 @@ module.exports = function (controller) {
         return null;
     }
 
-    function displayGefundeneKurse(convo) {
-        convo.addMessage("Ich habe folgende Kurse gefunden");
+    function displayGefundeneKurse(addMessage) {
+        addMessage("Ich habe folgende Kurse gefunden");
 
         //TODO: Get UQery result to display in Chatbot
         //TODO: Handle multiple Results from PG DB
@@ -1147,6 +1149,10 @@ module.exports = function (controller) {
                     var oRow = res.rows[i];
 
                     console.log("Kurs #1: Wird vom " + oRow.Gesamtkurs_Start + " bis zum " + oRow.Gesamtkurs_Ende +
+                        " (" + oRow.Gesamtkurs_Dauer_Tage + " Tage) durchgeführt. Der Kurs Startet um " + oRow.Einzelkurs_Start + " und endet um " +
+                        oRow.Einzelkurs_Ende + " (" + oRow.Einzelkurs_Dauer_Minuten + " Minuten)");
+
+                    addMessage("Kurs #1: Wird vom " + oRow.Gesamtkurs_Start + " bis zum " + oRow.Gesamtkurs_Ende +
                         " (" + oRow.Gesamtkurs_Dauer_Tage + " Tage) durchgeführt. Der Kurs Startet um " + oRow.Einzelkurs_Start + " und endet um " +
                         oRow.Einzelkurs_Ende + " (" + oRow.Einzelkurs_Dauer_Minuten + " Minuten)");
 
