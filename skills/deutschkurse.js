@@ -1,5 +1,18 @@
 module.exports = function (controller) {
 
+    //Get Postgres Middleware
+    var pg = require('pg');
+    var async = require('async');
+    var q = require('q');
+
+    const dbConfig = {
+        user: process.env.BOTKIT_STORAGE_POSTGRES_USER || 'botkit',
+        database: process.env.BOTKIT_STORAGE_POSTGRES_DATABASE || 'botkit_test',
+        password: process.env.BOTKIT_STORAGE_POSTGRES_PASSWORD || 'botkit',
+        host: process.env.BOTKIT_STORAGE_POSTGRES_HOST || 'localhost',
+        port: process.env.BOTKIT_STORAGE_POSTGRES_PORT || '5432'
+    };
+
     //Get LUIS middleware
     var luis = require('../node_modules/botkit-middleware-luis/src/luis-middleware');
 
@@ -17,7 +30,8 @@ module.exports = function (controller) {
 
             if (message.topIntent.intent === "Deutschkurs Suchen") {
 
-                deutschkursSuchen(convo, message);
+                // deutschkursSuchen(convo, message);
+                displayGefundeneKurse(convo);
 
             } else {
 
@@ -59,7 +73,7 @@ module.exports = function (controller) {
                 "\n\t-> StartIndex: '" + message.entities[i].startIndex + "'" +
                 "\n\t-> EndIndex: '" + message.entities[i].endIndex + "'";
 
-            if(message.entities[i].resolution) log += "\n\t-> Resolution: '" + console.log(message.entities[i].resolution) + "'";
+            if (message.entities[i].resolution) log += "\n\t-> Resolution: '" + console.log(message.entities[i].resolution) + "'";
 
             console.log(log);
 
@@ -123,15 +137,15 @@ module.exports = function (controller) {
             }
         }
 
-        convo.addMessage( "Super, gerne helfe ich Ihnen ein Deutschkurs zu suchen. Dafür benötige ich noch folgende Angaben: Ort, Tag, Uhrzeit und Kursniveau.");
+        convo.addMessage("Super, gerne helfe ich Ihnen ein Deutschkurs zu suchen. Dafür benötige ich noch folgende Angaben: Ort, Tag, Uhrzeit und Kursniveau.");
 
         //Informationen vom benutzer beantragen, damit ein Deutschkurs gesucht werden kann
         if (convo.vars.kursOrt === "None") {
             askKursOrt(convo, "None");
         } else {
-            if(convo.vars.kursBezirk !== "None"){
+            if (convo.vars.kursBezirk !== "None") {
                 convo.addMessage("Den Ort haben Sie schon angegeben ({{vars.kursOrt}}, im Bezirk {kursBezirk}}), somit benötige ich dies nicht mehr.")
-            }else{
+            } else {
                 convo.addMessage("Den Ort haben Sie schon angegeben ({{vars.kursOrt}}), somit benötige ich dies nicht mehr.")
             }
         }
@@ -383,7 +397,7 @@ module.exports = function (controller) {
     * @param convo -> Conversation die am laufen ist
     *
     * */
-    function askKursOrt(convo, nextThread="None") {
+    function askKursOrt(convo, nextThread = "None") {
 
         console.log("Start askKursOrt");
 
@@ -414,7 +428,7 @@ module.exports = function (controller) {
                 callback: function (res, convo) {
                     convo.setVar("kursOrt", "Aarau");
                     console.log("kursOrt = " + convo.vars.kursOrt);
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     convo.next();
@@ -425,7 +439,7 @@ module.exports = function (controller) {
                 callback: function (res, convo) {
                     convo.setVar("kursOrt", "Baden");
                     console.log("kursOrt = " + convo.vars.kursOrt);
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     convo.next();
@@ -436,7 +450,7 @@ module.exports = function (controller) {
                 callback: function (res, convo) {
                     convo.setVar("kursOrt", "Lenzburg");
                     console.log("kursOrt = " + convo.vars.kursOrt);
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     convo.next();
@@ -447,7 +461,7 @@ module.exports = function (controller) {
                 callback: function (res, convo) {
                     convo.setVar("kursOrt", "Rheinfelden");
                     console.log("kursOrt = " + convo.vars.kursOrt);
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     convo.next();
@@ -466,15 +480,15 @@ module.exports = function (controller) {
                         //TODO: Handle not found entity
                         convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
                         convo.repeat();
-                    }else{
+                    } else {
                         convo.setVar("kursOrt", aEntity[0]);
                         console.log("kursOrt = " + convo.vars.kursZeit);
 
-                        convo.setVar("kursBezirk",  aEntity[1] );
+                        convo.setVar("kursBezirk", aEntity[1]);
                         console.log("kursBezirk = " + convo.vars.kursBezirk);
                     }
 
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
 
@@ -500,7 +514,7 @@ module.exports = function (controller) {
     * @param convo -> Conversation die am laufen ist
     *
     * */
-    function askKursTag(convo, nextThread="None") {
+    function askKursTag(convo, nextThread = "None") {
 
         console.log("Start askKursTag");
 
@@ -552,7 +566,7 @@ module.exports = function (controller) {
                     if (convo.vars.kursZeit === "None") {
                         askKursZeit(convo);
                     }
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     convo.next();
@@ -563,7 +577,7 @@ module.exports = function (controller) {
                 callback: function (res, convo) {
                     convo.setVar("kursTag", "Dienstag");
                     console.log("kursTag = " + convo.vars.kursTag);
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     convo.next();
@@ -574,7 +588,7 @@ module.exports = function (controller) {
                 callback: function (res, convo) {
                     convo.setVar("kursTag", "Mittwoch");
                     console.log("kursTag = " + convo.vars.kursTag);
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     convo.next();
@@ -585,7 +599,7 @@ module.exports = function (controller) {
                 callback: function (res, convo) {
                     convo.setVar("kursTag", "Donnerstag");
                     console.log("kursTag = " + convo.vars.kursTag);
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     convo.next();
@@ -596,7 +610,7 @@ module.exports = function (controller) {
                 callback: function (res, convo) {
                     convo.setVar("kursTag", "Freitag");
                     console.log("kursTag = " + convo.vars.kursTag);
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     convo.next();
@@ -607,7 +621,7 @@ module.exports = function (controller) {
                 callback: function (res, convo) {
                     convo.setVar("kursTag", "Samstag");
                     console.log("kursTag = " + convo.vars.kursTag);
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     convo.next();
@@ -645,7 +659,7 @@ module.exports = function (controller) {
     * @param convo -> Conversation die am laufen ist
     *
     * */
-    function askKursZeit(convo, nextThread="None") {
+    function askKursZeit(convo, nextThread = "None") {
 
         console.log("Start askKursZeit");
 
@@ -678,14 +692,14 @@ module.exports = function (controller) {
                         //TODO: Handle not found entity
                         convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
                         convo.repeat();
-                    }else{
+                    } else {
                         convo.setVar("kursZeit", aEntity[0]);
                         console.log("KursZeit = " + convo.vars.kursZeit);
                     }
 
                     convo.addMessage('Super, somit {{vars.kursTag}} um {{vars.kursZeit}} Uhr');
 
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
 
@@ -713,7 +727,7 @@ module.exports = function (controller) {
     * @param convo -> Conversation die am laufen ist
     *
     * */
-    function askKursNiveau(convo, nextThread="None") {
+    function askKursNiveau(convo, nextThread = "None") {
 
         console.log("Start askKursNiveau");
 
@@ -755,7 +769,7 @@ module.exports = function (controller) {
                 callback: function (res, convo) {
                     convo.setVar("kursNiveau", "A1");
                     console.log("kursNiveau = " + convo.vars.kursNiveau);
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     convo.next();
@@ -766,7 +780,7 @@ module.exports = function (controller) {
                 callback: function (res, convo) {
                     convo.setVar("kursNiveau", "A2");
                     console.log("kursNiveau = " + convo.vars.kursNiveau);
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     convo.next();
@@ -777,7 +791,7 @@ module.exports = function (controller) {
                 callback: function (res, convo) {
                     convo.setVar("kursNiveau", "B1");
                     console.log("kursNiveau = " + convo.vars.kursNiveau);
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     convo.next();
@@ -788,7 +802,7 @@ module.exports = function (controller) {
                 callback: function (res, convo) {
                     convo.setVar("kursNiveau", "B2");
                     console.log("kursNiveau = " + convo.vars.kursNiveau);
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     convo.next();
@@ -799,7 +813,7 @@ module.exports = function (controller) {
                 callback: function (res, convo) {
                     convo.setVar("kursNiveau", "C1");
                     console.log("kursNiveau = " + convo.vars.kursNiveau);
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     convo.next();
@@ -810,7 +824,7 @@ module.exports = function (controller) {
                 callback: function (res, convo) {
                     convo.setVar("kursNiveau", "C2");
                     console.log("kursNiveau = " + convo.vars.kursNiveau);
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     convo.next();
@@ -821,7 +835,7 @@ module.exports = function (controller) {
                 callback: function (res, convo) {
                     convo.setVar("kursNiveau", "Anfaenger");
                     console.log("kursNiveau = " + convo.vars.kursNiveau);
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     convo.next();
@@ -851,7 +865,7 @@ module.exports = function (controller) {
     * @param convo -> Conversation die am laufen ist
     *
     * */
-    function askKursAdressatengruppe(convo, nextThread="None") {
+    function askKursAdressatengruppe(convo, nextThread = "None") {
 
         console.log("Start askKursAdressatengruppe");
 
@@ -884,7 +898,7 @@ module.exports = function (controller) {
                 pattern: 'Jugendliche unter 16 Jahren',
                 callback: function (res, convo) {
                     convo.setVar("kursAdressatengruppe", "Jugendliche unter 16 Jahren");
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
@@ -895,7 +909,7 @@ module.exports = function (controller) {
                 pattern: 'Jugendliche zwischen 16 - 21',
                 callback: function (res, convo) {
                     convo.setVar("kursAdressatengruppe", "Jugendliche zwischen 16 - 21");
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
@@ -906,7 +920,7 @@ module.exports = function (controller) {
                 pattern: 'Erwachsene',
                 callback: function (res, convo) {
                     convo.setVar("kursAdressatengruppe", "Erwachsene");
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
@@ -917,7 +931,7 @@ module.exports = function (controller) {
                 pattern: 'Frauen',
                 callback: function (res, convo) {
                     convo.setVar("kursAdressatengruppe", "Frauen");
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
@@ -928,7 +942,7 @@ module.exports = function (controller) {
                 pattern: 'Frauen mit Kinder',
                 callback: function (res, convo) {
                     convo.setVar("kursAdressatengruppe", "Frauen mit Kinder");
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
@@ -962,7 +976,7 @@ module.exports = function (controller) {
      * @param convo -> Conversation die am laufen ist
      *
      * */
-    function askKursSprache(convo, nextThread="None") {
+    function askKursSprache(convo, nextThread = "None") {
 
         console.log("Start askKursSprache");
 
@@ -995,7 +1009,7 @@ module.exports = function (controller) {
                 pattern: 'Jugendliche unter 16 Jahren',
                 callback: function (res, convo) {
                     convo.setVar("kursAdressatengruppe", "Jugendliche unter 16 Jahren");
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
@@ -1006,7 +1020,7 @@ module.exports = function (controller) {
                 pattern: 'Jugendliche zwischen 16 - 21',
                 callback: function (res, convo) {
                     convo.setVar("kursAdressatengruppe", "Jugendliche zwischen 16 - 21");
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
@@ -1017,7 +1031,7 @@ module.exports = function (controller) {
                 pattern: 'Erwachsene',
                 callback: function (res, convo) {
                     convo.setVar("kursAdressatengruppe", "Erwachsene");
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
@@ -1028,7 +1042,7 @@ module.exports = function (controller) {
                 pattern: 'Frauen',
                 callback: function (res, convo) {
                     convo.setVar("kursAdressatengruppe", "Frauen");
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
@@ -1039,7 +1053,7 @@ module.exports = function (controller) {
                 pattern: 'Frauen mit Kinder',
                 callback: function (res, convo) {
                     convo.setVar("kursAdressatengruppe", "Frauen mit Kinder");
-                    if(nextThread !== "None"){
+                    if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     }
                     console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
@@ -1071,7 +1085,7 @@ module.exports = function (controller) {
     * @return aRetVal --> Empty Array || Entity Name && Entity Resolution in an array
     *
     * */
-    function getEntityFromLuisResponse(sEntitType, res){
+    function getEntityFromLuisResponse(sEntitType, res) {
 
         console.log("Start getEntityFromLuisResponse");
 
@@ -1086,7 +1100,7 @@ module.exports = function (controller) {
 
             console.log(log);
 
-            if(res.entities[i].type === sEntitType){
+            if (res.entities[i].type === sEntitType) {
 
                 console.log("Entity found for Type " + sEntitType);
                 console.log(res.entities[i]);
@@ -1094,8 +1108,8 @@ module.exports = function (controller) {
                 sEntity = res.entities[i].entity;
                 sResolution = undefined;
 
-                if(res.entities[i].resolution && res.entities[i].resolution.value) sResolution = res.entities[i].resolution.value;
-                if(res.entities[i].resolution && res.entities[i].resolution.values) sResolution = res.entities[i].resolution.values[0];
+                if (res.entities[i].resolution && res.entities[i].resolution.value) sResolution = res.entities[i].resolution.value;
+                if (res.entities[i].resolution && res.entities[i].resolution.values) sResolution = res.entities[i].resolution.values[0];
 
                 aRetVal = [sEntity, sResolution];
 
@@ -1109,6 +1123,65 @@ module.exports = function (controller) {
 
     function displayGefundeneKurse(convo) {
         convo.addMessage("Ich habe folgende Kurse gefunden");
+
+        //TODO: Get UQery result to display in Chatbot
+        //TODO: Handle multiple Results from PG DB
+        //TODO: Add User Info to WHERE Filter
+        //TODO: Add Kosten, Ort und Anbieter
+
+        var results = [];
+
+        const pgClient = new pg.Client(dbConfig);
+        pgClient.connect();
+
+        var query = "SELECT * FROM " + process.env.BOTKIT_STORAGE_POSTGRES_DATABASE_TABLE_DEUTSCHKURS;
+        pgQuery(pgClient, query).then(function(res) {
+            // here I have access to the result of the query with "res".
+            console.log(res);
+
+            for (var i = 0; i < res.rows.length; i++) {
+
+                var oRow = res.rows[i];
+
+                console.log("Kurs #1: Wird vom " + oRow.Gesamtkurs_Start + " bis zum " + oRow.Gesamtkurs_Ende +
+                    " (" + oRow.Gesamtkurs_Dauer_Tage + " Tage) durchgeführt. Der Kurs Startet um " + oRow.Einzelkurs_Start + " und endet um " +
+                    oRow.Einzelkurs_Ende + " (" + oRow.Einzelkurs_Dauer_Minuten + " Minuten)");
+
+                results.push(oRow);
+
+            }
+
+
+        });
+
+        console.log("Results: " + results);
+
+        // convo.addMessage("Kurs #1: Wird vom " + oRow.Gesamtkurs_Start + " bis zum " + oRow.Gesamtkurs_Ende +
+        //     " (" + oRow.Gesamtkurs_Dauer_Tage + " Tage) durchgeführt. Der Kurs Startet um " + oRow.Einzelkurs_Start + " und endet um " +
+        //     oRow.Einzelkurs_Ende + " (" + oRow.Einzelkurs_Dauer_Minuten + " Minuten)");
+    }
+
+    //PG Querry Handling:
+    // Sotuce: https://stackoverflow.com/questions/31236478/using-data-from-a-nodejs-postgres-query
+    function pgQuery(pgClient, pgQuery) {
+            var deferred = q.defer();
+            var results = [];
+
+                // SQL Query > Select Data
+                var query = pgClient.query(pgQuery, function(err, res) {
+                    if(err) console.log(err);
+                    deferred.resolve(res);
+                });
+
+
+                // After all data is returned, close connection and return results
+                query.on('end', function() {
+                    pgClient.end();
+                    deferred.resolve(results);
+                });
+
+            return deferred.promise;
+
     }
 
 
