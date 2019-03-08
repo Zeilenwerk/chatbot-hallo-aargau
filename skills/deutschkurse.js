@@ -265,9 +265,9 @@ module.exports = function (controller) {
                 }
             },
             {
-                pattern: 'Kurs Niveau',
+                pattern: 'Keine Änderung',
                 callback: function (res, convo) {
-                    convo.gotoThread("neccessaryInfromation");
+                    convo.gotoThread("zusatzInfo");
                     convo.next();
                 }
             },
@@ -767,86 +767,46 @@ module.exports = function (controller) {
             ]
         }, [
             {
-                pattern: 'A1',
-                callback: function (res, convo) {
-                    convo.setVar("kursNiveau", "A1");
-                    console.log("kursNiveau = " + convo.vars.kursNiveau);
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }
-                    convo.next();
-                }
-            },
-            {
-                pattern: 'A2',
-                callback: function (res, convo) {
-                    convo.setVar("kursNiveau", "A2");
-                    console.log("kursNiveau = " + convo.vars.kursNiveau);
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }
-                    convo.next();
-                }
-            },
-            {
-                pattern: 'B1',
-                callback: function (res, convo) {
-                    convo.setVar("kursNiveau", "B1");
-                    console.log("kursNiveau = " + convo.vars.kursNiveau);
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }
-                    convo.next();
-                }
-            },
-            {
-                pattern: 'B2',
-                callback: function (res, convo) {
-                    convo.setVar("kursNiveau", "B2");
-                    console.log("kursNiveau = " + convo.vars.kursNiveau);
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }
-                    convo.next();
-                }
-            },
-            {
-                pattern: 'C1',
-                callback: function (res, convo) {
-                    convo.setVar("kursNiveau", "C1");
-                    console.log("kursNiveau = " + convo.vars.kursNiveau);
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }
-                    convo.next();
-                }
-            },
-            {
-                pattern: 'C2',
-                callback: function (res, convo) {
-                    convo.setVar("kursNiveau", "C2");
-                    console.log("kursNiveau = " + convo.vars.kursNiveau);
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }
-                    convo.next();
-                }
-            },
-            {
-                pattern: 'Kurs für Anfänger',
-                callback: function (res, convo) {
-                    convo.setVar("kursNiveau", "Anfaenger");
-                    console.log("kursNiveau = " + convo.vars.kursNiveau);
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }
-                    convo.next();
-                }
-            },
-            {
                 default: true,
                 callback: function (res, convo) {
-                    convo.gotoThread('end');
+
+                    switch(res.text){
+
+                        case 'A1':
+                            convo.setVar("kursNiveau", "A1");
+                            break;
+                        case 'A2':
+                            convo.setVar("kursNiveau", "A2");
+                            break;
+                        case 'B1':
+                            convo.setVar("kursNiveau", "B1");
+                            break;
+                        case 'B2':
+                            convo.setVar("kursNiveau", "B2");
+                            break;
+                        case 'C1':
+                            convo.setVar("kursNiveau", "C1");
+                            break;
+                        case 'C2':
+                            convo.setVar("kursNiveau", "C2");
+                            break;
+                        case 'Kurs für Anfänger':
+                            convo.setVar("kursNiveau", "Kurs für Anfänger");
+                            break;
+                        default:
+                            convo.addMessage("Leider habe ich das nicht verstanden");
+                            convo.repeat();
+                            break;
+
+                    }
+
+                    console.log("kursNiveau = " + convo.vars.kursNiveau);
+
+                    if (nextThread !== "None") {
+                        convo.gotoThread(nextThread);
+                    }
+
+                    convo.next();
                 }
             }
         ]);
@@ -954,7 +914,38 @@ module.exports = function (controller) {
             {
                 default: true,
                 callback: function (res, convo) {
-                    convo.gotoThread('end');
+
+                    switch(res.text){
+                        case 'Jugendliche unter 16 Jahren':
+                            convo.setVar("kursAdressatengruppe", "Jugendliche unter 16 Jahren");
+                            break;
+                        case 'Jugendliche zwischen 16 - 21':
+                            convo.setVar("kursAdressatengruppe", "Jugendliche zwischen 16 - 21");
+                            break;
+                        case 'Erwachsene':
+                            convo.setVar("kursAdressatengruppe", "Erwachsene");
+                            break;
+                        case 'Frauen':
+                            convo.setVar("kursAdressatengruppe", "Frauen");
+                            break;
+                        case 'Frauen mit Kinder':
+                            convo.setVar("kursAdressatengruppe", "Frauen mit Kinder");
+                            break;
+                        default:
+                            convo.addMessage("Leider habe ich das nicht verstanden");
+                            convo.repeat();
+                            break;
+                    }
+
+                    console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
+
+                    if (nextThread !== "None") {
+                        convo.gotoThread(nextThread);
+                    }
+
+                    convo.next();
+
+
                 }
             }
         ]);
@@ -1008,73 +999,40 @@ module.exports = function (controller) {
             ]
         }, [
             {
-                pattern: 'Jugendliche unter 16 Jahren',
-                callback: function (res, convo) {
-                    convo.setVar("kursAdressatengruppe", "Jugendliche unter 16 Jahren");
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }
-                    console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
-                    convo.next();
-                }
-            },
-            {
-                pattern: 'Jugendliche zwischen 16 - 21',
-                callback: function (res, convo) {
-                    convo.setVar("kursAdressatengruppe", "Jugendliche zwischen 16 - 21");
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }
-                    console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
-                    convo.next();
-                }
-            },
-            {
-                pattern: 'Erwachsene',
-                callback: function (res, convo) {
-                    convo.setVar("kursAdressatengruppe", "Erwachsene");
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }
-                    console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
-                    convo.next();
-                }
-            },
-            {
-                pattern: 'Frauen',
-                callback: function (res, convo) {
-                    convo.setVar("kursAdressatengruppe", "Frauen");
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }
-                    console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
-                    convo.next();
-                }
-            },
-            {
-                pattern: 'Frauen mit Kinder',
-                callback: function (res, convo) {
-                    convo.setVar("kursAdressatengruppe", "Frauen mit Kinder");
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }
-                    console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
-                    convo.next();
-                }
-            },
-            {
                 default: true,
                 callback: function (res, convo) {
-                    luis.middleware.hereAction();
-                    convo.gotoThread('end');
+                    switch(res.text){
+                        case 'Jugendliche unter 16 Jahren':
+                            convo.setVar("kursAdressatengruppe", "Jugendliche unter 16 Jahren");
+                            break;
+                        case 'Jugendliche zwischen 16 - 21':
+                            convo.setVar("kursAdressatengruppe", "Jugendliche zwischen 16 - 21");
+                            break;
+                        case 'Erwachsene':
+                            convo.setVar("kursAdressatengruppe", "Erwachsene");
+                            break;
+                        case 'Frauen':
+                            convo.setVar("kursAdressatengruppe", "Frauen");
+                            break;
+                        case 'Frauen mit Kinder':
+                            convo.setVar("kursAdressatengruppe", "Frauen mit Kinder");
+                            break;
+                        default:
+                            convo.addMessage("Leider habe ich das nicht verstanden");
+                            convo.repeat();
+                            break;
+                    }
+
+                    console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
+
+                    if (nextThread !== "None") {
+                        convo.gotoThread(nextThread);
+                    }
+
+                    convo.next();
                 }
             }
         ]);
-
-    }
-
-    function correctionDeutschkurs() {
-
 
     }
 
@@ -1131,8 +1089,6 @@ module.exports = function (controller) {
         //TODO: Add User Info to WHERE Filter
         //TODO: Add Kosten, Ort und Anbieter
 
-        var results = [];
-
         const pgClient = new pg.Client(dbConfig);
         pgClient.connect();
 
@@ -1148,153 +1104,18 @@ module.exports = function (controller) {
 
                     var oRow = res.rows[i];
 
-                    console.log("Kurs #1: Wird vom " + oRow.Gesamtkurs_Start + " bis zum " + oRow.Gesamtkurs_Ende +
+                    console.log("Kurs #" + i + ": Wird vom " + oRow.Gesamtkurs_Start + " bis zum " + oRow.Gesamtkurs_Ende +
                         " (" + oRow.Gesamtkurs_Dauer_Tage + " Tage) durchgeführt. Der Kurs Startet um " + oRow.Einzelkurs_Start + " und endet um " +
                         oRow.Einzelkurs_Ende + " (" + oRow.Einzelkurs_Dauer_Minuten + " Minuten)");
 
-                    addMessage("Kurs #1: Wird vom " + oRow.Gesamtkurs_Start + " bis zum " + oRow.Gesamtkurs_Ende +
+                    addMessage("Kurs #\ " + i + ": Wird vom " + oRow.Gesamtkurs_Start + " bis zum " + oRow.Gesamtkurs_Ende +
                         " (" + oRow.Gesamtkurs_Dauer_Tage + " Tage) durchgeführt. Der Kurs Startet um " + oRow.Einzelkurs_Start + " und endet um " +
                         oRow.Einzelkurs_Ende + " (" + oRow.Einzelkurs_Dauer_Minuten + " Minuten)");
-
-                    results.push(oRow);
 
                 }
 
             });
-        // pgQueryExecuter(pgClient, pgQuery).then(function(res) {
-        //     // here I have access to the result of the query with "res".
-        //     console.log(res);
-        //
-        //     for (var i = 0; i < res.rows.length; i++) {
-        //
-        //         var oRow = res.rows[i];
-        //
-        //         console.log("Kurs #1: Wird vom " + oRow.Gesamtkurs_Start + " bis zum " + oRow.Gesamtkurs_Ende +
-        //             " (" + oRow.Gesamtkurs_Dauer_Tage + " Tage) durchgeführt. Der Kurs Startet um " + oRow.Einzelkurs_Start + " und endet um " +
-        //             oRow.Einzelkurs_Ende + " (" + oRow.Einzelkurs_Dauer_Minuten + " Minuten)");
-        //
-        //         results.push(oRow);
-        //
-        //     }
-        //
-        //
-        // });
 
         console.log("Results: " + results);
-
-        // convo.addMessage("Kurs #1: Wird vom " + oRow.Gesamtkurs_Start + " bis zum " + oRow.Gesamtkurs_Ende +
-        //     " (" + oRow.Gesamtkurs_Dauer_Tage + " Tage) durchgeführt. Der Kurs Startet um " + oRow.Einzelkurs_Start + " und endet um " +
-        //     oRow.Einzelkurs_Ende + " (" + oRow.Einzelkurs_Dauer_Minuten + " Minuten)");
     }
-
-    //PG Querry Handling:
-    // Sotuce: https://stackoverflow.com/questions/31236478/using-data-from-a-nodejs-postgres-query
-    function pgQueryExecuter(pgClient, pgQuery) {
-            var deferred = q.defer();
-            var results = [];
-
-                // SQL Query > Select Data
-                var query = pgClient.query(pgQuery, function(err, res) {
-                    if(err) console.log(err);
-                    deferred.resolve(res);
-                });
-
-
-                // After all data is returned, close connection and return results
-                query.on('end', function() {
-                    pgClient.end();
-                    deferred.resolve(results);
-                });
-
-            return deferred.promise;
-
-    }
-
-
-    // controller.on('deutschkurs_in_aarau', function (bot, message) {
-    //
-    //     bot.startConversation(message, function (err, convo) {
-    //
-    //         // set up a menu thread which other threads can point at.
-    //         convo.ask({
-    //             text: 'In Aarau finden folgende Kurse statt',
-    //             quick_replies: [
-    //                 {
-    //                     title: 'Intensivkurs ab 01.02.2019',
-    //                     payload: 'K1',
-    //                 },
-    //                 {
-    //                     title: 'Wochenkurs, jeweils mittwochs und freitags um 19:00',
-    //                     payload: 'K2',
-    //                 },
-    //                 {
-    //                     title: 'Wochenkurs, jeweils dienstags um 08:30',
-    //                     payload: 'K3',
-    //                 },
-    //             ]
-    //         }, [
-    //             {
-    //                 pattern: 'K1',
-    //                 callback: function (res, convo) {
-    //                     convo.gotoThread('K1');
-    //                     convo.next();
-    //                 }
-    //             },
-    //             {
-    //                 pattern: 'K2',
-    //                 callback: function (res, convo) {
-    //                     convo.gotoThread('K2');
-    //                     convo.next();
-    //                 }
-    //             },
-    //             {
-    //                 pattern: 'K3',
-    //                 callback: function (res, convo) {
-    //                     convo.gotoThread('K1');
-    //                     convo.next();
-    //                 }
-    //             },
-    //             {
-    //                 default: true,
-    //                 callback: function (res, convo) {
-    //                     convo.gotoThread('end');
-    //                 }
-    //             }
-    //         ]);
-    //
-    //         // set up end threads
-    //         convo.addMessage({
-    //             text: 'I do not know how to help with that. Say `help` at any time to access this menu.'
-    //         }, 'end');
-    //
-    //         // set up K1 threads
-    //         convo.addMessage({
-    //             text: 'Noch nicht implementiert',
-    //         }, 'K1');
-    //
-    //         // set up K2 threads
-    //         convo.addMessage({
-    //             text: 'default'
-    //         }, 'K2');
-    //
-    //         // set up K3 threads
-    //         convo.addMessage({
-    //             text: 'Super, hier die Daten zum Kurs:\n' +
-    //                 'TLC Baden\n' +
-    //                 'Bahnhofstrasse 44\n' +
-    //                 '5400 Baden\n' +
-    //                 'info@ihbaden.ch\n' +
-    //                 'www.ihbaden.ch\n' +
-    //                 'Tel: 056 205 51 78\n'
-    //         }, 'K3');
-    //
-    //         convo.addMessage({
-    //             text: 'Viel Spass beim Deutsch lernen!'
-    //         }, 'K3');
-    //
-    //
-    //     });
-    //
-    // });
-
 };
