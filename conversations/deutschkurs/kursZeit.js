@@ -13,12 +13,14 @@ module.exports = {
 
         console.log("Start askKursZeit");
 
-        convo.addQuestion({
+        convo.ask({
             text: 'Um wie viel Uhr soll der Kurs am {{vars.kursTag}} stattfinden?',
         }, [
             {
                 default: true,
                 callback: function (res, convo) {
+
+                    console.log("kursZeit Callback");
 
                     let aEntity = luisHelper.getEntityFromLuisResponse("kursZeit", res);
 
@@ -32,8 +34,6 @@ module.exports = {
                         console.log("KursZeit = " + convo.vars.kursZeit);
                     }
 
-                    convo.addMessage('Super, somit {{vars.kursTag}} um {{vars.kursZeit}} Uhr');
-
                     if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
                     } else {
@@ -41,7 +41,7 @@ module.exports = {
                     }
                 }
             }
-        ], {}, "askKursZeit");
+        ]);
 
     }
 };

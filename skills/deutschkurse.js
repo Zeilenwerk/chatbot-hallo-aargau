@@ -16,10 +16,10 @@ module.exports = function (controller) {
 
             if (message.topIntent.intent === "Deutschkurs Suchen") {
 
-                //deutschkursSuchen(convo, message, bot);
-                require("../util/pgHelper").displayGefundeneKurse(function (m) {
-                    bot.reply(message, m);
-                }, convo);
+                deutschkursSuchen(convo, message, bot);
+                // require("../util/pgHelper").displayGefundeneKurse(function (m) {
+                //     bot.reply(message, m);
+                // }, convo);
 
             } else {
 
@@ -27,7 +27,7 @@ module.exports = function (controller) {
 
             }
 
-        });
+    });
 
     });
 
@@ -43,6 +43,13 @@ module.exports = function (controller) {
         const luisHelper = require("../util/luisHelper");
         const pgHelper = require("../util/pgHelper");
 
+        //********************************
+        // Required Threads
+        //********************************
+        const kursOrt = require("../conversations/deutschkurs/kursOrt");
+        const kursTag = require("../conversations/deutschkurs/kursTag");
+        const kursZeit = require("../conversations/deutschkurs/kursZeit");
+        const kursNiveau = require("../conversations/deutschkurs/kursNiveau");
 
         //********************************
         // Initialize Conversation
@@ -91,7 +98,7 @@ module.exports = function (controller) {
             //Informationen vom benutzer beantragen, damit ein Deutschkurs gesucht werden kann
             if (convo.vars.kursOrt === "None") {
                 console.log("askKursOrt");
-                askKursOrt(convo, luisHelper);
+                kursOrt.askKursOrt(convo, luisHelper);
             } else {
                 if (convo.vars.kursBezirk !== "None") {
                     convo.say("Den Ort haben Sie schon angegeben ({{vars.kursOrt}}, im Bezirk {kursBezirk}}), somit benötige ich dies nicht mehr.")
@@ -102,21 +109,21 @@ module.exports = function (controller) {
 
             if (convo.vars.kursTag === "None") {
                 console.log("askKursTag");
-                askKursTag(convo, luisHelper);
+                kursTag.askKursTag(convo, luisHelper);
             } else {
                 convo.say("Als Kurstag, haben Sie den {{vars.kursTag}} gewählt.")
             }
 
             if (convo.vars.kursZeit === "None") {
                 console.log("askKursZeit");
-                askKursZeit(convo, luisHelper);
+                kursZeit.askKursZeit(convo, luisHelper);
             } else {
                 convo.say("Die Zeit am {{vars.kursTag}} für den Kurs ist {{vars.kursZeit}} Uhr.")
             }
 
             if (convo.vars.kursNiveau === "None") {
                 console.log("askKursNiveau");
-                askKursNiveau(convo, luisHelper, "kursNotwendigeInfosMenu");
+                kursNiveau.askKursNiveau(convo, luisHelper, "kursNotwendigeInfosMenu");
             } else {
                 convo.say("Das Kursniveau ist {{vars.kursNiveau}}.");
             }
@@ -346,502 +353,4 @@ module.exports = function (controller) {
 
     }
 
-    /*Funktion für die Anfrage des Kurortes
-    *
-    * TODO: Get Kurs Orte von Datenquelle mit allen Verfügbaren Orten
-    *
-    * @param convo -> Conversation die am laufen ist
-    *
-    * */
-    function askKursOrt(convo, luisHelper, nextThread = "None") {
-
-        console.log("Start askKursOrt");
-
-        // set up a menu thread which other threads can point at.
-        convo.ask({
-            text: 'Wo soll der Deutschkurs stattfinden?',
-            quick_replies: [
-                {
-                    title: 'Aarau',
-                    payload: 'Deutschkurs in Aarau',
-                },
-                {
-                    title: 'Baden',
-                    payload: 'Deutschkurs in Baden',
-                },
-                {
-                    title: 'Lenzburg',
-                    payload: 'Deutschkurs in Lenzburg',
-                },
-                {
-                    title: 'Rheinfelden ',
-                    payload: 'Deutschkurs in Rheinfelden ',
-                },
-            ]
-        }, [
-            {
-                default: true,
-                callback: function (res, convo) {
-
-                    console.log("kursOrt Callback");
-
-                    let aEntity = luisHelper.getEntityFromLuisResponse("kursOrt", res);
-
-                    if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
-                        // array empty or does not exist
-                        //TODO: Handle not found entity
-                        convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
-                        convo.repeat();
-                    } else {
-                        convo.setVar("kursOrt", aEntity[0]);
-                        console.log("kursOrt = " + convo.vars.kursOrt);
-
-                        convo.setVar("kursBezirk", aEntity[1]);
-                        console.log("kursBezirk = " + convo.vars.kursBezirk);
-                    }
-
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    } else {
-                        convo.next();
-                    }
-                }
-            }
-        ]);
-    }
-
-    /*Funktion für die Anfrage des Kurs Tag
-    *
-    * Tage:
-    * -> QR -> Montag
-    * -> QR -> Dinestag
-    * -> QR -> Mittwoch
-    * -> QR -> Donnerstag
-    * -> QR -> Freitag
-    * -> QR -> Samstag
-    * -> QR -> Sonntag
-    *
-    * Benutzerantwort wird in die Convo variable "kursTag" gespeichert
-    *
-    * @param convo -> Conversation die am laufen ist
-    *
-    * */
-    function askKursTag(convo, luisHelper, nextThread = "None") {
-
-        console.log("Start askKursTag");
-
-        convo.ask({
-            text: "An welchem Tag soll der Kurs in {{kursOrt}} stattfinden?",
-            quick_replies: [
-                {
-                    title: 'Montag',
-                    payload: 'Montag',
-                },
-                {
-                    title: 'Dienstag',
-                    payload: 'Dienstag',
-                },
-                {
-                    title: 'Mittwoch',
-                    payload: 'Mittwoch',
-                },
-                {
-                    title: 'Donnerstag',
-                    payload: 'Donnerstag',
-                },
-                {
-                    title: 'Freitag',
-                    payload: 'Freitag',
-                },
-                {
-                    title: 'Samstag',
-                    payload: 'Samstag',
-                },
-                {
-                    title: 'Sonntag',
-                    payload: 'Sonntag',
-                },
-            ]
-        }, [
-            {
-                default: true,
-                callback: function (res, convo) {
-
-                    console.log("kursTag Callback");
-
-                    let aEntity = luisHelper.getEntityFromLuisResponse("kursTag", res);
-
-                    if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
-                        // array empty or does not exist
-                        //TODO: Handle not found entity
-                        convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
-                        convo.repeat();
-                    } else {
-                        convo.setVar("kursTag", aEntity[0]);
-                        console.log("kursTag = " + convo.vars.kursTag);
-                    }
-
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    } else {
-                        convo.next();
-                    }
-
-                }
-            }
-        ]);
-
-    }
-
-    /*Funktion für die Anfrage der Kurszeit
-    *
-    * Kurszeit wird mittels text extraktion aus der Antwort des benutzers gewonnen
-    * TODO: Muss noch überarbeitet werde (Quick & Dirty & Fehleranfällig)
-    *
-    * Benutzerantwort wird in die Convo variable "kursZeit" gespeichert
-    *
-    * @param convo -> Conversation die am laufen ist
-    *
-    * */
-    function askKursZeit(convo, luisHelper, nextThread = "None") {
-
-        console.log("Start askKursZeit");
-
-        convo.ask({
-            text: 'Um wie viel Uhr soll der Kurs am {{vars.kursTag}} stattfinden?',
-        }, [
-            {
-                default: true,
-                callback: function (res, convo) {
-
-                    console.log("kursZeit Callback");
-
-                    let aEntity = luisHelper.getEntityFromLuisResponse("kursZeit", res);
-
-                    if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
-                        // array empty or does not exist
-                        //TODO: Handle not found entity
-                        convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
-                        convo.repeat();
-                    } else {
-                        convo.setVar("kursZeit", aEntity[0]);
-                        console.log("KursZeit = " + convo.vars.kursZeit);
-                    }
-
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    } else {
-                        convo.next();
-                    }
-                }
-            }
-        ]);
-
-
-    }
-
-    /*Funktion für die Anfrage des Kurs Niveau
-    *
-    * Kurs Niveau:
-    * -> QR -> A1
-    * -> QR -> A2
-    * -> QR -> B1
-    * -> QR -> B2
-    * -> QR -> C1
-    * -> QR -> C2
-    * -> QR -> Keine / Wenig Deutschkentnisse
-    *
-    * Benutzerantwort wird in die Convo variable "kursNiveau" gespeichert
-    *
-    * @param convo -> Conversation die am laufen ist
-    *
-    * */
-    function askKursNiveau(convo, luisHelper, nextThread = "None") {
-
-        console.log("Start askKursNiveau");
-
-        convo.ask({
-            text: 'Für welches Sprachniveau suchen Sie den Kurs?',
-            quick_replies: [
-                {
-                    title: 'A1',
-                    payload: 'A1',
-                },
-                {
-                    title: 'A2',
-                    payload: 'A2',
-                },
-                {
-                    title: 'B1',
-                    payload: 'B1',
-                },
-                {
-                    title: 'B2 (Business)',
-                    payload: 'B2',
-                },
-                {
-                    title: 'C1',
-                    payload: 'C1',
-                },
-                {
-                    title: 'C2',
-                    payload: 'C2',
-                },
-                {
-                    title: 'Kurs für Anfänger',
-                    payload: 'Kurs für Anfänger',
-                },
-            ]
-        }, [
-            {
-                default: true,
-                callback: function (res, convo) {
-
-                    console.log("kursNiveau Callback");
-
-                    let aEntity = luisHelper.getEntityFromLuisResponse("kursNiveau", res);
-
-                    if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
-                        // array empty or does not exist
-                        //TODO: Handle not found entity
-                        convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
-                        convo.repeat();
-                    } else {
-                        convo.setVar("kursNiveau", aEntity[0]);
-                        console.log("kursNiveau = " + convo.vars.kursNiveau);
-                    }
-
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    } else {
-                        convo.next();
-                    }
-                }
-            }
-        ]);
-
-    }
-
-    /*Funktion für die Anfrage der Adressatengruppe des Kurses
-    *
-    * Adressatengruppe:
-    * -> QR -> Jugendliche < 16
-    * -> QR -> Jugendliche zwischen 16 - 21
-    * -> QR -> Erwachsene
-    * -> QR -> Frauen
-    * -> QR -> Frauen mit Kinder
-    *
-    * Benutzerantwort wird in die Convo variable "kursAdressatengruppe" gespeichert
-    *
-    * @param convo -> Conversation die am laufen ist
-    *
-    * */
-    function askKursAdressatengruppe(convo, nextThread = "None") {
-
-        console.log("Start askKursAdressatengruppe");
-
-        convo.ask({
-            text: 'Für welches Adressatengruppe soll der Kurs sein?',
-            quick_replies: [
-                {
-                    title: 'Jugendliche unter 16 Jahren',
-                    payload: 'Jugendliche unter 16 Jahren',
-                },
-                {
-                    title: 'Jugendliche zwischen 16 - 21',
-                    payload: 'Jugendliche zwischen 16 - 21',
-                },
-                {
-                    title: 'Erwachsene',
-                    payload: 'Erwachsene',
-                },
-                {
-                    title: 'Frauen',
-                    payload: 'Frauen',
-                },
-                {
-                    title: 'Frauen mit Kinder',
-                    payload: 'Frauen mit Kinder',
-                },
-            ]
-        }, [
-            {
-                pattern: 'Jugendliche unter 16 Jahren',
-                callback: function (res, convo) {
-                    convo.setVar("kursAdressatengruppe", "Jugendliche unter 16 Jahren");
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }
-                    console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
-                    convo.next();
-                }
-            },
-            {
-                pattern: 'Jugendliche zwischen 16 - 21',
-                callback: function (res, convo) {
-                    convo.setVar("kursAdressatengruppe", "Jugendliche zwischen 16 - 21");
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }
-                    console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
-                    convo.next();
-                }
-            },
-            {
-                pattern: 'Erwachsene',
-                callback: function (res, convo) {
-                    convo.setVar("kursAdressatengruppe", "Erwachsene");
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }
-                    console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
-                    convo.next();
-                }
-            },
-            {
-                pattern: 'Frauen',
-                callback: function (res, convo) {
-                    convo.setVar("kursAdressatengruppe", "Frauen");
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }
-                    console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
-                    convo.next();
-                }
-            },
-            {
-                pattern: 'Frauen mit Kinder',
-                callback: function (res, convo) {
-                    convo.setVar("kursAdressatengruppe", "Frauen mit Kinder");
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }
-                    console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
-                    convo.next();
-                }
-            },
-            {
-                default: true,
-                callback: function (res, convo) {
-
-                    switch (res.text) {
-                        case 'Jugendliche unter 16 Jahren':
-                            convo.setVar("kursAdressatengruppe", "Jugendliche unter 16 Jahren");
-                            break;
-                        case 'Jugendliche zwischen 16 - 21':
-                            convo.setVar("kursAdressatengruppe", "Jugendliche zwischen 16 - 21");
-                            break;
-                        case 'Erwachsene':
-                            convo.setVar("kursAdressatengruppe", "Erwachsene");
-                            break;
-                        case 'Frauen':
-                            convo.setVar("kursAdressatengruppe", "Frauen");
-                            break;
-                        case 'Frauen mit Kinder':
-                            convo.setVar("kursAdressatengruppe", "Frauen mit Kinder");
-                            break;
-                        default:
-                            convo.addMessage("Leider habe ich das nicht verstanden");
-                            convo.repeat();
-                            break;
-                    }
-
-                    console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
-
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }
-
-                    convo.next();
-
-
-                }
-            }
-        ]);
-
-    }
-
-    /*Funktion für die Anfrage der Sprache des Kurses
-     *
-     * Kurssprache
-     *  -> QR -> Deutsch
-     *  -> QR -> English
-     *  -> QR -> Arabisch
-     *  -> QR -> Spanisch
-     *  -> QR -> Portugiesisch
-     *  -> QR -> Italienisch
-     *
-     *
-     *
-     * Benutzerantwort wird in die Convo variable "kursAdressatengruppe" gespeichert
-     *
-     * @param convo -> Conversation die am laufen ist
-     *
-     * */
-    function askKursSprache(convo, nextThread = "None") {
-
-        console.log("Start askKursSprache");
-
-        convo.ask({
-            text: 'Für welches Adressatengruppe soll der Kurs sein?',
-            quick_replies: [
-                {
-                    title: 'Jugendliche unter 16 Jahren',
-                    payload: 'Jugendliche unter 16 Jahren',
-                },
-                {
-                    title: 'Jugendliche zwischen 16 - 21',
-                    payload: 'Jugendliche zwischen 16 - 21',
-                },
-                {
-                    title: 'Erwachsene',
-                    payload: 'Erwachsene',
-                },
-                {
-                    title: 'Frauen',
-                    payload: 'Frauen',
-                },
-                {
-                    title: 'Frauen mit Kinder',
-                    payload: 'Frauen mit Kinder',
-                },
-            ]
-        }, [
-            {
-                default: true,
-                callback: function (res, convo) {
-                    switch (res.text) {
-                        case 'Jugendliche unter 16 Jahren':
-                            convo.setVar("kursAdressatengruppe", "Jugendliche unter 16 Jahren");
-                            break;
-                        case 'Jugendliche zwischen 16 - 21':
-                            convo.setVar("kursAdressatengruppe", "Jugendliche zwischen 16 - 21");
-                            break;
-                        case 'Erwachsene':
-                            convo.setVar("kursAdressatengruppe", "Erwachsene");
-                            break;
-                        case 'Frauen':
-                            convo.setVar("kursAdressatengruppe", "Frauen");
-                            break;
-                        case 'Frauen mit Kinder':
-                            convo.setVar("kursAdressatengruppe", "Frauen mit Kinder");
-                            break;
-                        default:
-                            convo.addMessage("Leider habe ich das nicht verstanden");
-                            convo.repeat();
-                            break;
-                    }
-
-                    console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
-
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }
-
-                    convo.next();
-                }
-            }
-        ]);
-
-    }
 };

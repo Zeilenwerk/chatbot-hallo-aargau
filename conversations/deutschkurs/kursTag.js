@@ -19,8 +19,8 @@ module.exports = {
 
         console.log("Start askKursTag");
 
-        convo.addQuestion({
-            text: "An welchem Tag soll der Kurs in {{kursOrt}} ({{kursBezirk}}) stattfinden?",
+        convo.ask({
+            text: "An welchem Tag soll der Kurs in {{kursOrt}} stattfinden?",
             quick_replies: [
                 {
                     title: 'Montag',
@@ -56,7 +56,9 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    let aEntity = luisHelper.getEntityFromLuisResponse("kurTag", res);
+                    console.log("kursTag Callback");
+
+                    let aEntity = luisHelper.getEntityFromLuisResponse("kursTag", res);
 
                     if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
                         // array empty or does not exist
@@ -73,9 +75,10 @@ module.exports = {
                     } else {
                         convo.next();
                     }
+
                 }
             }
-        ], {}, "askKursTag");
+        ]);
 
     }
 };
