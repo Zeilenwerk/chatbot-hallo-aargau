@@ -9,7 +9,7 @@
     *
     * */
 module.exports = {
-    askKursZeit: function (convo, nextThread = "None") {
+    askKursZeit: function (convo, luisHelper, nextThread = "None") {
 
         console.log("Start askKursZeit");
 
@@ -20,11 +20,9 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    const luisHelper = require("../../util/helperLUIS");
-
                     let aEntity = luisHelper.getEntityFromLuisResponse("kursZeit", res);
 
-                    if (!aEntity || aEntity.length === 0) {
+                    if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
                         // array empty or does not exist
                         //TODO: Handle not found entity
                         convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
@@ -38,12 +36,12 @@ module.exports = {
 
                     if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
+                    } else {
+                        convo.next();
                     }
-
-                    convo.next();
                 }
             }
         ], {}, "askKursZeit");
 
     }
-}
+};

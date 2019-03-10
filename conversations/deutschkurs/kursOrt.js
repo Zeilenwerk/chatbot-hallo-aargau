@@ -6,65 +6,65 @@
     *
     * */
 module.exports = {
-    askKursOrt: function (convo, nextThread = "None") {
+    askKursOrt: function (convo, luisHelper, nextThread = "None") {
 
-        console.log("Start askKursOrt");
+            console.log("Start askKursOrt");
 
-        // set up a menu thread which other threads can point at.
-        convo.addQuestion({
-            text: 'Wo soll der Deutschkurs stattfinden?',
-            quick_replies: [
+            // set up a menu thread which other threads can point at.
+            convo.addQuestion({
+                text: 'Wo soll der Deutschkurs stattfinden?',
+                quick_replies: [
+                    {
+                        title: 'Aarau',
+                        payload: 'Deutschkurs in Aarau',
+                    },
+                    {
+                        title: 'Baden',
+                        payload: 'Deutschkurs in Baden',
+                    },
+                    {
+                        title: 'Lenzburg',
+                        payload: 'Deutschkurs in Lenzburg',
+                    },
+                    {
+                        title: 'Rheinfelden ',
+                        payload: 'Deutschkurs in Rheinfelden ',
+                    },
+                ]
+            }, [
                 {
-                    title: 'Aarau',
-                    payload: 'Deutschkurs in Aarau',
-                },
-                {
-                    title: 'Baden',
-                    payload: 'Deutschkurs in Baden',
-                },
-                {
-                    title: 'Lenzburg',
-                    payload: 'Deutschkurs in Lenzburg',
-                },
-                {
-                    title: 'Rheinfelden ',
-                    payload: 'Deutschkurs in Rheinfelden ',
-                },
-            ]
-        }, [
-            {
-                default: true,
-                callback: function (res, convo) {
+                    default: true,
+                    callback: function (res, convo) {
 
-                    //Import Helper Class to get Entites from LUIS Response
-                    const luisHelper = require("../../util/helperLUIS");
+                        let aEntity = luisHelper.getEntityFromLuisResponse("kursOrt", res);
 
-                    let aEntity = luisHelper.getEntityFromLuisResponse("kursOrt", res);
+                        if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
+                            // array empty or does not exist
+                            //TODO: Handle not found entity
+                            convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
+                            convo.repeat();
+                        } else {
+                            convo.setVar("kursOrt", aEntity[0]);
+                            console.log("kursOrt = " + convo.vars.kursZeit);
 
-                    if (aEntity === undefined || aEntity.length === 0) {
-                        // array empty or does not exist
-                        //TODO: Handle not found entity
-                        convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
-                        convo.repeat();
-                    } else {
-                        convo.setVar("kursOrt", aEntity[0]);
-                        console.log("kursOrt = " + convo.vars.kursZeit);
+                            convo.setVar("kursBezirk", aEntity[1]);
+                            console.log("kursBezirk = " + convo.vars.kursBezirk);
+                        }
 
-                        convo.setVar("kursBezirk", aEntity[1]);
-                        console.log("kursBezirk = " + convo.vars.kursBezirk);
+                        if (nextThread !== "None") {
+                            convo.gotoThread(nextThread);
+                        }else{
+                            convo.next();
+                        }
                     }
-
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }
-
-                    convo.next();
                 }
-            }
-        ], {}, "askKursOrt");
+            ], {}, "askKursOrt");
+
     },
 
-    correctKursOrt: function (convo, nextThread = "None") {
+    correctKursOrt: function (convo, luisHelper, nextThread = "None") {
+
+        console.log("Start correctkursOrt");
 
         // set up a menu thread which other threads can point at.
         convo.addQuestion({
@@ -91,9 +91,6 @@ module.exports = {
             {
                 default: true,
                 callback: function (res, convo) {
-
-                    //Import Helper Class to get Entites from LUIS Response
-                    const luisHelper = require("../../util/helperLUIS");
 
                     let aEntity = luisHelper. getEntityFromLuisResponse("kursOrt", res);
 
@@ -112,9 +109,10 @@ module.exports = {
 
                     if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
+                    }else{
+                        convo.next();
                     }
 
-                    convo.next();
                 }
             }
         ], {}, "correctkursOrt");

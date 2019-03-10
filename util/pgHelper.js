@@ -1,6 +1,19 @@
 module.exports = {
     displayGefundeneKurse: function (addMessage, convo, maxKurse = false, offset = false) {
 
+        //Get Postgres Middleware
+        var pg = require('pg');
+        // var async = require('async');
+        // var q = require('q');
+
+        const dbConfig = {
+            user: process.env.BOTKIT_STORAGE_POSTGRES_USER || 'botkit',
+            database: process.env.BOTKIT_STORAGE_POSTGRES_DATABASE || 'botkit_test',
+            password: process.env.BOTKIT_STORAGE_POSTGRES_PASSWORD || 'botkit',
+            host: process.env.BOTKIT_STORAGE_POSTGRES_HOST || 'localhost',
+            port: process.env.BOTKIT_STORAGE_POSTGRES_PORT || '5432'
+        };
+
         addMessage("Ich habe folgende Kurse gefunden");
 
         //TODO: Get UQery result to display in Chatbot
@@ -22,11 +35,14 @@ module.exports = {
         let orderBy = "";
         let groupBy = "";
 
+        console.log("Where = " + where);
+
 
         const pgClient = new pg.Client(dbConfig);
         pgClient.connect();
 
-        var pgQuery = "SELECT * FROM " + process.env.BOTKIT_STORAGE_POSTGRES_DATABASE_TABLE_DEUTSCHKURS + " " + where;
+        // var pgQuery = "SELECT * FROM " + process.env.BOTKIT_STORAGE_POSTGRES_DATABASE_TABLE_DEUTSCHKURS + " " + where;
+        var pgQuery = "SELECT * FROM " + process.env.BOTKIT_STORAGE_POSTGRES_DATABASE_TABLE_DEUTSCHKURS;
 
         pgClient.query(pgQuery,
             (err, res) => {
@@ -34,13 +50,12 @@ module.exports = {
 
                 pgClient.end();
 
+                console.log("DB Response:");
+                console.log(res);
+
                 for (var i = 0; i < res.rows.length; i++) {
 
                     var oRow = res.rows[i];
-
-                    console.log("Kurs #" + i + ": Wird vom " + oRow.Gesamtkurs_Start + " bis zum " + oRow.Gesamtkurs_Ende +
-                        " (" + oRow.Gesamtkurs_Dauer_Tage + " Tage) durchgeführt. Der Kurs Startet um " + oRow.Einzelkurs_Start + " und endet um " +
-                        oRow.Einzelkurs_Ende + " (" + oRow.Einzelkurs_Dauer_Minuten + " Minuten)");
 
                     addMessage("Kurs #\ " + i + ": Wird vom " + oRow.Gesamtkurs_Start + " bis zum " + oRow.Gesamtkurs_Ende +
                         " (" + oRow.Gesamtkurs_Dauer_Tage + " Tage) durchgeführt. Der Kurs Startet um " + oRow.Einzelkurs_Start + " und endet um " +
@@ -49,7 +64,5 @@ module.exports = {
                 }
 
             });
-
-        console.log("Results: " + results);
     }
 };

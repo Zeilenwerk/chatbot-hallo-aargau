@@ -15,7 +15,7 @@
    *
    * */
 module.exports = {
-    askKursTag: function (convo, nextThread = "None") {
+    askKursTag: function (convo, luisHelper, nextThread = "None", zeit, niveau) {
 
         console.log("Start askKursTag");
 
@@ -56,12 +56,9 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    //Import Helper Class to get Entites from LUIS Response
-                    const luisHelper = require("../../util/helperLUIS");
-
                     let aEntity = luisHelper.getEntityFromLuisResponse("kurTag", res);
 
-                    if (aEntity === undefined || aEntity.length === 0) {
+                    if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
                         // array empty or does not exist
                         //TODO: Handle not found entity
                         convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
@@ -73,12 +70,12 @@ module.exports = {
 
                     if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
+                    } else {
+                        convo.next();
                     }
-
-                    convo.next();
                 }
             }
         ], {}, "askKursTag");
 
     }
-}
+};

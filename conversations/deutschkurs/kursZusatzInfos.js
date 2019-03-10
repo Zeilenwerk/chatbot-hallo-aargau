@@ -65,7 +65,6 @@ module.exports = {
                     });
 
                     convo.gotoThread("gefundeneKurse");
-                    convo.next();
                 }
             },
         ], {}, "kursZusatzInfosMenu");

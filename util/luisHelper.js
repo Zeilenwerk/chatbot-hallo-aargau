@@ -21,7 +21,7 @@ module.exports = {
                 "\n\t-> Entity: '" + res.entities[i].entity + "'" +
                 "\n\t-> Type: '" + res.entities[i].type + "'";
 
-            console.log(log);
+            //console.log(log);
 
             if (res.entities[i].type === sEntitType) {
 

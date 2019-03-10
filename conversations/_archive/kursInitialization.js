@@ -1,15 +1,27 @@
 module.exports = {
     initializeDeutschkursConversation: function (convo, message, bot) {
 
-        //Add All Threads of the Conversation
-        require("../ende/convoEnde").convoEnde(convo);
-        require("../ende/convoTimeout").convoTimeout(convo);
-        require("./kursZusatzInfos").menuZusatzInfos(convo, "None", message, bot);
-        require("./kursNotwendigeInfos").menuNotwendigeInfos(convo);
-        require("./kursOrt").askKursOrt(convo);
-        require("./kursNiveau").askKursNiveau(convo);
-        require("./kursTag").askKursTag(convo);
-        require("./kursZeit").askKursZeit(convo);
+        //*********************
+        // Helpers
+        //*********************
+        // Import Helper Class to get Entites from LUIS Response
+        const luisHelper = require("../../util/luisHelper");
+
+        //*********************
+        //Conversation Threads
+        //*********************
+        const ende = require("../ende/convoEnde");
+        const timeOut = require("../ende/convoTimeout");
+
+        const ort = require("../deutschkurs/kursOrt");
+        const niveau = require("../deutschkurs/kursNiveau");
+        const tag = require("../deutschkurs/kursTag");
+        const zeit = require("../deutschkurs/kursZeit");
+
+        const checker = require("./kursChecker");
+
+        const zusatzInfos = require("../deutschkurs/kursZusatzInfos").menuZusatzInfos(convo, "None", message, bot);
+        const notwendigeInfos = require("../deutschkurs/kursNotwendigeInfos");
 
         //Variablen zur Suche eines Deutschkurses die in der Conversation ausfindig gemacht werden müssen
         convo.setVar("kursOrt", "None");
@@ -88,10 +100,12 @@ module.exports = {
             }
         }
 
-        convo.addMessage("Super, gerne helfe ich Ihnen ein Deutschkurs zu suchen. Dafür benötige ich noch folgende Angaben: Ort, Tag, Uhrzeit und Kursniveau.");
+        ende.convoEnde(convo);
+        timeOut.convoTimeout(convo, 120000);
 
-        require("./kursNotwendigeInfos").checkNotwendigeInfos(convo);
+        checker.checkNotwendigeInfos(convo);
+
+        ort.askKursOrt(convo, luisHelper, "None", tag, zeit, niveau);
 
     }
-
 };

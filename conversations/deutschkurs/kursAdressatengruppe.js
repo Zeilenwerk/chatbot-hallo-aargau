@@ -47,7 +47,7 @@ module.exports = {
                 callback: function (res, convo) {
 
                     //Import Helper Class to get Entites from LUIS Response
-                    const luisHelper = require("../../util/helperLUIS");
+                    const luisHelper = require("../../util/luisHelper");
 
                     let aEntity = luisHelper. getEntityFromLuisResponse("kursAdressatengruppe", res);
 
@@ -63,9 +63,9 @@ module.exports = {
 
                     if (nextThread !== "None") {
                         convo.gotoThread(nextThread);
+                    }else{
+                        convo.next();
                     }
-
-                    convo.next();
 
 
                 }
