@@ -13,7 +13,7 @@
 *
 * */
 module.exports = {
-    askKursAdressatengruppe: function (convo, nextThread = "None") {
+    askKursAdressatengruppe: function (convo, luisHelper, nextThread = "None") {
 
         console.log("Start askKursAdressatengruppe");
 

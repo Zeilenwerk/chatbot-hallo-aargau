@@ -51,6 +51,11 @@ module.exports = function (controller) {
         const kursZeit = require("../conversations/deutschkurs/kursZeit");
         const kursNiveau = require("../conversations/deutschkurs/kursNiveau");
 
+        const kursAdressatengruppe = require("../conversations/deutschkurs/kursAdressatengruppe");
+        const kursAnbieter = require("../conversations/deutschkurs/kursAnbieter");
+        const kursIntensitaet = require("../conversations/deutschkurs/kursIntensitaet");
+        const kursSprache = require("../conversations/deutschkurs/kursSprache");
+
         //********************************
         // Initialize Conversation
         //********************************
@@ -199,40 +204,31 @@ module.exports = function (controller) {
             ]
         }, [
             {
-                pattern: 'Kurs Ort',
-                callback: function (res, convo) {
-                    askKursOrt(convo, "neccessaryInfromation");
-                }
-            },
-            {
-                pattern: 'Kurs Tag',
-                callback: function (res, convo) {
-                    askKursTag(convo, "neccessaryInfromation");
-                }
-            },
-            {
-                pattern: 'Kurs Zeit',
-                callback: function (res, convo) {
-                    askKursZeit(convo, "neccessaryInfromation");
-                }
-            },
-            {
-                pattern: 'Kurs Niveau',
-                callback: function (res, convo) {
-                    askKursNiveau(convo, "neccessaryInfromation");
-                }
-            },
-            {
-                pattern: 'Keine Änderung',
-                callback: function (res, convo) {
-                    convo.gotoThread("zusatzInfo");
-                }
-            },
-            {
                 default: true,
                 callback: function (res, convo) {
-                    convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
-                    convo.repeat();
+
+                    switch (res.text) {
+
+                        case "Kurs Ort":
+                            kursOrt.askKursOrt(convo, luisHelper, "neccessaryInfromation");
+                            break;
+                        case "Kurs Tag":
+                            kursTag.askKursTag(convo, luisHelper, "neccessaryInfromation");
+                            break;
+                        case "Kurs Zeit":
+                            kursZeit.askKursZeit(convo, luisHelper, "neccessaryInfromation");
+                            break;
+                        case "Kurs Niveau":
+                            kursNiveau.askKursNiveau(convo, luisHelper, "neccessaryInfromation");
+                            break;
+                        case "Keine Änderung":
+                            convo.gotoThread("zusatzInfo");
+                            break;
+                        default:
+                            convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
+                            convo.repeat();
+                            break;
+                    }
                 }
             }
         ], {}, "correctNeccessaryInfromation");
@@ -265,36 +261,34 @@ module.exports = function (controller) {
             ]
         }, [
             {
-                pattern: 'Adressatengruppe',
+                default: true,
                 callback: function (res, convo) {
-                    askKursAdressatengruppe(convo, "zusatzInfo");
-                }
-            },
-            {
-                pattern: 'Anbieter',
-                callback: function (res, convo) {
-                    convo.addMessage("Noch nicht implementiert");
-                }
-            },
-            {
-                pattern: 'Intensitaet',
-                callback: function (res, convo) {
-                    convo.addMessage("Noch nicht implementiert");
-                }
-            },
-            {
-                pattern: 'Sprache',
-                callback: function (res, convo) {
-                    convo.addMessage("Noch nicht implementiert");
-                }
-            },
-            {
-                pattern: 'Keine weiteren Angaben',
-                callback: function (res, convo) {
-                    pgHelper.displayGefundeneKurse(function (m) {
-                        bot.reply(message, m);
-                    }, convo);
-                    convo.next();
+
+                    switch (res.text) {
+
+                        case "Adressatengruppe":
+                            kursAdressatengruppe.askKursAdressatengruppe(convo, luisHelper, "zusatzInfo");
+                            break;
+                        case "Anbieter":
+                            convo.addMessage("Noch nicht implementiert");
+                            break;
+                        case "Intensitaet":
+                            convo.addMessage("Noch nicht implementiert");
+                            break;
+                        case "Sprache":
+                            convo.addMessage("Noch nicht implementiert");
+                            break;
+                        case "Keine weiteren Angaben":
+                            pgHelper.displayGefundeneKurse(function (m) {
+                                bot.reply(message, m);
+                            }, convo);
+                            convo.next();
+                            break;
+                        default:
+                            convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
+                            convo.repeat();
+                            break;
+                    }
                 }
             },
         ], {}, "zusatzInfo");
