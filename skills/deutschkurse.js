@@ -46,15 +46,15 @@ module.exports = function (controller) {
         //********************************
         // Required Threads
         //********************************
-        const kursOrt = require("../conversations/deutschkurs/kursOrt");
-        const kursTag = require("../conversations/deutschkurs/kursTag");
-        const kursZeit = require("../conversations/deutschkurs/kursZeit");
-        const kursNiveau = require("../conversations/deutschkurs/kursNiveau");
+        const kursOrt = require("../conversations/deutschkurs/notwendigeInformationen/kursOrt");
+        const kursTag = require("../conversations/deutschkurs/notwendigeInformationen/kursTag");
+        const kursZeit = require("../conversations/deutschkurs/notwendigeInformationen/kursZeit");
+        const kursNiveau = require("../conversations/deutschkurs/notwendigeInformationen/kursNiveau");
 
-        const kursAdressatengruppe = require("../conversations/deutschkurs/kursAdressatengruppe");
-        const kursAnbieter = require("../conversations/deutschkurs/kursAnbieter");
-        const kursIntensitaet = require("../conversations/deutschkurs/kursIntensitaet");
-        const kursSprache = require("../conversations/deutschkurs/kursSprache");
+        const kursAdressatengruppe = require("../conversations/deutschkurs/zusaetzlicheInformationen/kursAdressatengruppe");
+        const kursAnbieter = require("../conversations/deutschkurs/zusaetzlicheInformationen/kursAnbieter");
+        const kursIntensitaet = require("../conversations/deutschkurs/zusaetzlicheInformationen/kursIntensitaet");
+        const kursSprache = require("../conversations/deutschkurs/zusaetzlicheInformationen/kursSprache");
 
         //********************************
         // Initialize Conversation
@@ -251,8 +251,8 @@ module.exports = function (controller) {
                     payload: 'Intensitaet',
                 },
                 {
-                    title: "Kurs Sprache",
-                    payload: 'Sprache',
+                    title: "Kurs Kosten",
+                    payload: 'Kosten',
                 },
                 {
                     title: "Keine weiteren Angaben",
@@ -270,12 +270,12 @@ module.exports = function (controller) {
                             kursAdressatengruppe.askKursAdressatengruppe(convo, luisHelper, "zusatzInfo");
                             break;
                         case "Anbieter":
-                            convo.addMessage("Noch nicht implementiert");
+                            kursAnbieter.askKursAnbieter(convo, luisHelper, "zusatzInfo");
                             break;
                         case "Intensitaet":
-                            convo.addMessage("Noch nicht implementiert");
+                            kursIntensitaet.askKursIntensitaet(convo, luisHelper, "zusatzInfo");
                             break;
-                        case "Sprache":
+                        case "Kosten":
                             convo.addMessage("Noch nicht implementiert");
                             break;
                         case "Keine weiteren Angaben":

@@ -13,10 +13,10 @@ module.exports = {
         const ende = require("../ende/convoEnde");
         const timeOut = require("../ende/convoTimeout");
 
-        const ort = require("../deutschkurs/kursOrt");
-        const niveau = require("../deutschkurs/kursNiveau");
-        const tag = require("../deutschkurs/kursTag");
-        const zeit = require("../deutschkurs/kursZeit");
+        const ort = require("../deutschkurs/notwendigeInformationen/kursOrt");
+        const niveau = require("../deutschkurs/notwendigeInformationen/kursNiveau");
+        const tag = require("../deutschkurs/notwendigeInformationen/kursTag");
+        const zeit = require("../deutschkurs/notwendigeInformationen/kursZeit");
 
         const checker = require("./kursChecker");
 

@@ -13,32 +13,24 @@
 *
 * */
 module.exports = {
-    askKursAdressatengruppe: function (convo, luisHelper, nextThread = "None") {
+    askKursAnbieter: function (convo, nextThread = "None") {
 
-        console.log("Start askKursAdressatengruppe");
+        console.log("Start askKursAnbieter");
 
         convo.ask({
-            text: 'Für welches Adressatengruppe soll der Kurs sein?',
+            text: 'Wer soll den Kurs Anbieten?',
             quick_replies: [
                 {
-                    title: 'Jugendliche unter 16 Jahren',
-                    payload: 'Jugendliche unter 16 Jahren',
+                    title: 'Nosotras Aargau',
+                    payload: 'Nosotras Aargau',
                 },
                 {
-                    title: 'Jugendliche zwischen 16 - 21',
-                    payload: 'Jugendliche bis 21 Jährig',
+                    title: 'Verein Lesen und Schreiben für Erwachsene',
+                    payload: 'Verein Lesen und Schreiben für Erwachsene',
                 },
                 {
-                    title: 'Erwachsene',
-                    payload: 'Erwachsene',
-                },
-                {
-                    title: 'Frauen',
-                    payload: 'Frauen',
-                },
-                {
-                    title: 'Frauen mit Kinder',
-                    payload: 'Frauen mit Kinder',
+                    title: 'TLC Baden',
+                    payload: 'TLC Baden',
                 },
             ]
         }, [
@@ -47,9 +39,9 @@ module.exports = {
                 callback: function (res, convo) {
 
                     //Import Helper Class to get Entites from LUIS Response
-                    const luisHelper = require("../../util/luisHelper");
+                    const luisHelper = require("../../../util/luisHelper");
 
-                    let aEntity = luisHelper. getEntityFromLuisResponse("kursAdressatengruppe", res);
+                    let aEntity = luisHelper. getEntityFromLuisResponse("kursAnbieter", res);
 
                     if (aEntity === undefined || aEntity.length === 0) {
                         // array empty or does not exist
@@ -57,8 +49,8 @@ module.exports = {
                         convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
                         convo.repeat();
                     } else {
-                        convo.setVar("kursAdressatengruppe", aEntity[0]);
-                        console.log("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
+                        convo.setVar("kursAnbieter", aEntity[0]);
+                        console.log("kursAnbieter = " + convo.vars.kursAnbieter);
                     }
 
                     if (nextThread !== "None") {

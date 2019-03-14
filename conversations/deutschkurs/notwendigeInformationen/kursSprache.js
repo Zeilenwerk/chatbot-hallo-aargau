@@ -47,7 +47,7 @@ module.exports = {
                 callback: function (res, convo) {
 
                     //Import Helper Class to get Entites from LUIS Response
-                    const luisHelper = require("../../util/luisHelper");
+                    const luisHelper = require("../../../util/luisHelper");
 
                     let aEntity = luisHelper. getEntityFromLuisResponse("kursAdressatengruppe", res);
 

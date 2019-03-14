@@ -60,7 +60,7 @@ module.exports = {
 
                     convo.addMessage("Ich habe folgende Kurse gefunden");
 
-                    require("./kursGefundeneKurse").menuGefundeneKurse(convo, function(m){
+                    require("./gefundeneKurse/kursGefundeneKurse").menuGefundeneKurse(convo, function(m){
                         bot.reply(message, m);
                     });
 

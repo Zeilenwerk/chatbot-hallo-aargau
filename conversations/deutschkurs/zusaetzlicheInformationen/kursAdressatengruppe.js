@@ -13,7 +13,7 @@
 *
 * */
 module.exports = {
-    askKursAdressatengruppe: function (convo, nextThread = "None") {
+    askKursAdressatengruppe: function (convo, luisHelper, nextThread = "None") {
 
         console.log("Start askKursAdressatengruppe");
 
@@ -47,7 +47,7 @@ module.exports = {
                 callback: function (res, convo) {
 
                     //Import Helper Class to get Entites from LUIS Response
-                    const luisHelper = require("../../util/luisHelper");
+                    const luisHelper = require("../../../util/luisHelper");
 
                     let aEntity = luisHelper. getEntityFromLuisResponse("kursAdressatengruppe", res);
 
