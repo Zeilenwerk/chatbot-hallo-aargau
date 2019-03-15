@@ -54,7 +54,8 @@ module.exports = function (controller) {
         const kursAdressatengruppe = require("../conversations/deutschkurs/zusaetzlicheInformationen/kursAdressatengruppe");
         const kursAnbieter = require("../conversations/deutschkurs/zusaetzlicheInformationen/kursAnbieter");
         const kursIntensitaet = require("../conversations/deutschkurs/zusaetzlicheInformationen/kursIntensitaet");
-        const kursSprache = require("../conversations/deutschkurs/zusaetzlicheInformationen/kursSprache");
+
+        const kursGefundeneKurse = require("../conversations/deutschkurs/gefundeneKurse/kursGefundeneKurse");
 
         //********************************
         // Initialize Conversation
@@ -267,6 +268,7 @@ module.exports = function (controller) {
                     switch (res.text) {
 
                         case "Adressatengruppe":
+                            const kursAdressatengruppe = require("../conversations/deutschkurs/zusaetzlicheInformationen/kursAdressatengruppe");
                             kursAdressatengruppe.askKursAdressatengruppe(convo, luisHelper, "zusatzInfo");
                             break;
                         case "Anbieter":
@@ -279,10 +281,9 @@ module.exports = function (controller) {
                             convo.addMessage("Noch nicht implementiert");
                             break;
                         case "Keine weiteren Angaben":
-                            pgHelper.displayGefundeneKurse(function (m) {
+                            kursGefundeneKurse.displayGefundeneKurse(function (m) {
                                 bot.reply(message, m);
-                            }, convo);
-                            convo.next();
+                            }, convo, 3, 0);
                             break;
                         default:
                             convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
@@ -295,6 +296,59 @@ module.exports = function (controller) {
 
 
 
+
+        convo.addQuestion({
+            text: 'Möchten sie weitere Informationen zu einem dieser Kurse?',
+            quick_replies: [
+                {
+                    title: "Ja, Kurs 1",
+                    payload: 'Kurs 1',
+                },
+                {
+                    title: "Ja, Kurs 2",
+                    payload: 'Kurs 2',
+                },
+                {
+                    title: "Ja, Kurs 3",
+                    payload: 'Kurs 3',
+                },
+                {
+                    title: "Nein, weitere Kurse anzeigen",
+                    payload: 'Weitere Kurse anzeigen',
+                },
+            ]
+        }, [
+            {
+                default: true,
+                callback: function (res, convo) {
+
+                    switch (res.text) {
+
+                        case "Kurs 1":
+                            // kursGefundeneKurse.displayKursInfromationen();
+                            convo.addMessage("Leider noch nicht implementiert");
+                            break;
+                        case "Kurs 2":
+                            // kursGefundeneKurse.displayKursInfromationen();
+                            convo.addMessage("Leider noch nicht implementiert");
+                            break;
+                        case "Kurs 3":
+                            // kursGefundeneKurse.displayKursInfromationen();
+                            convo.addMessage("Leider noch nicht implementiert");
+                            break;
+                        case "Weitere Kurse anzeigen":
+                            kursGefundeneKurse.displayGefundeneKurse(function (m) {
+                                bot.reply(message, m);
+                            }, convo, 3, 3);
+                            break;
+                        default:
+                            convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
+                            convo.repeat();
+                            break;
+                    }
+                }
+            },
+        ], {}, "gefundeneKurse");
 
         // create a path for when a user says YES
         convo.addMessage({

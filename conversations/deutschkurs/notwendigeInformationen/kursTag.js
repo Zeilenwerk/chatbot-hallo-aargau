@@ -15,7 +15,7 @@
    *
    * */
 module.exports = {
-    askKursTag: function (convo, luisHelper, nextThread = "None", zeit, niveau) {
+    askKursTag: function (convo, luisHelper, nextThread = "None") {
 
         console.log("Start askKursTag");
 
