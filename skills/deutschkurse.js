@@ -33,6 +33,13 @@ module.exports = function (controller) {
 
     function deutschkursSuchen(convo, message, bot) {
 
+        //Set Timeout in milliseconds
+        // 1 min = 60000
+        // 2 min = 120000
+        // 3 min = 180000
+        // 4 min = 240000
+        // 5 min = 300000
+        convo.setTimeout(120000);
 
         convo.addMessage("Super, gerne helfe ich Ihnen ein Deutschkurs zu suchen. Dafür benötige ich noch folgende Angaben: Ort, Tag, Uhrzeit und Kursniveau.");
 
@@ -41,7 +48,6 @@ module.exports = function (controller) {
         //********************************
         // Import Helper Class to get Entites from LUIS Response
         const luisHelper = require("../util/luisHelper");
-        const pgHelper = require("../util/pgHelper");
 
         //********************************
         // Required Threads
@@ -54,22 +60,27 @@ module.exports = function (controller) {
         const kursAdressatengruppe = require("../conversations/deutschkurs/zusaetzlicheInformationen/kursAdressatengruppe");
         const kursAnbieter = require("../conversations/deutschkurs/zusaetzlicheInformationen/kursAnbieter");
         const kursIntensitaet = require("../conversations/deutschkurs/zusaetzlicheInformationen/kursIntensitaet");
+        const kursKosten = require("../conversations/deutschkurs/zusaetzlicheInformationen/kursKosten");
 
         const kursGefundeneKurse = require("../conversations/deutschkurs/gefundeneKurse/kursGefundeneKurse");
 
         //********************************
         // Initialize Conversation
         //********************************
-        //Set Timeout in milliseconds
-        // 1 min = 60000
-        // 2 min = 120000
-        // 3 min = 180000
-        // 4 min = 240000
-        // 5 min = 300000
-        convo.setTimeout(120000);
+
+        kursOrt.convoKursOrt(convo, luisHelper, "kursNotwendigeInfosMenu");
+        kursTag.convoKursTag(convo, luisHelper, "kursNotwendigeInfosMenu");
+        kursZeit.convoKursZeit(convo, luisHelper, "kursNotwendigeInfosMenu");
+        kursNiveau.convoKursNiveau(convo, luisHelper, "kursNotwendigeInfosMenu");
+
+        kursAdressatengruppe.convoKursAdressatengruppe(convo, luisHelper, "zusatzInfo");
+        kursAnbieter.convoKursAnbieter(convo, luisHelper, "zusatzInfo");
+        kursIntensitaet.convoKursIntensitaet(convo, luisHelper, "zusatzInfo");
+        kursKosten.convoKursKosten(convo, luisHelper, "zusatzInfo");
+
 
         //Variablen zur Suche eines Deutschkurses die in der Conversation ausfindig gemacht werden müssen
-        let aVars = ["kursOrt", "kursBezirk", "kursZeit", "kursTag", "kursTagUndZeit", "kursDatum", "kursIntensitaet", "kursAnbieter", "kursNiveau", "kursSprache", "kursAdressatengruppe",];
+        let aVars = ["kursOrt", "kursBezirk", "kursZeit", "kursTag", "kursTagUndZeit", "kursDatum", "kursIntensitaet", "kursAnbieter", "kursNiveau", "kursSprache", "kursAdressatengruppe", "kursKosten"];
 
         for (var x = 0; x < aVars.length; x++) {
 
@@ -86,9 +97,11 @@ module.exports = function (controller) {
                     convo.setVar(aVars[x], aEntity[0]);
                     console.log(aVars[x] + " = " + aEntity[0]);
                 }
-
             }
         }
+
+        convo.setVar("maxKurse", 3);
+        convo.setVar("offsetKurse", 0);
 
         //********************************
         //Check Notwendige Informationen
@@ -140,7 +153,6 @@ module.exports = function (controller) {
         //Conversation Threads
         //********************************
 
-        // Create a yes/no question in the default thread...
         convo.addMessage('Sie Suchen somit für den {{vars.kursTag}} um {{vars.kursZeit}} ein Niveau {{vars.kursNiveau}} Deutschkurs in {{vars.kursOrt}}. ', 'kursNotwendigeInfosMenu');
 
         convo.addQuestion({
@@ -211,18 +223,19 @@ module.exports = function (controller) {
                     switch (res.text) {
 
                         case "Kurs Ort":
-                            kursOrt.askKursOrt(convo, luisHelper, "neccessaryInfromation");
+                            convo.gotoThread("askKursOrt");
                             break;
                         case "Kurs Tag":
-                            kursTag.askKursTag(convo, luisHelper, "neccessaryInfromation");
+                            convo.gotoThread("askKursTag");
                             break;
                         case "Kurs Zeit":
-                            kursZeit.askKursZeit(convo, luisHelper, "neccessaryInfromation");
+                            convo.gotoThread("askKursZeit");
                             break;
                         case "Kurs Niveau":
-                            kursNiveau.askKursNiveau(convo, luisHelper, "neccessaryInfromation");
+                            convo.gotoThread("askKursNiveau");
                             break;
                         case "Keine Änderung":
+                            convo.say("Zusätzliche Infromationen helfen mir die Kurse besser für Sie anzuzeigen.");
                             convo.gotoThread("zusatzInfo");
                             break;
                         default:
@@ -234,7 +247,7 @@ module.exports = function (controller) {
             }
         ], {}, "correctNeccessaryInfromation");
 
-        convo.addMessage("Zusätzliche Infromationen helfen mir die Kurse besser für Sie anzuzeigen.", "zusatzInfo");
+
 
         convo.addQuestion({
             text: 'Möchten sie mir noch eine oder mehrere der folgenden Zusatzinformationen geben:',
@@ -268,22 +281,21 @@ module.exports = function (controller) {
                     switch (res.text) {
 
                         case "Adressatengruppe":
-                            const kursAdressatengruppe = require("../conversations/deutschkurs/zusaetzlicheInformationen/kursAdressatengruppe");
-                            kursAdressatengruppe.askKursAdressatengruppe(convo, luisHelper, "zusatzInfo");
+                            convo.gotoThread("askKursAdressatengruppe");
                             break;
                         case "Anbieter":
-                            kursAnbieter.askKursAnbieter(convo, luisHelper, "zusatzInfo");
+                            convo.gotoThread("askKursAnbieter");
                             break;
                         case "Intensitaet":
-                            kursIntensitaet.askKursIntensitaet(convo, luisHelper, "zusatzInfo");
+                            convo.gotoThread("askKursIntensitaet");
                             break;
                         case "Kosten":
-                            convo.addMessage("Noch nicht implementiert");
+                            convo.gotoThread("askKursKosten");
                             break;
                         case "Keine weiteren Angaben":
                             kursGefundeneKurse.displayGefundeneKurse(function (m) {
                                 bot.reply(message, m);
-                            }, convo, 3, 0);
+                            }, convo, convo.vars.maxKurse, convo.vars.offsetKurse);
                             break;
                         default:
                             convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
@@ -293,8 +305,6 @@ module.exports = function (controller) {
                 }
             },
         ], {}, "zusatzInfo");
-
-
 
 
         convo.addQuestion({
@@ -337,9 +347,13 @@ module.exports = function (controller) {
                             convo.addMessage("Leider noch nicht implementiert");
                             break;
                         case "Weitere Kurse anzeigen":
+
+                            //Add +3 to offset
+                            convo.setVar("offsetKurse", convo.vars.offsetKurse + 3)
+
                             kursGefundeneKurse.displayGefundeneKurse(function (m) {
                                 bot.reply(message, m);
-                            }, convo, 3, 3);
+                            }, convo, convo.vars.maxKurse, convo.vars.offsetKurse);
                             break;
                         default:
                             convo.addMessage("Leider habe ich die Antwort nicht verstanden.");

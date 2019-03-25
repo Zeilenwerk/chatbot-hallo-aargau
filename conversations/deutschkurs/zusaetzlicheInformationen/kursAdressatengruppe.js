@@ -13,11 +13,11 @@
 *
 * */
 module.exports = {
-    askKursAdressatengruppe: function (convo, luisHelper, nextThread = "None") {
+    convoKursAdressatengruppe: function (convo, luisHelper, nextThread = "None") {
 
         console.log("Start askKursAdressatengruppe");
 
-        convo.ask({
+        convo.addQuestion({
             text: 'Für welches Adressatengruppe soll der Kurs sein?',
             quick_replies: [
                 {
@@ -46,12 +46,9 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    //Import Helper Class to get Entites from LUIS Response
-                    const luisHelper = require("../../../util/luisHelper");
-
                     let aEntity = luisHelper. getEntityFromLuisResponse("kursAdressatengruppe", res);
 
-                    if (aEntity === undefined || aEntity.length === 0) {
+                    if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
                         // array empty or does not exist
                         //TODO: Handle not found entity
                         convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
@@ -70,7 +67,7 @@ module.exports = {
 
                 }
             }
-        ]);
+        ], {},"askKursAdressatengruppe");
 
     }
 };

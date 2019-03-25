@@ -16,6 +16,9 @@ module.exports = {
 
         //Zusatzinfos
         let kursAdressatengruppe = (convo.vars.kursAdressatengruppe !== "None") ? "AND adressatengruppe = '" + convo.vars.kursAdressatengruppe + "' " : "";
+        let kursAnbieter = convo.vars.kursAnbieter;
+        let kursIntensitaet = convo.vars.kursIntensitaet;
+        let kursKosten = convo.vars.kursKosten;
 
         //TODO: Add User Info to WHERE Filter
         let query_where = "WHERE " + kursOrt + kursBezirk + kursTag + kursZeit + kursNiveau + kursAdressatengruppe;

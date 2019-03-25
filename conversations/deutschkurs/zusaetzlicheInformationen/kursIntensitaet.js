@@ -13,11 +13,11 @@
 *
 * */
 module.exports = {
-    askKursIntensitaet: function (convo, nextThread = "None") {
+    convoKursIntensitaet: function (convo, luisHelper, nextThread = "None") {
 
         console.log("Start askKursIntensitaet");
 
-        convo.ask({
+        convo.addQuestion({
             text: 'Was für eine Kursintensität suchen Sie?',
             quick_replies: [
                 {
@@ -34,12 +34,9 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    //Import Helper Class to get Entites from LUIS Response
-                    const luisHelper = require("../../../util/luisHelper");
-
                     let aEntity = luisHelper. getEntityFromLuisResponse("kursIntensitaet", res);
 
-                    if (aEntity === undefined || aEntity.length === 0) {
+                    if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
                         // array empty or does not exist
                         //TODO: Handle not found entity
                         convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
@@ -58,7 +55,7 @@ module.exports = {
 
                 }
             }
-        ]);
+        ], {}, "askKursIntensitaet");
 
     }
 };
