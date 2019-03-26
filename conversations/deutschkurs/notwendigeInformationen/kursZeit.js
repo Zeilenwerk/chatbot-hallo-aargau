@@ -15,6 +15,28 @@ module.exports = {
 
         convo.ask({
             text: 'Um wie viel Uhr soll der Kurs am {{vars.kursTag}} stattfinden?',
+            quick_replies: [
+                {
+                    title: 'Morgens (07:00 - 10:00 Uhr)',
+                    payload: '07:00 Uhr',
+                },
+                {
+                    title: 'Mittags (10:00 - 13:00 Uhr)',
+                    payload: '10:00 Uhr',
+                },
+                {
+                    title: 'Nachmittags (13:00 - 16:00 Uhr)',
+                    payload: '13:00 Uhr',
+                },
+                {
+                    title: 'Abends (16:00 - 19:00 Uhr)',
+                    payload: '16:00 Uhr',
+                },
+                {
+                    title: 'Nachts (19:00 - 22:00 Uhr)',
+                    payload: '19:00 Uhr',
+                },
+            ]
         }, [
             {
                 default: true,
@@ -30,7 +52,8 @@ module.exports = {
                         convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
                         convo.repeat();
                     } else {
-                        convo.setVar("kursZeit", aEntity[0]);
+                        //Get entity for zeit, not resolution (regex pattern)
+                        convo.setVar("kursZeit", aEntity[1]);
                         console.log("KursZeit = " + convo.vars.kursZeit);
                     }
 
@@ -51,6 +74,28 @@ module.exports = {
 
         convo.addQuestion({
             text: 'Um wie viel Uhr soll der Kurs am {{vars.kursTag}} stattfinden?',
+            quick_replies: [
+                {
+                    title: 'Morgens (07:00 - 10:00 Uhr)',
+                    payload: '07:00 Uhr',
+                },
+                {
+                    title: 'Mittags (10:00 - 13:00 Uhr)',
+                    payload: '10:00 Uhr',
+                },
+                {
+                    title: 'Nachmittags (13:00 - 16:00 Uhr)',
+                    payload: '13:00 Uhr',
+                },
+                {
+                    title: 'Abends (16:00 - 19:00 Uhr)',
+                    payload: '16:00 Uhr',
+                },
+                {
+                    title: 'Nachts (19:00 - 22:00 Uhr)',
+                    payload: '19:00 Uhr',
+                },
+            ]
         }, [
             {
                 default: true,

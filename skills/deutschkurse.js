@@ -100,60 +100,14 @@ module.exports = function (controller) {
             }
         }
 
-        convo.setVar("maxKurse", 3);
+        convo.setVar("maxKurse", 1);
         convo.setVar("offsetKurse", 0);
-
-        //********************************
-        //Check Notwendige Informationen
-        //********************************
-        console.log("Check Notwendige Informationen");
-
-        if (convo.vars.kursOrt !== "None" && convo.vars.kursTag !== "None" && convo.vars.kursZeit !== "None" && convo.vars.kursNiveau !== "None") {
-            console.log("Alle Notwendigen Infos vorhanden");
-            console.log("gotoThread kursNotwendigeInfosMenu");
-            convo.gotoThread("kursNotwendigeInfosMenu");
-        } else {
-
-            //Informationen vom benutzer beantragen, damit ein Deutschkurs gesucht werden kann
-            if (convo.vars.kursOrt === "None") {
-                console.log("askKursOrt");
-                kursOrt.askKursOrt(convo, luisHelper);
-            } else {
-                if (convo.vars.kursBezirk !== "None") {
-                    convo.say("Den Ort haben Sie schon angegeben ({{vars.kursOrt}}, im Bezirk {kursBezirk}}), somit benötige ich dies nicht mehr.")
-                } else {
-                    convo.say("Den Ort haben Sie schon angegeben ({{vars.kursOrt}}), somit benötige ich dies nicht mehr.")
-                }
-            }
-
-            if (convo.vars.kursTag === "None") {
-                console.log("askKursTag");
-                kursTag.askKursTag(convo, luisHelper);
-            } else {
-                convo.say("Als Kurstag, haben Sie den {{vars.kursTag}} gewählt.")
-            }
-
-            if (convo.vars.kursZeit === "None") {
-                console.log("askKursZeit");
-                kursZeit.askKursZeit(convo, luisHelper);
-            } else {
-                convo.say("Die Zeit am {{vars.kursTag}} für den Kurs ist {{vars.kursZeit}} Uhr.")
-            }
-
-            if (convo.vars.kursNiveau === "None") {
-                console.log("askKursNiveau");
-                kursNiveau.askKursNiveau(convo, luisHelper, "kursNotwendigeInfosMenu");
-            } else {
-                convo.say("Das Kursniveau ist {{vars.kursNiveau}}.");
-            }
-
-        }
 
         //********************************
         //Conversation Threads
         //********************************
 
-        convo.addMessage('Sie Suchen somit für den {{vars.kursTag}} um {{vars.kursZeit}} ein Niveau {{vars.kursNiveau}} Deutschkurs in {{vars.kursOrt}}. ', 'kursNotwendigeInfosMenu');
+        convo.addMessage('Sie Suchen somit für den {{vars.kursTag}} um {{vars.kursZeit}} Uhr ein Niveau {{vars.kursNiveau}} Deutschkurs in {{vars.kursOrt}}. ', 'kursNotwendigeInfosMenu');
 
         convo.addQuestion({
             text: 'Stimmen diese Angaben für Sie?',
@@ -311,16 +265,8 @@ module.exports = function (controller) {
             text: 'Möchten sie weitere Informationen zu einem dieser Kurse?',
             quick_replies: [
                 {
-                    title: "Ja, Kurs 1",
-                    payload: 'Kurs 1',
-                },
-                {
-                    title: "Ja, Kurs 2",
-                    payload: 'Kurs 2',
-                },
-                {
-                    title: "Ja, Kurs 3",
-                    payload: 'Kurs 3',
+                    title: "Ja, weitere Informationen anzeigen",
+                    payload: 'Ja, weitere Informationen anzeigen',
                 },
                 {
                     title: "Nein, weitere Kurse anzeigen",
@@ -334,22 +280,16 @@ module.exports = function (controller) {
 
                     switch (res.text) {
 
-                        case "Kurs 1":
-                            // kursGefundeneKurse.displayKursInfromationen();
-                            convo.addMessage("Leider noch nicht implementiert");
-                            break;
-                        case "Kurs 2":
-                            // kursGefundeneKurse.displayKursInfromationen();
-                            convo.addMessage("Leider noch nicht implementiert");
-                            break;
-                        case "Kurs 3":
-                            // kursGefundeneKurse.displayKursInfromationen();
-                            convo.addMessage("Leider noch nicht implementiert");
+                        case "Ja, weitere Informationen anzeigen":
+                            kursGefundeneKurse.displayKursInfromationen(function (m) {
+                                bot.reply(message, m);
+                            }, convo, convo.vars.maxKurse, convo.vars.offsetKurse);
+                            // convo.addMessage("Leider noch nicht implementiert");
                             break;
                         case "Weitere Kurse anzeigen":
 
-                            //Add +3 to offset
-                            convo.setVar("offsetKurse", convo.vars.offsetKurse + 3)
+                            //Add +1 to offset
+                            convo.setVar("offsetKurse", convo.vars.offsetKurse + 1)
 
                             kursGefundeneKurse.displayGefundeneKurse(function (m) {
                                 bot.reply(message, m);
@@ -363,23 +303,6 @@ module.exports = function (controller) {
                 }
             },
         ], {}, "gefundeneKurse");
-
-        // create a path for when a user says YES
-        convo.addMessage({
-            text: 'You said yes! How wonderful.',
-        }, 'yes_thread');
-
-        // create a path for when a user says NO
-        convo.addMessage({
-            text: 'You said no, that is too bad.',
-        }, 'no_thread');
-
-        // create a path where neither option was matched
-        // this message has an action field, which directs botkit to go back to the `default` thread after sending this message.
-        convo.addMessage({
-            text: 'Sorry I did not understand.',
-            action: 'default',
-        }, 'bad_response');
 
 
         //********************************
@@ -411,6 +334,53 @@ module.exports = function (controller) {
             convo.gotoThread("end")
 
         });
+
+
+        //********************************
+        //Check Notwendige Informationen
+        //********************************
+        console.log("Check Notwendige Informationen");
+
+        if (convo.vars.kursOrt !== "None" && convo.vars.kursTag !== "None" && convo.vars.kursZeit !== "None" && convo.vars.kursNiveau !== "None") {
+            console.log("Alle Notwendigen Infos vorhanden");
+            console.log("gotoThread kursNotwendigeInfosMenu");
+            convo.gotoThread("kursNotwendigeInfosMenu");
+        } else {
+
+            //Informationen vom benutzer beantragen, damit ein Deutschkurs gesucht werden kann
+            if (convo.vars.kursOrt === "None") {
+                console.log("askKursOrt");
+                kursOrt.askKursOrt(convo, luisHelper);
+            } else {
+                if (convo.vars.kursBezirk !== "None") {
+                    convo.say("Den Ort haben Sie schon angegeben ({{vars.kursOrt}}, im Bezirk {kursBezirk}}), somit benötige ich dies nicht mehr.")
+                } else {
+                    convo.say("Den Ort haben Sie schon angegeben ({{vars.kursOrt}}), somit benötige ich dies nicht mehr.")
+                }
+            }
+
+            if (convo.vars.kursTag === "None") {
+                console.log("askKursTag");
+                kursTag.askKursTag(convo, luisHelper);
+            } else {
+                convo.say("Als Kurstag, haben Sie den {{vars.kursTag}} gewählt.")
+            }
+
+            if (convo.vars.kursZeit === "None") {
+                console.log("askKursZeit");
+                kursZeit.askKursZeit(convo, luisHelper);
+            } else {
+                convo.say("Die Zeit am {{vars.kursTag}} für den Kurs ist {{vars.kursZeit}} Uhr.")
+            }
+
+            if (convo.vars.kursNiveau === "None") {
+                console.log("askKursNiveau");
+                kursNiveau.askKursNiveau(convo, luisHelper, "kursNotwendigeInfosMenu");
+            } else {
+                convo.say("Das Kursniveau ist {{vars.kursNiveau}}.");
+            }
+
+        }
 
 
     }

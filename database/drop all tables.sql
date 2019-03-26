@@ -1,0 +1,13 @@
+DROP TABLE IF EXISTS deutschkurs ;
+DROP TABLE IF EXISTS durchfuehrungszeiten ;
+DROP TABLE IF EXISTS durchfuerungsort ;
+DROP TABLE IF EXISTS anbieter ;
+DROP TABLE IF EXISTS kontaktperson ;
+DROP TABLE IF EXISTS zeit_tag ;
+DROP TABLE IF EXISTS tage ;
+DROP TABLE IF EXISTS adressatengruppe ;
+DROP TABLE IF EXISTS kurs_adressatengruppe ;
+DROP TABLE IF EXISTS anbieter_kontaktperson ;
+DROP TABLE IF EXISTS niveau ;
+DROP TABLE IF EXISTS sprachnachweis ;
+DROP TABLE IF EXISTS kosten ;

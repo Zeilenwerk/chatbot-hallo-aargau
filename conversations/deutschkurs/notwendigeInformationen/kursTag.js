@@ -87,7 +87,7 @@ module.exports = {
         console.log("Start askKursTag");
 
         convo.addQuestion({
-            text: "An welchem Tag soll der Kurs in {{kursOrt}} stattfinden?",
+            text: "An welchem Tag soll der Kurs in {{kursBezirk}} stattfinden?",
             quick_replies: [
                 {
                     title: 'Montag',

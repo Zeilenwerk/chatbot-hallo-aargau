@@ -1,13 +1,10 @@
-/*Funktion für die Anfrage der Adressatengruppe des Kurses
+/*Funktion für die Anfrage der Intensität des Kurses
 *
 * Adressatengruppe:
-* -> QR -> Jugendliche < 16
-* -> QR -> Jugendliche zwischen 16 - 21
-* -> QR -> Erwachsene
-* -> QR -> Frauen
-* -> QR -> Frauen mit Kinder
+* -> QR -> Wochenkurs
+* -> QR -> Intensivkurs
 *
-* Benutzerantwort wird in die Convo variable "kursAdressatengruppe" gespeichert
+* Benutzerantwort wird in die Convo variable "kursIntensitaet" gespeichert
 *
 * @param convo -> Conversation die am laufen ist
 *

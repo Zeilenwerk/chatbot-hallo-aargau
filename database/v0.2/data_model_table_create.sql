@@ -4,7 +4,7 @@ CREATE TABLE public.deutschkurs (
     kurssprachnachweis integer NOT NULL,
     kurszeit integer NOT NULL,
     kursanbieter integer NOT NULL,
-    kursort integer,
+    kursort integer NOT NULL,
     kurskosten integer NOT NULL,
     kurszweck text,
     kurskonversation text,
@@ -39,12 +39,12 @@ COMMENT ON COLUMN public.deutschkurs.kursintensitaet
 
 CREATE TABLE public.durchfuehrungszeiten (
     id SERIAL NOT NULL,
-    gesamtkursstart date,
-    gesamtkursende date,
+    gesamtkursstart DATE ,
+    gesamtkursende DATE,
     gesamtkursdauer_tage integer,
     gesamtkursdauer_stunden integer,
-    einzelkursstart time without time zone,
-    einzelkursende time without time zone,
+    einzelkursstart TIME,
+    einzelkursende TIME,
     einzelkursdauer_stunden integer,
     PRIMARY KEY (id)
 );
@@ -52,17 +52,16 @@ CREATE TABLE public.durchfuehrungszeiten (
 
 CREATE TABLE public.durchfuerungsort (
     id SERIAL NOT NULL,
-    strasse text,
-    plz varchar(10),
-    ort text,
-    raum text,
+    strasse text NOT NULL,
+    plz varchar(10) NOT NULL,
+    ort text NOT NULL,
+    raum text NOT NULL,
     PRIMARY KEY (id)
 );
 
 
 CREATE TABLE public.anbieter (
     id SERIAL NOT NULL,
-    name text NOT NULL,
     beschreibung text,
     website text,
     mail text,
@@ -100,14 +99,11 @@ COMMENT ON COLUMN public.tage.tag
 
 CREATE TABLE public.adressatengruppe (
     id SERIAL NOT NULL,
-    adressatengruppe varchar(50) NOT NULL,
+    adressatengruppe integer NOT NULL,
     beschreibung text,
     PRIMARY KEY (id)
 );
 
-
-COMMENT ON COLUMN public.adressatengruppe.adressatengruppe
-    IS 'short name of  adressatengruppe';
 
 CREATE TABLE public.kurs_adressatengruppe (
     id_kurs integer NOT NULL,
@@ -123,37 +119,31 @@ CREATE TABLE public.anbieter_kontaktperson (
 
 CREATE TABLE public.niveau (
     id SERIAL NOT NULL,
-    niveau varchar(50) NOT NULL,
+    niveau integer NOT NULL,
     beschreibung text,
     PRIMARY KEY (id)
 );
 
 
-COMMENT ON COLUMN public.niveau.niveau
-    IS 'short name of niveau';
-
 CREATE TABLE public.sprachnachweis (
     id SERIAL NOT NULL,
-    sprachnachweis varchar(50) NOT NULL,
+    sprachnachweis integer NOT NULL,
     beschreibung text,
     PRIMARY KEY (id)
 );
 
 
 COMMENT ON COLUMN public.sprachnachweis.sprachnachweis
-    IS 'short name of sprachnachweis';
+    IS 'normalization of sprachnachweis
+ex. B1 = 0, B2 = 1 etc';
 
 CREATE TABLE public.kosten (
     id SERIAL NOT NULL,
-    lehrmaterial boolean,
-    gesamtkurs numeric,
-    einzelkurs numeric,
-    einstufungstest numeric,
-    subventioniert numeric,
+    lehrmaterial numeric(2) NOT NULL,
+    gesamtkurs numeric(2) NOT NULL,
+    einzelkurs numeric(2) NOT NULL,
+    einstufungstest numeric(2) NOT NULL,
+    subventioniert numeric(2) NOT NULL,
     PRIMARY KEY (id)
 );
 
-
-COMMENT ON COLUMN public.kosten.lehrmaterial
-    IS 'true: inklusive
-false: exklusive';

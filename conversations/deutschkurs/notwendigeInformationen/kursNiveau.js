@@ -1,13 +1,14 @@
 /*Funktion für die Anfrage des Kurs Niveau
     *
     * Kurs Niveau:
+    * -> QR -> Für Personen mit Kenntnis der lateinischen Schrift
+    * -> QR -> Kurs für Anfänger
     * -> QR -> A1
     * -> QR -> A2
     * -> QR -> B1
-    * -> QR -> B2
+    * -> QR -> B2 (Business)
     * -> QR -> C1
     * -> QR -> C2
-    * -> QR -> Keine / Wenig Deutschkentnisse
     *
     * Benutzerantwort wird in die Convo variable "kursNiveau" gespeichert
     *
@@ -23,6 +24,14 @@ module.exports = {
         convo.ask({
             text: 'Für welches Sprachniveau suchen Sie den Kurs?',
             quick_replies: [
+                {
+                    title: 'Kurs für Anfänger',
+                    payload: 'Kurs für Anfänger',
+                },
+                {
+                    title: 'Für Personen mit Kenntnis der lateinischen Schrift',
+                    payload: 'Für Personen mit Kenntnis der lateinischen Schrift',
+                },
                 {
                     title: 'A1',
                     payload: 'A1',
@@ -46,10 +55,6 @@ module.exports = {
                 {
                     title: 'C2',
                     payload: 'C2',
-                },
-                {
-                    title: 'Kurs für Anfänger',
-                    payload: 'Kurs für Anfänger',
                 },
             ]
         }, [
@@ -90,6 +95,14 @@ module.exports = {
             text: 'Für welches Sprachniveau suchen Sie den Kurs?',
             quick_replies: [
                 {
+                    title: 'Kurs für Anfänger',
+                    payload: 'Kurs für Anfänger',
+                },
+                {
+                    title: 'Für Personen mit Kenntnis der lateinischen Schrift',
+                    payload: 'Für Personen mit Kenntnis der lateinischen Schrift',
+                },
+                {
                     title: 'A1',
                     payload: 'A1',
                 },
@@ -112,10 +125,6 @@ module.exports = {
                 {
                     title: 'C2',
                     payload: 'C2',
-                },
-                {
-                    title: 'Kurs für Anfänger',
-                    payload: 'Kurs für Anfänger',
                 },
             ]
         }, [

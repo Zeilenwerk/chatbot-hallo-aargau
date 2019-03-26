@@ -22,14 +22,6 @@ module.exports = {
                     title: 'Baden',
                     payload: 'Deutschkurs in Baden',
                 },
-                {
-                    title: 'Lenzburg',
-                    payload: 'Deutschkurs in Lenzburg',
-                },
-                {
-                    title: 'Rheinfelden ',
-                    payload: 'Deutschkurs in Rheinfelden ',
-                },
             ]
         }, [
             {
@@ -46,11 +38,11 @@ module.exports = {
                         convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
                         convo.repeat();
                     } else {
-                        convo.setVar("kursOrt", aEntity[0]);
-                        console.log("kursOrt = " + convo.vars.kursOrt);
-
-                        convo.setVar("kursBezirk", aEntity[1]);
+                        convo.setVar("kursBezirk", aEntity[0]);
                         console.log("kursBezirk = " + convo.vars.kursBezirk);
+
+                        convo.setVar("kursOrt", aEntity[1]);
+                        console.log("kursOrt = " + convo.vars.kursOrt);
                     }
 
                     if (nextThread !== "None") {
@@ -79,14 +71,6 @@ module.exports = {
                 {
                     title: 'Baden',
                     payload: 'Deutschkurs in Baden',
-                },
-                {
-                    title: 'Lenzburg',
-                    payload: 'Deutschkurs in Lenzburg',
-                },
-                {
-                    title: 'Rheinfelden ',
-                    payload: 'Deutschkurs in Rheinfelden ',
                 },
             ]
         }, [

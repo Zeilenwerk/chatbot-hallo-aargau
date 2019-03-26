@@ -19,8 +19,8 @@ module.exports = {
             text: 'Wie viel darf der Kurs Kosten?',
             quick_replies: [
                 {
-                    title: 'Subventionierter Kurs',
-                    payload: 'Subventionierter Kurs',
+                    title: 'Subventionierter Kurs (Gratis)',
+                    payload: 'Subventionierter Kurs (Gratis)',
                 },
                 {
                     title: 'Unter 500 Chf',

@@ -29,12 +29,12 @@ module.exports = {
                 console.log(res.entities[i]);
 
                 sEntity = res.entities[i].entity;
-                sResolution = undefined;
+                sResolution = "None";
 
                 if (res.entities[i].resolution && res.entities[i].resolution.value) sResolution = res.entities[i].resolution.value;
                 if (res.entities[i].resolution && res.entities[i].resolution.values) sResolution = res.entities[i].resolution.values[0];
 
-                let aRetVal = [sEntity, sResolution];
+                let aRetVal = [sResolution, sEntity];
 
                 console.log("Ret Val: " + aRetVal);
 

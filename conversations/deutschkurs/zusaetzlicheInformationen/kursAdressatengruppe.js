@@ -1,11 +1,14 @@
 /*Funktion für die Anfrage der Adressatengruppe des Kurses
 *
 * Adressatengruppe:
-* -> QR -> Jugendliche < 16
-* -> QR -> Jugendliche zwischen 16 - 21
-* -> QR -> Erwachsene
 * -> QR -> Frauen
-* -> QR -> Frauen mit Kinder
+* -> QR -> Erwachsene
+* -> QR -> Erwachsene deutscher Muttersprache
+* -> QR -> Niveau A1 abgschlossen
+* -> QR -> Niveau A2 abgschlossen
+* -> QR -> Niveau B1 abgschlossen
+* -> QR -> Niveau B2 abgschlossen
+* -> QR -> Niveau C1 abgschlossen
 *
 * Benutzerantwort wird in die Convo variable "kursAdressatengruppe" gespeichert
 *
@@ -21,25 +24,39 @@ module.exports = {
             text: 'Für welches Adressatengruppe soll der Kurs sein?',
             quick_replies: [
                 {
-                    title: 'Jugendliche unter 16 Jahren',
-                    payload: 'Jugendliche unter 16 Jahren',
-                },
-                {
-                    title: 'Jugendliche zwischen 16 - 21',
-                    payload: 'Jugendliche bis 21 Jährig',
+                    title: 'Frauen',
+                    payload: 'Frauen',
                 },
                 {
                     title: 'Erwachsene',
                     payload: 'Erwachsene',
                 },
+
                 {
-                    title: 'Frauen',
-                    payload: 'Frauen',
+                    title: 'Erwachsene deutscher Muttersprache',
+                    payload: 'Erwachsene deutscher Muttersprache oder gute mündliche Deutschkenntnisse',
                 },
                 {
-                    title: 'Frauen mit Kinder',
-                    payload: 'Frauen mit Kinder',
+                    title: 'Niveau A1 abgschlossen',
+                    payload: 'Abgeschlossene Niveau A1 oder im Einstufungstest Niveau A2 erreicht',
                 },
+                {
+                    title: 'Niveau A2 abgschlossen',
+                    payload: 'Erwachsene mit abgeschlossene Niveaustufe A2 oder im Einstufungstest Niveaustufe B1 erreicht',
+                },
+                {
+                    title: 'Niveau B1 abgschlossen',
+                    payload: 'Erwachsene mit abgeschlossene Niveaustufe B1 oder im Einstufungstest Niveaustufe B2 erreicht',
+                },
+                {
+                    title: 'Niveau B2 abgschlossen',
+                    payload: 'Erwachsene im Einstufungstest Niveaustufe B2 erreicht',
+                },
+                {
+                    title: 'Niveau C1 abgschlossen',
+                    payload: 'Erwachsene mit abgeschlossene Niveaustufe C1 oder im Einstufungstest Niveaustufe C2 erreicht',
+                },
+
             ]
         }, [
             {
