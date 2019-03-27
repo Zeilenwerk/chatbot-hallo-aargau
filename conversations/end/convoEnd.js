@@ -28,9 +28,9 @@ module.exports = {
                             convo.gotoThread("helpMenu");
                             break;
                         case "Nein":
-                            convo.addMessage("Auf wiedersehen");
                             bot.findConversation(message, function (convo) {
                                 if (convo) {
+                                    bot.reply(message, "Auf wiedersehen");
                                     // stop the conversation and swallow this message
                                     convo.stop('quit');
                                 } else {
