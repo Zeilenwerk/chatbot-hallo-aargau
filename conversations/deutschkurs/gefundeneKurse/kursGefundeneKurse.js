@@ -115,7 +115,7 @@ module.exports = {
             + "                                                         FROM kurs_adressatengruppe"
             + "                                                         WHERE id_kurs = deutschkurs.id)"
             //Necessary Information
-            + " AND (durchfuehrungszeiten.gesamtkursstart IS NULL OR durchfuehrungszeiten.gesamtkursstart <= now())"
+            + " WHERE (durchfuehrungszeiten.gesamtkursstart IS NULL OR durchfuehrungszeiten.gesamtkursstart <= now())"
             + kursTag
             + kursZeit_start
             + kursZeit_ende
@@ -377,7 +377,7 @@ module.exports = {
 
 
                 if (res.rows.length > 0) {
-                    convo.gotoThread("getFeedback");
+                    convo.gotoThread("askFeedback");
                 }
 
             });

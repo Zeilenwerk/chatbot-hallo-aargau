@@ -36,7 +36,7 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    let aEntity = luisHelper. getEntityFromLuisResponse("kursAnbieter", res);
+                    let aEntity = luisHelper.getEntityFromLuisResponse("kursAnbieter", res);
 
                     if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
                         // array empty or does not exist

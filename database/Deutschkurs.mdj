@@ -1501,7 +1501,7 @@
 									"font": "Arial;13;1",
 									"left": 728,
 									"top": 1013,
-									"width": 225.72998046875,
+									"width": 239.46630859375,
 									"height": 13,
 									"text": "kosten"
 								},
@@ -1527,7 +1527,7 @@
 											"font": "Arial;13;0",
 											"left": 733,
 											"top": 1036,
-											"width": 215.72998046875,
+											"width": 229.46630859375,
 											"height": 13
 										},
 										{
@@ -1542,7 +1542,7 @@
 											"font": "Arial;13;0",
 											"left": 733,
 											"top": 1051,
-											"width": 215.72998046875,
+											"width": 229.46630859375,
 											"height": 13
 										},
 										{
@@ -1557,7 +1557,7 @@
 											"font": "Arial;13;0",
 											"left": 733,
 											"top": 1066,
-											"width": 215.72998046875,
+											"width": 229.46630859375,
 											"height": 13
 										},
 										{
@@ -1572,7 +1572,7 @@
 											"font": "Arial;13;0",
 											"left": 733,
 											"top": 1081,
-											"width": 215.72998046875,
+											"width": 229.46630859375,
 											"height": 13
 										},
 										{
@@ -1587,7 +1587,7 @@
 											"font": "Arial;13;0",
 											"left": 733,
 											"top": 1096,
-											"width": 215.72998046875,
+											"width": 229.46630859375,
 											"height": 13
 										},
 										{
@@ -1602,21 +1602,21 @@
 											"font": "Arial;13;0",
 											"left": 733,
 											"top": 1111,
-											"width": 215.72998046875,
+											"width": 229.46630859375,
 											"height": 13
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 728,
 									"top": 1031,
-									"width": 225.72998046875,
+									"width": 239.46630859375,
 									"height": 98
 								}
 							],
 							"font": "Arial;13;0",
 							"left": 728,
 							"top": 1008,
-							"width": 225.72998046875,
+							"width": 239.46630859375,
 							"height": 136,
 							"nameLabel": {
 								"$ref": "AAAAAAFpfW6tAMGi4nw="
@@ -3764,7 +3764,6 @@
 							},
 							"name": "gesamtkurs",
 							"type": "NUMERIC",
-							"length": "2",
 							"nullable": true
 						},
 						{
@@ -3775,7 +3774,6 @@
 							},
 							"name": "einzelkurs",
 							"type": "NUMERIC",
-							"length": "2",
 							"nullable": true
 						},
 						{
@@ -3786,7 +3784,6 @@
 							},
 							"name": "einstufungstest",
 							"type": "NUMERIC",
-							"length": "2",
 							"nullable": true
 						},
 						{
@@ -3797,7 +3794,6 @@
 							},
 							"name": "subventioniert",
 							"type": "NUMERIC",
-							"length": "2",
 							"nullable": true
 						}
 					]

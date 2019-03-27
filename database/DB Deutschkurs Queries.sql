@@ -64,8 +64,8 @@ JOIN tage ON tage.id in (SELECT id_tag
 JOIN adressatengruppe ON adressatengruppe.id in (SELECT id_adressatengruppe
                             FROM kurs_adressatengruppe
                             WHERE id_kurs = deutschkurs.id)
+WHERE (durchfuehrungszeiten.gesamtkursstart IS NULL OR durchfuehrungszeiten.gesamtkursstart <= now())
 --Necessary Information
-AND (durchfuehrungszeiten.gesamtkursstart IS NULL OR durchfuehrungszeiten.gesamtkursstart <= now())
 AND LOWER(tage.tag) = 'dienstag'
 AND durchfuehrungszeiten.einzelkursstart >= '07:00:00'
 AND LOWER(niveau.niveau) = 'keine_wenig_kentnisse'

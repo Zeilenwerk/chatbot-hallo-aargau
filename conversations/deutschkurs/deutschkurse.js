@@ -1,45 +1,34 @@
-module.exports = function (controller) {
+module.exports = {
 
-    //Get LUIS middleware
-    var luis = require('../node_modules/botkit-middleware-luis/src/luis-middleware');
+    // //Get LUIS middleware
+    // var luis = require('../node_modules/botkit-middleware-luis/src/luis-middleware');
+    //
+    // controller.hears(["Deutschkurs Suchen", "Help", "Aufenthaltsstatus"], 'message_received', luis.middleware.hereIntent, function (bot, message) {
+    //
+    //     bot.startConversation(message, function (err, convo) {
+    //
+    //         //Log Message and top intent
+    //         console.log("Recieved Message:");
+    //         console.log(message);
+    //         console.log("Top Intent: " + message.topIntent.intent);
+    //         console.log("Score: " + message.topIntent.score);
+    //
+    //
+    //         if (message.topIntent.intent === "Deutschkurs Suchen") {
+    //
+    //             deutschkursSuchen(convo, message, bot);
+    //
+    //         } else {
+    //
+    //             bot.reply(message, "Leider noch nicht implementiert");
+    //
+    //         }
+    //
+    //     });
+    //
+    // });
 
-    controller.hears(["Deutschkurs Suchen"], 'message_received', luis.middleware.hereIntent, function (bot, message) {
-
-        bot.startConversation(message, function (err, convo) {
-
-            //Log Message and top intent
-            console.log("Recieved Message:");
-            console.log(message);
-            console.log("Top Intent: " + message.topIntent.intent);
-            console.log("Score: " + message.topIntent.score);
-
-
-            if (message.topIntent.intent === "Deutschkurs Suchen") {
-
-                deutschkursSuchen(convo, message, bot);
-                // require("../util/pgHelper").displayGefundeneKurse(function (m) {
-                //     bot.reply(message, m);
-                // }, convo);
-
-            } else {
-
-                bot.reply(message, "Leider noch nicht implementiert");
-
-            }
-
-    });
-
-    });
-
-    function deutschkursSuchen(convo, message, bot) {
-
-        //Set Timeout in milliseconds
-        // 1 min = 60000
-        // 2 min = 120000
-        // 3 min = 180000
-        // 4 min = 240000
-        // 5 min = 300000
-        convo.setTimeout(120000);
+    deutschkursSuchen : function(convo, message, bot) {
 
         convo.addMessage("Super, gerne helfe ich Ihnen ein Deutschkurs zu suchen. Dafür benötige ich noch folgende Angaben: Ort, Tag, Uhrzeit und Kursniveau.");
 
@@ -47,22 +36,22 @@ module.exports = function (controller) {
         // Helpers
         //********************************
         // Import Helper Class to get Entites from LUIS Response
-        const luisHelper = require("../util/luisHelper");
+        const luisHelper = require("../../util/luisHelper");
 
         //********************************
         // Required Threads
         //********************************
-        const kursOrt = require("../conversations/deutschkurs/notwendigeInformationen/kursOrt");
-        const kursTag = require("../conversations/deutschkurs/notwendigeInformationen/kursTag");
-        const kursZeit = require("../conversations/deutschkurs/notwendigeInformationen/kursZeit");
-        const kursNiveau = require("../conversations/deutschkurs/notwendigeInformationen/kursNiveau");
+        const kursOrt = require("./notwendigeInformationen/kursOrt");
+        const kursTag = require("./notwendigeInformationen/kursTag");
+        const kursZeit = require("./notwendigeInformationen/kursZeit");
+        const kursNiveau = require("./notwendigeInformationen/kursNiveau");
 
-        const kursAdressatengruppe = require("../conversations/deutschkurs/zusaetzlicheInformationen/kursAdressatengruppe");
-        const kursAnbieter = require("../conversations/deutschkurs/zusaetzlicheInformationen/kursAnbieter");
-        const kursIntensitaet = require("../conversations/deutschkurs/zusaetzlicheInformationen/kursIntensitaet");
-        const kursKosten = require("../conversations/deutschkurs/zusaetzlicheInformationen/kursKosten");
+        const kursAdressatengruppe = require("./zusaetzlicheInformationen/kursAdressatengruppe");
+        const kursAnbieter = require("./zusaetzlicheInformationen/kursAnbieter");
+        const kursIntensitaet = require("./zusaetzlicheInformationen/kursIntensitaet");
+        const kursKosten = require("./zusaetzlicheInformationen/kursKosten");
 
-        const kursGefundeneKurse = require("../conversations/deutschkurs/gefundeneKurse/kursGefundeneKurse");
+        const kursGefundeneKurse = require("./gefundeneKurse/kursGefundeneKurse");
 
         //********************************
         // Initialize Conversation
@@ -90,10 +79,10 @@ module.exports = function (controller) {
                 console.log("Initialize var " + aVars[x] + " with value to 'None'");
                 convo.setVar(aVars[x], "None");
             } else {
-                if(aEntity[1]){
+                if (aEntity[1]) {
                     convo.setVar(aVars[x], aEntity[1]);
                     console.log(aVars[x] + " = " + aEntity[1]);
-                }else{
+                } else {
                     convo.setVar(aVars[x], aEntity[0]);
                     console.log(aVars[x] + " = " + aEntity[0]);
                 }
@@ -123,24 +112,24 @@ module.exports = function (controller) {
             ]
         }, [
             {
-                pattern: 'Ja',
-                callback: function (res, convo) {
-                    convo.gotoThread("zusatzInfo");
-                    convo.next();
-                }
-            },
-            {
-                pattern: 'Nein',
-                callback: function (res, convo) {
-                    convo.gotoThread("correctNeccessaryInfromation");
-                    convo.next();
-                }
-            },
-            {
                 default: true,
                 callback: function (res, convo) {
-                    convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
-                    convo.repeat();
+
+                    switch (res.text) {
+
+                        case "Ja":
+                            convo.gotoThread("zusatzInfo");
+                            convo.next();
+                            break;
+                        case "Nein":
+                            convo.gotoThread("correctNeccessaryInfromation");
+                            convo.next();
+                            break;
+                        default:
+                            convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
+                            convo.repeat();
+                            break;
+                    }
                 }
             }
         ], {}, "kursNotwendigeInfosMenu");
@@ -200,7 +189,6 @@ module.exports = function (controller) {
                 }
             }
         ], {}, "correctNeccessaryInfromation");
-
 
 
         convo.addQuestion({
@@ -284,7 +272,6 @@ module.exports = function (controller) {
                             kursGefundeneKurse.displayKursInfromationen(function (m) {
                                 bot.reply(message, m);
                             }, convo, convo.vars.maxKurse, convo.vars.offsetKurse);
-                            // convo.addMessage("Leider noch nicht implementiert");
                             break;
                         case "Weitere Kurse anzeigen":
 
