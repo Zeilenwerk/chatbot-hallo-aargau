@@ -104,8 +104,6 @@ module.exports = function (controller) {
         //A conversation has ended. handler should be in the form of function(bot, convo)
         console.log('A conversation ended with ', convo.context.user);
         console.log('\t-> Text: ', convo.context.text);
-        // console.log('\t-> Top Intent: ', convo.context.message.topIntent.intent);
-        // console.log('\t-> Intent Score: ', convo.context.message.topIntent.score);
     });
 
     controller.on('heard-trigger', function (bot, triggers, message) {

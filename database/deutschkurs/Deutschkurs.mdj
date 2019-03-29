@@ -1,7 +1,7 @@
 {
 	"_type": "Project",
 	"_id": "AAAAAAFF+h6SjaM2Hec=",
-	"name": "Untitled",
+	"name": "Deutschkurs",
 	"ownedElements": [
 		{
 			"_type": "ERDDataModel",
@@ -545,7 +545,7 @@
 									"top": 989,
 									"width": 239.98046875,
 									"height": 13,
-									"text": "kontaktperson"
+									"text": "Kontaktperson"
 								},
 								{
 									"_type": "ERDColumnCompartmentView",
@@ -4038,7 +4038,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFLzntJC6EktCk="
 					},
-					"name": "kontaktperson",
+					"name": "Kontaktperson",
 					"ownedElements": [
 						{
 							"_type": "ERDRelationship",
@@ -5238,5 +5238,6 @@
 			"kind": "string",
 			"value": "untitled"
 		}
-	]
+	],
+	"version": "0.4"
 }
