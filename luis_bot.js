@@ -44,34 +44,33 @@
 
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-var env = require('node-env-file');
-env(__dirname + '/.env');
+var env = require("node-env-file")
+env(__dirname + "/.env")
 
+var Botkit = require("botkit")
+var debug = require("debug")("botkit:main")
 
-var Botkit = require('botkit');
-var debug = require('debug')('botkit:main');
-
-var botkitStoragePostgres = require('./node_modules/botkit-storage-postgres');
+var botkitStoragePostgres = require("./node_modules/botkit-storage-postgres")
 
 var bot_options = {
-    replyWithTyping: false,
-    storage: botkitStoragePostgres({
-        host: process.env.BOTKIT_STORAGE_POSTGRES_HOST,
-        port: process.env.BOTKIT_STORAGE_POSTGRES_PORT,
-        user: process.env.BOTKIT_STORAGE_POSTGRES_USER,
-        password: process.env.BOTKIT_STORAGE_POSTGRES_PASSWORD,
-        database: process.env.BOTKIT_STORAGE_POSTGRES_DATABASE
-    })
-};
-
-var luis = require('./node_modules/botkit-middleware-luis/src/luis-middleware');
-
-if (!process.env.serviceUri) {
-    console.log('Error: Specify Luis service uri');
-    process.exit(1);
+  replyWithTyping: false,
+  storage: botkitStoragePostgres({
+    host: process.env.BOTKIT_STORAGE_POSTGRES_HOST,
+    port: process.env.BOTKIT_STORAGE_POSTGRES_PORT,
+    user: process.env.BOTKIT_STORAGE_POSTGRES_USER,
+    password: process.env.BOTKIT_STORAGE_POSTGRES_PASSWORD,
+    database: process.env.BOTKIT_STORAGE_POSTGRES_DATABASE
+  })
 }
 
-var luisOptions = {serviceUri: process.env.serviceUri};
+var luis = require("./node_modules/botkit-middleware-luis/src/luis-middleware")
+
+if (!process.env.SERVICEURI) {
+  console.log("Error: Specify Luis service uri")
+  process.exit(1)
+}
+
+var luisOptions = {serviceUri: process.env.SERVICEURI}
 
 // // Use a mongo database if specified, otherwise store in a JSON file local to the app.
 // // Mongo is automatically configured when deploying to Heroku
@@ -84,22 +83,28 @@ var luisOptions = {serviceUri: process.env.serviceUri};
 // }
 
 // Create the Botkit controller, which controls all instances of the bot.
-var controller = Botkit.socketbot(bot_options);
+var controller = Botkit.socketbot(bot_options)
 
 // Set up an Express-powered webserver to expose oauth and webhook endpoints
-var webserver = require(__dirname + '/components/express_webserver.js')(controller);
+var webserver = require(__dirname + "/components/express_webserver.js")(
+  controller
+)
 
 // Open the web socket server
-controller.openSocketServer(controller.httpserver);
+controller.openSocketServer(controller.httpserver)
 
-controller.middleware.receive.use(luis.middleware.receive(luisOptions));
+controller.middleware.receive.use(luis.middleware.receive(luisOptions))
 
 // Start the bot brain in motion!!
-controller.startTicking();
+controller.startTicking()
 
-var normalizedPath = require("path").join(__dirname, "skills");
-require("fs").readdirSync(normalizedPath).forEach(function(file) {
-    require("./skills/" + file)(controller);
-});
+var normalizedPath = require("path").join(__dirname, "skills")
+require("fs")
+  .readdirSync(normalizedPath)
+  .forEach(function(file) {
+    require("./skills/" + file)(controller)
+  })
 
-console.log('I AM ONLINE! COME TALK TO ME: http://localhost:' + (process.env.PORT || 3000));
+console.log(
+  "I AM ONLINE! COME TALK TO ME: http://localhost:" + (process.env.PORT || 3000)
+)
