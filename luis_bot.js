@@ -45,7 +45,11 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 var env = require("node-env-file")
-env(__dirname + "/.env")
+if (process.env.NODE_ENV === "production") {
+  env(__dirname + "/.env_production")
+} else {
+  env(__dirname + "/.env")
+}
 
 var Botkit = require("botkit")
 var debug = require("debug")("botkit:main")
@@ -98,12 +102,13 @@ controller.middleware.receive.use(luis.middleware.receive(luisOptions))
 // Start the bot brain in motion!!
 controller.startTicking()
 
+var fs = require("fs")
 var normalizedPath = require("path").join(__dirname, "skills")
-require("fs")
-  .readdirSync(normalizedPath)
-  .forEach(function(file) {
+fs.readdirSync(normalizedPath).forEach(function(file) {
+  if (!fs.lstatSync("./skills/" + file).isDirectory()) {
     require("./skills/" + file)(controller)
-  })
+  }
+})
 
 console.log(
   "I AM ONLINE! COME TALK TO ME: http://localhost:" + (process.env.PORT || 3000)
