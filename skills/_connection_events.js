@@ -52,6 +52,8 @@ module.exports = function (controller) {
                 deutschkurs.deutschkursSuchen(convo, message, bot);
             } else if (message.topIntent.intent === "Help") {
                 convo.gotoThread("help");
+            } else if (message.topIntent.intent === "Hallo") {
+                convo.gotoThread("helpMenu");
             } else {
                 bot.reply(message, "Leider noch nicht implementiert");
                 convo.gotoThread("convoEnd");
