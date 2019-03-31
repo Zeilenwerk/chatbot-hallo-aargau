@@ -13,6 +13,8 @@ module.exports = {
     convoKursIntensitaet: function (convo, luisHelper, nextThread = "None") {
 
         const { t } = require('../../../node_modules/localizify');
+        const logHelper = require("../../../util/logHelper");
+
 
         console.log("Start askKursIntensitaet");
 
@@ -41,7 +43,7 @@ module.exports = {
                         convo.repeat();
                     } else {
                         convo.setVar("kursIntensitaet", aEntity[0]);
-                        console.log("kursIntensitaet = " + convo.vars.kursIntensitaet);
+                        logHelper.debug("kursIntensitaet = " + convo.vars.kursIntensitaet);
                     }
 
                     if (nextThread !== "None") {

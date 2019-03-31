@@ -11,6 +11,8 @@ module.exports = {
 
     addNewFeedback: function (userId, date, rating, message = "") {
 
+        const logHelper = require("./logHelper");
+
         const timeUtil = require("./timeUtil");
 
         const pgHelper = require("./pgHelper");
@@ -23,7 +25,7 @@ module.exports = {
                             " FROM Benutzer b " +
                             " WHERE b.Benutzer = '" + userId + "'";
 
-        console.log("DB Query: " + pgQuery);
+        logHelper.info("DB Query: " + pgQuery);
 
         pgClient.query(pgQuery,
             (err, res) => {
@@ -31,8 +33,8 @@ module.exports = {
 
                 pgClient.end();
 
-                console.log("DB Response:");
-                console.log(res);
+                logHelper.info("DB Response:");
+                logHelper.info(JSON.stringify(res));
 
             });
 

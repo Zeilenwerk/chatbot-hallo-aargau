@@ -17,7 +17,7 @@
     "kursNotwendigeInfosMenu_Message": "Sie Suchen somit für den {kursTag} um {kursZeit} Uhr ein Niveau {kursNiveau} Deutschkurs in {kursOrt}.",
     "kursNotwendigeInfosMenu_Question": "Stimmen diese Angaben für Sie?",
     "kursNotwendigeInfosMenu_Question_Qr_Nein": "Nein, ich möchte etwas ändern",
-    "correctNeccessaryInfromation_Question": "",
+    "correctNeccessaryInfromation_Question": "Welche Angabe möchten sie abändern?",
     "kurs_Ort": "Kurs Ort",
     "kurs_Tag": "Kurs Tag",
     "kurs_Zeit": "Kurs Zeit",
@@ -161,7 +161,7 @@
     "help_wie_kann_ich_helfen": "Ich helfe Ihnen bei der Suche nach einem Deutschkurs oder bei Fragen zum Aufenthaltsstatus."
   },
   "feedback": {
-    "askFeedback": "",
+    "askFeedback": "Waren sie mit dem Bot zufrieden?",
     "askFeedback_Qr_1": "★★★★★",
     "askFeedback_Qr_1_Payload": "Sehr zufrieden",
     "askFeedback_Qr_2": "★★★★",
@@ -184,6 +184,7 @@
     "convoEnd_Question_Qr_Ja_Payload": "Ja",
     "convoEnd_Question_Qr_Nein": "Nein, das wäre alles",
     "convoEnd_Question_Qr_Nein_Payload": "Nein",
-    "auf_wiedersehen": "Auf wiedersehen"
+    "auf_wiedersehen": "Auf wiedersehen",
+    "convoQuit_Message": "Auf wiedersehen. Bei weiteren Anliegen können sie gerne 'Hallo' in das Chat Fenster schreiben."
   }
 }

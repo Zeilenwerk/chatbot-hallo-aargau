@@ -9,8 +9,10 @@ module.exports = {
     askKursOrt: function (convo, luisHelper, nextThread = "None") {
 
         const { t } = require('../../../node_modules/localizify');
+        const logHelper = require("../../../util/logHelper");
 
-        console.log("Start askKursOrt");
+
+        logHelper.debug("Start askKursOrt");
 
         // set up a menu thread which other threads can point at.
         convo.ask({
@@ -30,8 +32,6 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    console.log("kursOrt Callback");
-
                     let aEntity = luisHelper.getEntityFromLuisResponse("kursOrt", res);
 
                     if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
@@ -39,10 +39,10 @@ module.exports = {
                         convo.repeat();
                     } else {
                         convo.setVar("kursBezirk", aEntity[0]);
-                        console.log("kursBezirk = " + convo.vars.kursBezirk);
+                        logHelper.debug("kursBezirk = " + convo.vars.kursBezirk);
 
                         convo.setVar("kursOrt", aEntity[1]);
-                        console.log("kursOrt = " + convo.vars.kursOrt);
+                        logHelper.debug("kursOrt = " + convo.vars.kursOrt);
                     }
 
                     if (nextThread !== "None") {
@@ -59,8 +59,10 @@ module.exports = {
     convoKursOrt: function (convo, luisHelper, nextThread = "None") {
 
         const { t } = require('../../../node_modules/localizify');
+        const logHelper = require("../../../util/logHelper");
 
-        console.log("Start askKursOrt");
+
+        logHelper.debug("Start askKursOrt");
 
         // set up a menu thread which other threads can point at.
         convo.addQuestion({
@@ -80,8 +82,6 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    console.log("kursOrt Callback");
-
                     let aEntity = luisHelper.getEntityFromLuisResponse("kursOrt", res);
 
                     if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
@@ -90,10 +90,10 @@ module.exports = {
                         convo.repeat();
                     } else {
                         convo.setVar("kursOrt", aEntity[0]);
-                        console.log("kursOrt = " + convo.vars.kursOrt);
+                        logHelper.debug("kursOrt = " + convo.vars.kursOrt);
 
                         convo.setVar("kursBezirk", aEntity[1]);
-                        console.log("kursBezirk = " + convo.vars.kursBezirk);
+                        logHelper.debug("kursBezirk = " + convo.vars.kursBezirk);
                     }
 
                     if (nextThread !== "None") {

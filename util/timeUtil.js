@@ -2,6 +2,8 @@ module.exports = {
 
     timeConverter: function (UNIX_timestamp) {
 
+        const logHelper = require("./logHelper");
+
         let unixDate = new Date(UNIX_timestamp);
 
         let date = unixDate.toLocaleDateString("de-DE");
@@ -11,6 +13,8 @@ module.exports = {
     },
 
     formatDate: function (dateToFormat){
+
+        const logHelper = require("./logHelper");
 
         let day = dateToFormat.getDate();
         if(day < 10){
@@ -43,7 +47,27 @@ module.exports = {
 
     },
 
+    getCurrentDate : function(){
+        const logHelper = require("./logHelper");
+
+        let currDate = new Date();
+
+        let day = currDate.getDate();
+        if(day < 10){
+            day = "0"+day;
+        }
+        let month = currDate.getMonth() + 1; //Months are zero based
+        if(month < 10){
+            month = "0"+month;
+        }
+        let year = currDate.getFullYear();
+
+        return year + "-" + month + "-" + day;
+    },
+
     getEpoch: function(date){
+
+        const logHelper = require("./logHelper");
 
         return date.getTime() / 1000;
 

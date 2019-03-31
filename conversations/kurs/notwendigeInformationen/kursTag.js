@@ -18,8 +18,10 @@ module.exports = {
     askKursTag: function (convo, luisHelper, nextThread = "None") {
 
         const { t } = require('../../../node_modules/localizify');
+        const logHelper = require("../../../util/logHelper");
 
-        console.log("Start askKursTag");
+
+        logHelper.debug("Start askKursTag");
 
         convo.ask({
             text: t('kurs.notwendigeInformationen.kursTag.askKursTag'),
@@ -58,8 +60,6 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    console.log("kursTag Callback");
-
                     let aEntity = luisHelper.getEntityFromLuisResponse("kursTag", res);
 
                     if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
@@ -68,7 +68,7 @@ module.exports = {
                         convo.repeat();
                     } else {
                         convo.setVar("kursTag", aEntity[0]);
-                        console.log("kursTag = " + convo.vars.kursTag);
+                        logHelper.debug("kursTag = " + convo.vars.kursTag);
                     }
 
                     if (nextThread !== "None") {
@@ -86,8 +86,10 @@ module.exports = {
     convoKursTag: function (convo, luisHelper, nextThread = "None") {
 
         const { t } = require('../../../node_modules/localizify');
+        const logHelper = require("../../../util/logHelper");
 
-        console.log("Start askKursTag");
+
+        logHelper.debug("Start askKursTag");
 
         convo.addQuestion({
             text: t('kurs.notwendigeInformationen.kursTag.askKursTag'),
@@ -126,8 +128,6 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    console.log("kursTag Callback");
-
                     let aEntity = luisHelper.getEntityFromLuisResponse("kursTag", res);
 
                     if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
@@ -136,7 +136,7 @@ module.exports = {
                         convo.repeat();
                     } else {
                         convo.setVar("kursTag", aEntity[0]);
-                        console.log("kursTag = " + convo.vars.kursTag);
+                        logHelper.debug("kursTag = " + convo.vars.kursTag);
                     }
 
                     if (nextThread !== "None") {

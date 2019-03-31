@@ -77,9 +77,12 @@ localizify
 var luis = require('./node_modules/botkit-middleware-luis/src/luis-middleware');
 
 if (!process.env.serviceUri) {
-    console.log('Error: Specify Luis service uri');
+    logHelper.error('Error: Specify Luis service uri');
     process.exit(1);
 }
+
+//Log Helper
+const logHelper = require("./util/logHelper");
 
 var luisOptions = {serviceUri: process.env.serviceUri};
 
@@ -102,4 +105,4 @@ require("fs").readdirSync(normalizedPath).forEach(function(file) {
     require("./skills/" + file)(controller);
 });
 
-console.log('I AM ONLINE! COME TALK TO ME: http://localhost:' + (process.env.PORT || 3000));
+logHelper.info('I AM ONLINE! COME TALK TO ME: http://localhost:' + (process.env.PORT || 3000));

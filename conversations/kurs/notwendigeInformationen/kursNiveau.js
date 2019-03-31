@@ -20,8 +20,10 @@ module.exports = {
     askKursNiveau: function (convo, luisHelper, nextThread = "None") {
 
         const { t } = require('../../../node_modules/localizify');
+        const logHelper = require("../../../util/logHelper");
 
-        console.log("Start askKursNiveau");
+
+        logHelper.debug("Start askKursNiveau");
 
         convo.ask({
             text: t('kurs.notwendigeInformationen.kursNiveau.askKursNiveau'),
@@ -64,8 +66,6 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    console.log("kursNiveau Callback");
-
                     let aEntity = luisHelper.getEntityFromLuisResponse("kursNiveau", res);
 
                     if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
@@ -74,7 +74,7 @@ module.exports = {
                         convo.repeat();
                     } else {
                         convo.setVar("kursNiveau", aEntity[0]);
-                        console.log("kursNiveau = " + convo.vars.kursNiveau);
+                        logHelper.debug("kursNiveau = " + convo.vars.kursNiveau);
                     }
 
                     if (nextThread !== "None") {
@@ -91,8 +91,10 @@ module.exports = {
     convoKursNiveau: function (convo, luisHelper, nextThread = "None") {
 
         const { t } = require('../../../node_modules/localizify');
+        const logHelper = require("../../../util/logHelper");
 
-        console.log("Start askKursNiveau");
+
+        logHelper.debug("Start askKursNiveau");
 
         convo.addQuestion({
             text: t('kurs.notwendigeInformationen.kursNiveau.askKursNiveau'),
@@ -135,8 +137,6 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    console.log("kursNiveau Callback");
-
                     let aEntity = luisHelper.getEntityFromLuisResponse("kursNiveau", res);
 
                     if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
@@ -145,7 +145,7 @@ module.exports = {
                         convo.repeat();
                     } else {
                         convo.setVar("kursNiveau", aEntity[0]);
-                        console.log("kursNiveau = " + convo.vars.kursNiveau);
+                        logHelper.debug("kursNiveau = " + convo.vars.kursNiveau);
                     }
 
                     if (nextThread !== "None") {

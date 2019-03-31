@@ -2,9 +2,10 @@ module.exports = {
 
     help: function (convo, message, bot) {
 
-        const { t } = require('../../../node_modules/localizify');
+        const { t } = require('../../node_modules/localizify');
+        const logHelper = require("../../util/logHelper");
 
-        console.log("Start help");
+        logHelper.debug("Start help");
 
         convo.addMessage({
             text: t('help.helpMenu_Message'),

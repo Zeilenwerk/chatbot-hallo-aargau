@@ -2,9 +2,10 @@ module.exports = {
 
     askFeedback: function (convo, message, bot) {
 
-        const { t } = require('../../../node_modules/localizify');
+        const { t } = require('../../node_modules/localizify');
+        const logHelper = require("../../util/logHelper");
 
-        console.log("Start askFeedback");
+        logHelper.debug("Start askFeedback");
 
         convo.addQuestion({
             text: t('feedback.askFeedback'),

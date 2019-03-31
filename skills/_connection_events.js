@@ -2,7 +2,7 @@
 
 module.exports = function (controller) {
 
-    const dbLogHelper = require("../util/logHelper");
+    const logHelper = require("../util/logHelper");
     const timeUtil = require("../util/timeUtil");
     const { t } = require('../node_modules/localizify');
 
@@ -42,18 +42,17 @@ module.exports = function (controller) {
     //*********************************
     controller.on('conversationStarted', function (bot, convo) {
         //A conversation has started. handler should be in the form of function(bot, convo)
-        console.log('A conversation started with ', convo.context.user);
+        logHelper.info('A conversation started with ' + convo.context.user);
 
         //Insert new User to  on cinversation start
-        dbLogHelper.addNewUser(convo.context.user, new Date());
+        logHelper.addNewUser(convo.context.user, new Date());
 
 
     });
 
     controller.on('conversationEnded', function (bot, convo) {
         //A conversation has ended. handler should be in the form of function(bot, convo)
-        console.log('A conversation ended with ', convo.context.user);
-        console.log('\t-> Text: ', convo.context.text);
+        logHelper.info('A conversation ended with ' + convo.context.user);
     });
 
     controller.on('heard-trigger', function (bot, triggers, message) {
@@ -70,6 +69,8 @@ module.exports = function (controller) {
     // Custom Triggers
     //*********************************
     function conductOnboarding(bot, message) {
+
+        const { t } = require('../node_modules/localizify');
 
         bot.startConversation(message, function (err, convo) {
 

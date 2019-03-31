@@ -14,8 +14,10 @@ module.exports = {
     convoKursAnbieter: function (convo, luisHelper, nextThread = "None") {
 
         const { t } = require('../../../node_modules/localizify');
+        const logHelper = require("../../../util/logHelper");
 
-        console.log("Start askKursAnbieter");
+
+        logHelper.debug("Start askKursAnbieter");
 
         convo.addQuestion({
             text: t('kurs.zusaetzlicheInformationen.kursAnbieter.convoKursAnbieter'),
@@ -46,7 +48,7 @@ module.exports = {
                         convo.repeat();
                     } else {
                         convo.setVar("kursAnbieter", aEntity[0]);
-                        console.log("kursAnbieter = " + convo.vars.kursAnbieter);
+                        logHelper.debug("kursAnbieter = " + convo.vars.kursAnbieter);
                     }
 
                     if (nextThread !== "None") {

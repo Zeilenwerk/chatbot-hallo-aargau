@@ -14,8 +14,10 @@ module.exports = {
     convoKursKosten: function (convo, luisHelper, nextThread = "None") {
 
         const { t } = require('../../../node_modules/localizify');
+        const logHelper = require("../../../util/logHelper");
 
-        console.log("Start askKursKosten");
+
+        logHelper.debug("Start askKursKosten");
 
         convo.addQuestion({
             text: t('kurs.zusaetzlicheInformationen.kursKosten.convoKursAdressatengruppe_Qr_C1'),
@@ -50,7 +52,7 @@ module.exports = {
                         convo.repeat();
                     } else {
                         convo.setVar("kursKosten", aEntity[0]);
-                        console.log("kursKosten = " + convo.vars.kursKosten);
+                        logHelper.debug("kursKosten = " + convo.vars.kursKosten);
                     }
 
                     if (nextThread !== "None") {

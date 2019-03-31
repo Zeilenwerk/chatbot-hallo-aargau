@@ -59,12 +59,12 @@ require("fs").readdirSync(normalizedPath).forEach(function(file) {
   require("./skills/" + file)(controller);
 });
 
-console.log('I AM ONLINE! COME TALK TO ME: http://localhost:' + (process.env.PORT || 3000))
+logHelper.debug('I AM ONLINE! COME TALK TO ME: http://localhost:' + (process.env.PORT || 3000))
 
 function usage_tip() {
-    console.log('~~~~~~~~~~');
-    console.log('Botkit Starter Kit');
-    console.log('Execute your bot application like this:');
-    console.log('PORT=3000 node bot.js');
-    console.log('~~~~~~~~~~');
+    logHelper.debug('~~~~~~~~~~');
+    logHelper.debug('Botkit Starter Kit');
+    logHelper.debug('Execute your bot application like this:');
+    logHelper.debug('PORT=3000 node bot.js');
+    logHelper.debug('~~~~~~~~~~');
 }

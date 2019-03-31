@@ -2,13 +2,11 @@ module.exports = function (controller) {
 
     const dbLogHelper = require("../util/logHelper");
     const timeUtil = require("../util/timeUtil");
+    const logHelper = require("../util/logHelper");
 
     function logMessage(message, messageType, date) {
 
         if (message.type === 'message' || message.type === 'message_received') {
-
-            console.log("message");
-            console.log(message);
 
             let log_user = message.user;
             let log_message = message.text;

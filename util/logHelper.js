@@ -11,7 +11,7 @@ module.exports = {
 
     addNewUser: function (userId, date) {
 
-        console.log("Add new user to DB: " + userId + " at " + date);
+        this.debug("Add new user to DB: " + userId + " at " + date);
 
         const timeUtil = require("./timeUtil");
         const pgHelper = require("./pgHelper");
@@ -21,10 +21,10 @@ module.exports = {
         //If user exists do nothing, else insert User to DB
         let pgQuery = "INSERT INTO public.Benutzer(" +
             " Benutzer, Datum_Hinzugefuegt)" +
-            " VALUES ('"+ userId +"', to_timestamp(" + timeUtil.getEpoch(date) + "))" +
+            " VALUES ('" + userId + "', to_timestamp(" + timeUtil.getEpoch(date) + "))" +
             " ON CONFLICT (Benutzer) DO NOTHING";
 
-        console.log("DB Query: " + pgQuery);
+        this.info("DB Query: " + pgQuery);
 
         pgClient.query(pgQuery,
             (err, res) => {
@@ -32,8 +32,8 @@ module.exports = {
 
                 pgClient.end();
 
-                console.log("DB Response:");
-                console.log(res);
+                this.info("DB Response:");
+                this.info(JSON.stringify(res));
 
             });
 
@@ -42,37 +42,69 @@ module.exports = {
 
     },
 
-
-    storeMessage: function (userId, messageType, date, message) {
-
-        console.log("Store Message");
+    debug: function(entry){
 
         const timeUtil = require("./timeUtil");
-        const pgHelper = require("./pgHelper");
-        const pgClient = pgHelper.getDB();
-        pgClient.connect();
 
-        let pgQuery = "INSERT INTO public.Benutzer_Log(" +
-                            " Nachricht_Typ, Benutzer, Zeit, Nachricht)" +
-                            " SELECT n.Id, b.Id, to_timestamp(" + timeUtil.getEpoch(date) + "), '" + message + "' " +
-                            "FROM Benutzer b, Nachricht_Typ n " +
-                            "WHERE b.Benutzer = '" + userId + "'" +
-                            "AND n.code = '" + messageType + "'";
+        let logLineDetails = ((new Error().stack).split("at ")[3]).trim();
+        entry = logLineDetails + " - " + entry;
 
-        console.log("DB Query: " + pgQuery);
+        let date = new Date();
+        let logLevel = 1;
 
-        pgClient.query(pgQuery,
-            (err, res) => {
-                if (err) throw new Error(err.stack);
+        console.log(timeUtil.formatDate(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry);
 
-                pgClient.end();
+        //If debug Log is not enabled, dont log to DB
+        if (process.env.LOG_DEBUG === "true") this.storeLogEntry(logLevel, date, entry);
 
-                console.log("DB Response:");
-                console.log(res);
+    },
 
-            });
+    info: function(entry){
 
-        return null;
+        const timeUtil = require("./timeUtil");
+
+        let logLineDetails = ((new Error().stack).split("at ")[3]).trim();
+        entry = logLineDetails + " - " + entry;
+
+        let date = new Date();
+        let logLevel = 2;
+
+        console.log(timeUtil.formatDate(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry);
+
+        if (process.env.LOG_INFO === "true") this.storeLogEntry(logLevel, date, entry);
+
+    },
+
+    warn: function(entry){
+
+        const timeUtil = require("./timeUtil");
+
+        let logLineDetails = ((new Error().stack).split("at ")[3]).trim();
+        entry = logLineDetails + " - " + entry;
+
+        let date = new Date();
+        let logLevel = 3;
+
+        console.log(timeUtil.formatDate(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry);
+
+        if (process.env.LOG_WARN === "true") this.storeLogEntry(logLevel, date, entry);
+
+    },
+
+    error: function(entry){
+
+        const timeUtil = require("./timeUtil");
+
+        let logLineDetails = ((new Error().stack).split("at ")[3]).trim();
+        entry = logLineDetails + " - " + entry;
+
+        let date = new Date();
+        let logLevel = 4;
+
+        console.log(timeUtil.formatDate(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry);
+
+        if (process.env.LOG_ERROR === "true") this.storeLogEntry(logLevel, date, entry);
+
     },
 
     //Log Level
@@ -82,63 +114,131 @@ module.exports = {
     // 4 = ERROR
     storeLogEntry: function (logLevel, date, entry) {
 
-        console.log("Store Log Entry");
-
         const timeUtil = require("./timeUtil");
-        const pgHelper = require("./pgHelper");
-        const pgClient = pgHelper.getDB();
 
-        //TODO: put in config file
-        debugLogEnabled = false;
-        infoLogEnabled = true;
-        warningLogEnabled = true;
-        ErrorLogEnabled = true;
+        if (process.env.LOG_2_DB === "true"){
 
-        //If debug Log is not enabled, dont log to DB
-        if(!debugLogEnabled && logLevel === 1){
-            console.log(date + " (" + logLevel.toUpperCase() + ") - " + entry);
-            return null;
+            const pgHelper = require("./pgHelper");
+            const pgClient = pgHelper.getDB();
+
+            pgClient.connect();
+
+            let pgQuery = "INSERT INTO public.Bot_Log(" +
+                " Level, Zeit, Eintrag)" +
+                " SELECT l.Id, to_timestamp(" + timeUtil.getEpoch(date) + "), '" + pgHelper.escape_string(entry) + "' " +
+                " FROM Log_Level l " +
+                " WHERE l.code = " + logLevel;
+
+            pgClient.query(pgQuery,
+                (err, res) => {
+                    if (err) throw new Error(err.stack);
+                    pgClient.end();
+                });
         }
 
-        //If info Log is not enabled, dont log to DB
-        if(!infoLogEnabled && logLevel === 2){
-            console.log(date + " (" + logLevel.toUpperCase() + ") - " + entry);
-            return null;
+        if(process.env.LOG_2_FILE === "true"){
+
+            const fs = require('fs');
+
+            let data = timeUtil.formatDate(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry;
+            let file = "./log/log_entries/" + timeUtil.getCurrentDate() + ' log.txt';
+
+            var stream = fs.createWriteStream(file, {flags:'a'});
+            stream.write(data + "\n");
         }
-
-        //If warning Log is not enabled, dont log to DB
-        if(!warningLogEnabled && logLevel === 3){
-            console.log(date + " (" + logLevel.toUpperCase() + ") - " + entry);
-            return null;
-        }
-
-        //If error Log is not enabled, dont log to DB
-        if(!ErrorLogEnabled && logLevel === 4){
-            console.log(date + " (" + logLevel.toUpperCase() + ") - " + entry);
-            return null;
-        }
-
-        pgClient.connect();
-
-        let pgQuery = "INSERT INTO public.Bot_Log(" +
-            " Level, Zeit, Eintrag)" +
-            " SELECT l.Id, to_timestamp(" + timeUtil.getEpoch(date) + "), '" + entry + "' " +
-            " FROM Log_Level l " +
-            " WHERE l.code = " + logLevel;
-
-        console.log("DB Query: " + pgQuery);
-
-        pgClient.query(pgQuery,
-            (err, res) => {
-                if (err) throw new Error(err.stack);
-
-                pgClient.end();
-
-                console.log("DB Response:");
-                console.log(res);
-
-            });
 
         return null;
+    },
+
+    storeMessage: function (userId, messageType, date, message) {
+
+        const timeUtil = require("./timeUtil");
+
+        if (process.env.LOG_MESSAGES_2_DB === "true") {
+            {
+                const pgHelper = require("./pgHelper");
+                const pgClient = pgHelper.getDB();
+                pgClient.connect();
+
+                let pgQuery = "INSERT INTO public.Benutzer_Log(" +
+                    " Nachricht_Typ, Benutzer, Zeit, Nachricht)" +
+                    " SELECT n.Id, b.Id, to_timestamp(" + timeUtil.getEpoch(date) + "), '" + pgHelper.escape_string(message) + "' " +
+                    "FROM Benutzer b, Nachricht_Typ n " +
+                    "WHERE b.Benutzer = '" + userId + "'" +
+                    "AND n.code = '" + messageType + "'";
+
+                this.info("DB Query: " + pgQuery);
+
+                pgClient.query(pgQuery,
+                    (err, res) => {
+                        if (err) throw new Error(err.stack);
+
+                        pgClient.end();
+
+                        this.info("DB Response:");
+                        this.info(JSON.stringify(res));
+
+                    });
+            }
+
+            if (process.env.LOG_2_FILE === "true") {
+
+                const fs = require('fs');
+
+                let data = timeUtil.formatDate(date) + " (" + this.getMessagTypeString(messageType) + ")\t\t To User '" + userId + "' - " + message;
+                let file = "./log/messages/" + timeUtil.getCurrentDate() + ' log_messages.txt';
+
+                //Write to file
+                //Source: https://stackoverflow.com/questions/3459476/how-to-append-to-a-file-in-node/43370201#43370201
+                var stream = fs.createWriteStream(file, {flags: 'a'});
+                stream.write(data + "\n");
+            }
+
+
+            return null;
+        }
+    },
+
+    getLogLevelString: function(logLevel){
+
+        switch (logLevel) {
+
+            case 1:
+                return "DEBUG";
+                break;
+            case 2:
+                return "INFO";
+                break;
+            case 3:
+                return "WARN";
+                break;
+            case 4:
+                return "ERROR";
+                break;
+        }
+
+
+    },
+
+    getMessagTypeString: function(messageType){
+
+        switch (messageType) {
+
+            case 1:
+                return "USER_MESSAGE";
+                break;
+            case 2:
+                return "BOT_MESSAGE";
+                break;
+        }
+
+    },
+
+    getTrace: function(message){
+        let e = new Error();
+        let frame = e.stack.split("\n")[2];
+        let lineNumber = frame.split(":")[1];
+        let functionName = frame.split(" ")[5];
+        return functionName + "(" + lineNumber + ") - " + message;
     }
 };

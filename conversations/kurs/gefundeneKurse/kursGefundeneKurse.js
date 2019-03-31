@@ -3,6 +3,7 @@ module.exports = {
 
         const pgHelper = require("../../../util/pgHelper");
         const { t } = require('../../../node_modules/localizify');
+        const logHelper = require("../../../util/logHelper");
 
         //Notwendige Informationen
         let kursOrt = "";
@@ -132,7 +133,7 @@ module.exports = {
             + query_offset
             + query_limit;
 
-        console.log("DB Query: " + pgQuery);
+        logHelper.info("DB Query: " + pgQuery);
 
         pgClient.query(pgQuery,
             (err, res) => {
@@ -140,8 +141,8 @@ module.exports = {
 
                 pgClient.end();
 
-                console.log("DB Response:");
-                console.log(res);
+                logHelper.info("DB Response:");
+                logHelper.info(JSON.stringify(res));
 
                 if (res.rows.length > 0) {
                     addMessage(t('kurs.gefundeneKurse.kursGefundeneKurse.kurse_Gefunden'));
@@ -153,10 +154,6 @@ module.exports = {
                 for (var i = 0; i < res.rows.length; i++) {
 
                     var oRow = res.rows[i];
-
-                    console.log("Kurs #" + (i + 1) + ": ");
-                    console.log(oRow);
-
 
                     if (oRow.tage_tag != null && oRow.tage_tag !== "") {
                         addMessage(t('kurs.gefundeneKurse.kursGefundeneKurse.kurs_Datum', {kursTag: oRow.tage_tag}));

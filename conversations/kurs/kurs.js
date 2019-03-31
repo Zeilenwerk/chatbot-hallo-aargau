@@ -3,6 +3,7 @@ module.exports = {
     kursSuchen : function(convo, message, bot) {
 
         const { t } = require('../../node_modules/localizify');
+        const logHelper = require("../../util/logHelper");
 
         convo.addMessage(t('kurs.kursSuchen'));
 
@@ -51,15 +52,15 @@ module.exports = {
             let aEntity = luisHelper.getEntityFromLuisResponse(aVars[x], message);
 
             if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
-                console.log("Initialize var " + aVars[x] + " with value to 'None'");
+                logHelper.debug("Initialize var " + aVars[x] + " with value to 'None'");
                 convo.setVar(aVars[x], "None");
             } else {
                 if (aEntity[1]) {
                     convo.setVar(aVars[x], aEntity[1]);
-                    console.log(aVars[x] + " = " + aEntity[1]);
+                    logHelper.debug(aVars[x] + " = " + aEntity[1]);
                 } else {
                     convo.setVar(aVars[x], aEntity[0]);
-                    console.log(aVars[x] + " = " + aEntity[0]);
+                    logHelper.debug(aVars[x] + " = " + aEntity[0]);
                 }
             }
         }
@@ -71,7 +72,7 @@ module.exports = {
         //Conversation Threads
         //********************************
 
-        convo.addMessage(t('kurs.kursSuchen', {kursTag: "{{vars.kursTag}}", kursZeit: "{{vars.kursZeit}}", kursNiveau: "{{vars.kursNiveau}}", kursOrt: "{{vars.kursOrt}}"}), 'kursNotwendigeInfosMenu');
+        convo.addMessage(t('kurs.kursNotwendigeInfosMenu_Message', {kursTag: "{{vars.kursTag}}", kursZeit: "{{vars.kursZeit}}", kursNiveau: "{{vars.kursNiveau}}", kursOrt: "{{vars.kursOrt}}"}), 'kursNotwendigeInfosMenu');
 
         convo.addQuestion({
             text: t('kurs.kursNotwendigeInfosMenu_Question'),
@@ -110,7 +111,7 @@ module.exports = {
         ], {}, "kursNotwendigeInfosMenu");
 
         convo.addQuestion({
-            text: 'Welche Angabe möchten sie abändern?',
+            text: t('kurs.correctNeccessaryInfromation_Question'),
             quick_replies: [
                 {
                     title: t('kurs.kurs_Ort'),
@@ -269,17 +270,17 @@ module.exports = {
         //********************************
         //Check Notwendige Informationen
         //********************************
-        console.log("Check Notwendige Informationen");
+        logHelper.debug("Check Notwendige Informationen");
 
         if (convo.vars.kursOrt !== "None" && convo.vars.kursTag !== "None" && convo.vars.kursZeit !== "None" && convo.vars.kursNiveau !== "None") {
-            console.log("Alle Notwendigen Infos vorhanden");
-            console.log("gotoThread kursNotwendigeInfosMenu");
+            logHelper.debug("Alle Notwendigen Infos vorhanden");
+            logHelper.debug("gotoThread kursNotwendigeInfosMenu");
             convo.gotoThread("kursNotwendigeInfosMenu");
         } else {
 
             //Informationen vom benutzer beantragen, damit ein Deutschkurs gesucht werden kann
             if (convo.vars.kursOrt === "None") {
-                console.log("askKursOrt");
+                logHelper.debug("askKursOrt");
                 kursOrt.askKursOrt(convo, luisHelper);
             } else {
                 if (convo.vars.kursBezirk !== "None") {
@@ -290,21 +291,21 @@ module.exports = {
             }
 
             if (convo.vars.kursTag === "None") {
-                console.log("askKursTag");
+                logHelper.debug("askKursTag");
                 kursTag.askKursTag(convo, luisHelper);
             } else {
                 convo.say(t('kurs.check_Notwendige_Informationen_Tag', {kursTag: "{{vars.kursTag}}"}))
             }
 
             if (convo.vars.kursZeit === "None") {
-                console.log("askKursZeit");
+                logHelper.debug("askKursZeit");
                 kursZeit.askKursZeit(convo, luisHelper);
             } else {
                 convo.say(t('kurs.check_Notwendige_Informationen_Zeit', {kursZeit: "{{vars.kursZeit}}"}))
             }
 
             if (convo.vars.kursNiveau === "None") {
-                console.log("askKursNiveau");
+                logHelper.debug("askKursNiveau");
                 kursNiveau.askKursNiveau(convo, luisHelper, "kursNotwendigeInfosMenu");
             } else {
                 convo.say(t('kurs.check_Notwendige_Informationen_Niveau', {kursNiveau: "{{vars.kursNiveau}}"}));

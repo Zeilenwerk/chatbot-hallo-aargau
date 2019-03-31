@@ -2,6 +2,7 @@ module.exports = {
     displayKursInfromationen: function (addMessage, convo, maxKurse = 1, offsetKurse = 0) {
         const pgHelper = require("../../../util/pgHelper");
         const { t } = require('../../../node_modules/localizify');
+        const logHelper = require("../../../util/logHelper");
 
         //Notwendige Informationen
         let kursOrt = "";
@@ -131,7 +132,7 @@ module.exports = {
             + query_offset
             + query_limit;
 
-        console.log("DB Query: " + pgQuery);
+        logHelper.info("DB Query: " + pgQuery);
 
         pgClient.query(pgQuery,
             (err, res) => {
@@ -139,8 +140,8 @@ module.exports = {
 
                 pgClient.end();
 
-                console.log("DB Response:");
-                console.log(res);
+                logHelper.info("DB Response:");
+                logHelper.info(JSON.stringify(res));
 
                 if (res.rows.length > 0) {
                     addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kurs_Informationen_Gefunden'));
@@ -150,9 +151,6 @@ module.exports = {
                 }
 
                 var oRow = res.rows[0];
-
-                console.log("Kurs: ");
-                console.log(oRow);
 
                 if(oRow){
 

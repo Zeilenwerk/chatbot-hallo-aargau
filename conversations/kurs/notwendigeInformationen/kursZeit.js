@@ -12,8 +12,9 @@ module.exports = {
     askKursZeit: function (convo, luisHelper, nextThread = "None") {
 
         const { t } = require('../../../node_modules/localizify');
+        const logHelper = require("../../../util/logHelper");
 
-        console.log("Start askKursZeit");
+        logHelper.debug("Start askKursZeit");
 
         convo.ask({
             text: t('kurs.notwendigeInformationen.kursZeit.askKursZeit', {kursTag : "{{vars.kursTag}}"}),
@@ -44,8 +45,6 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    console.log("kursZeit Callback");
-
                     let aEntity = luisHelper.getEntityFromLuisResponse("kursZeit", res);
 
                     if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
@@ -55,7 +54,7 @@ module.exports = {
                     } else {
                         //Get entity for zeit, not resolution (regex pattern)
                         convo.setVar("kursZeit", aEntity[1]);
-                        console.log("KursZeit = " + convo.vars.kursZeit);
+                        logHelper.debug("KursZeit = " + convo.vars.kursZeit);
                     }
 
                     if (nextThread !== "None") {
@@ -72,8 +71,10 @@ module.exports = {
     convoKursZeit: function (convo, luisHelper, nextThread = "None") {
 
         const { t } = require('../../../node_modules/localizify');
+        const logHelper = require("../../../util/logHelper");
 
-        console.log("Start askKursZeit");
+
+        logHelper.debug("Start askKursZeit");
 
         convo.addQuestion({
             text: t('kurs.notwendigeInformationen.kursZeit.askKursZeit', {kursTag : "{{vars.kursTag}}"}),
@@ -104,8 +105,6 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    console.log("kursZeit Callback");
-
                     let aEntity = luisHelper.getEntityFromLuisResponse("kursZeit", res);
 
                     if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
@@ -114,7 +113,7 @@ module.exports = {
                         convo.repeat();
                     } else {
                         convo.setVar("kursZeit", aEntity[0]);
-                        console.log("KursZeit = " + convo.vars.kursZeit);
+                        logHelper.debug("KursZeit = " + convo.vars.kursZeit);
                     }
 
                     if (nextThread !== "None") {

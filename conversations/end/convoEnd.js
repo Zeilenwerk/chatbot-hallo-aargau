@@ -2,12 +2,13 @@ module.exports = {
 
     convoEnd: function (convo, message, bot) {
 
-        const { t } = require('../../../node_modules/localizify');
+        const { t } = require('../../node_modules/localizify');
+        const logHelper = require("../../util/logHelper");
 
-        console.log("Start convoEnd");
+        logHelper.debug("Start convoEnd");
 
         convo.addQuestion({
-            text: t('end.askend_Qr_5_Payload'),
+            text: t('end.convoEnd_Question'),
             quick_replies : [
                 {
                     title: t('end.convoEnd_Question_Qr_Ja'),
@@ -49,6 +50,26 @@ module.exports = {
                 }
             }
         ], {}, "convoEnd");
+
+    },
+
+    convoQuit: function (convo, message, bot) {
+
+        const { t } = require('../../node_modules/localizify');
+        const logHelper = require("../../util/logHelper");
+
+        logHelper.debug("Start convoQuit");
+
+        bot.findConversation(message, function (convo) {
+            if (convo) {
+                bot.reply(message, t('end.convoQuit_Message'));
+                // stop the conversation and swallow this message
+                convo.stop('quit');
+            } else {
+                // nothing ongoing, this message passes through
+                next();
+            }
+        });
 
     }
 
