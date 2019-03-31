@@ -1,6 +1,7 @@
 module.exports = {
     displayKursInfromationen: function (addMessage, convo, maxKurse = 1, offsetKurse = 0) {
         const pgHelper = require("../../../util/pgHelper");
+        const { t } = require('../../../node_modules/localizify');
 
         //Notwendige Informationen
         let kursOrt = "";
@@ -142,9 +143,9 @@ module.exports = {
                 console.log(res);
 
                 if (res.rows.length > 0) {
-                    addMessage("Ich habe folgende Informationen zu dem Kurs");
+                    addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kurs_Informationen_Gefunden'));
                 } else {
-                    addMessage("Leider habe ich für dieses Suchkriterium keine Kurse gefunden");
+                    addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kurs_Informationen_nicht_Gefunden'));
                     convo.gotoThread("kursNotwendigeInfosMenu");
                 }
 
@@ -156,42 +157,40 @@ module.exports = {
                 if(oRow){
 
                     if(oRow.deutschkurs_kursbeschreibung != null && oRow.deutschkurs_kursbeschreibung !== ""){
-                        addMessage("Kurs Beschreibung: " + oRow.deutschkurs_kursbeschreibung);
+                        addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kursBeschreibung', {kursBeschreibung: oRow.deutschkurs_kursbeschreibung}));
                     }
                     if(oRow.deutschkurs_kurszweck != null && oRow.deutschkurs_kurszweck !== ""){
-                        addMessage("Kurs Zweck: " + oRow.deutschkurs_kurszweck);
+                        addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kursZweck', {kursZweck: oRow.deutschkurs_kurszweck}));
                     }
 
-                    if(oRow.durchfuehrungszeiten_gesamtkursstart != null  && oRow.durchfuehrungszeiten_gesamtkursstart !== "" && oRow.durchfuehrungszeiten_gesamtkursende != null && oRow.durchfuehrungszeiten_gesamtkursende !== "" ){
-                        addMessage("Der Kurs wird vom " + oRow.durchfuehrungszeiten_gesamtkursstart + " bis zum " + oRow.durchfuehrungszeiten_gesamtkursende +
-                            " (" + oRow.tage_tag + "s) durchgeführt.");
-                    }else if(oRow.tage_tag != null && oRow.tage_tag !== "" ){
+                   if(oRow.tage_tag != null && oRow.tage_tag !== "" ){
                         addMessage("Der Kurs wird " + oRow.tage_tag + "s durchgeführt.");
+                        addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kurs_Informationen_nicht_Gefunden', {kursBeschreibung: oRow.deutschkurs_kursbeschreibung}));
                     }
 
                     if(oRow.durchfuehrungszeiten_einzelkursende != null  && oRow.durchfuehrungszeiten_einzelkursende !== "" && oRow.durchfuehrungszeiten_einzelkursstart != null && oRow.durchfuehrungszeiten_einzelkursstart !== "" ){
-                        addMessage("Der Kurs Startet um " + oRow.durchfuehrungszeiten_einzelkursstart + " Uhr und endet um " +
-                            oRow.durchfuehrungszeiten_einzelkursende + " Uhr.");
+                        addMessage("Der Kurs Startet um " + oRow.durchfuehrungszeiten_einzelkursstart + " Uhr und endet um " + oRow.durchfuehrungszeiten_einzelkursende + " Uhr.");
+                        addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kurs_Informationen_nicht_Gefunden', {kursBeschreibung: oRow.deutschkurs_kursbeschreibung}));
                     }
 
-                    addMessage("Kurs Anbieter: " + oRow.anbieter_name);
+                    addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kursAnbieter', {kursAnbieter: oRow.anbieter_name}));
 
                     if(oRow.durchfuerungsort_strasse != null && oRow.durchfuerungsort_strasse !== "" ){
-                        addMessage("Kursaddresse: " + oRow.durchfuerungsort_strasse + " - " + oRow.durchfuerungsort_plz + ", " + oRow.durchfuerungsort_ort + ".");
+                        addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kursOrt', {ortStrasse: oRow.durchfuerungsort_strasse, ortPlz: oRow.durchfuerungsort_plz, ortName: oRow.durchfuerungsort_ort}));
 
                     }
 
                     if(oRow.anbieter_mail != null && oRow.anbieter_mail !== "" ){
-                        addMessage("E-Mail: " + oRow.anbieter_mail);
+                        addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kursAnbieter_Mail', {kursAnbieter_Mail: oRow.anbieter_mail}));
                     }
                     if(oRow.anbieter_telefon != null && oRow.anbieter_telefon !== "" ){
-                        addMessage("Telefon: " + oRow.anbieter_telefon);
+                        addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kursAnbieter_Telefon', {kursAnbieter_Telefon: oRow.anbieter_telefon}));
                     }
                     if(oRow.anbieter_website != null && oRow.anbieter_website !== "" ){
-                        addMessage("Website: " + oRow.anbieter_website);
+                        addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kursAnbieter_Website', {kursAnbieter_Website: oRow.anbieter_website}));
                     }
                     if(oRow.kontaktperson_name != null && oRow.kontaktperson_name !== "" ){
-                        addMessage("Kontaktperson: " + oRow.kontaktperson_name + ", " +  oRow.kontaktperson_telefon);
+                        addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kursKontaktperson', {kursKontaktperson_Name: oRow.kontaktperson_name, kursKontaktperson_Telefon: oRow.kontaktperson_telefon}));
                     }
 
 

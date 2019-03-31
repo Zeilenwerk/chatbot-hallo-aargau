@@ -2,30 +2,31 @@ module.exports = {
     displayGefundeneKurse: function (addMessage, convo, maxKurse = 1, offsetKurse = 0) {
 
         const pgHelper = require("../../../util/pgHelper");
+        const { t } = require('../../../node_modules/localizify');
 
         //Notwendige Informationen
         let kursOrt = "";
-        if(convo.vars.kursBezirk && convo.vars.kursBezirk !== "None"){
+        if (convo.vars.kursBezirk && convo.vars.kursBezirk !== "None") {
             kursOrt = " AND LOWER(durchfuerungsort.ort) = '" + convo.vars.kursBezirk.toLowerCase() + "' ";
-        }else{
+        } else {
             kursOrt = " AND LOWER(durchfuerungsort.ort) = '" + convo.vars.kursOrt.toLowerCase() + "' ";
         }
         let kursTag = " AND LOWER(tage.tag) = '" + convo.vars.kursTag.toLowerCase() + "' ";
         let kursZeit_start = " AND durchfuehrungszeiten.einzelkursstart >= '" + convo.vars.kursZeit + ":00' ";
         //Add 3 Hours to the
-        let kursZeit_ende =" AND durchfuehrungszeiten.einzelkursstart <= '" + (parseInt(convo.vars.kursZeit.substring(0, 2))+3) +
+        let kursZeit_ende = " AND durchfuehrungszeiten.einzelkursstart <= '" + (parseInt(convo.vars.kursZeit.substring(0, 2)) + 3) +
             convo.vars.kursZeit.substring(2, convo.vars.kursZeit.length) + ":00' ";
 
         let kursNiveau = " AND LOWER(niveau.niveau) = '" + convo.vars.kursNiveau.toLowerCase() + "' ";
 
         //Zusatzinfos
         let kursAdressatengruppe = (convo.vars.kursAdressatengruppe !== "None") ? " AND LOWER(adressatengruppe.adressatengruppe) LIKE '" + convo.vars.kursAdressatengruppe.toLowerCase() + "' " : "";
-        let kursAnbieter = (convo.vars.kursAnbieter!== "None") ? " AND LOWER(anbieter.name) = '" + convo.vars.kursAnbieter.toLowerCase() + "' " : "";
+        let kursAnbieter = (convo.vars.kursAnbieter !== "None") ? " AND LOWER(anbieter.name) = '" + convo.vars.kursAnbieter.toLowerCase() + "' " : "";
         //0 = Wochenkurs | 1 = intensivkurs
-        let kursIntensitaet = (convo.vars.kursIntensitaet!== "None") ? " AND deutschkurs.kursintensitaet = '" + convo.vars.kursIntensitaet + "' " : "";
+        let kursIntensitaet = (convo.vars.kursIntensitaet !== "None") ? " AND deutschkurs.kursintensitaet = '" + convo.vars.kursIntensitaet + "' " : "";
 
         let kursKosten = "";
-        if(convo.vars.kursKosten!== "None"){
+        if (convo.vars.kursKosten !== "None") {
             switch (convo.vars.kursKosten.toLowerCase()) {
                 case "gratis":
                     kursKosten = " AND kosten.gesamtkurs <= 0 ";
@@ -143,9 +144,9 @@ module.exports = {
                 console.log(res);
 
                 if (res.rows.length > 0) {
-                    addMessage("Ich habe folgende Kurse gefunden");
+                    addMessage(t('kurs.gefundeneKurse.kursGefundeneKurse.kurse_Gefunden'));
                 } else {
-                    addMessage("Leider habe ich für dieses Suchkriterium keine Kurse gefunden");
+                    addMessage(t('kurs.gefundeneKurse.kursGefundeneKurse.kurse_nicht_Gefunden'));
                     convo.gotoThread("kursNotwendigeInfosMenu");
                 }
 
@@ -153,19 +154,16 @@ module.exports = {
 
                     var oRow = res.rows[i];
 
-                    console.log("Kurs #" + (i+1) + ": ");
+                    console.log("Kurs #" + (i + 1) + ": ");
                     console.log(oRow);
 
-                    if(oRow.durchfuehrungszeiten_gesamtkursstart != null  && oRow.durchfuehrungszeiten_gesamtkursstart !== "" && oRow.durchfuehrungszeiten_gesamtkursende != null && oRow.durchfuehrungszeiten_gesamtkursende !== "" ){
-                        addMessage("Der Kurs wird vom " + oRow.durchfuehrungszeiten_gesamtkursstart + " bis zum " + oRow.durchfuehrungszeiten_gesamtkursende +
-                            " (" + oRow.tage_tag + "s) durchgeführt.");
-                    }else if(oRow.tage_tag != null && oRow.tage_tag !== "" ){
-                        addMessage("Der Kurs wird " + oRow.tage_tag + "s durchgeführt.");
+
+                    if (oRow.tage_tag != null && oRow.tage_tag !== "") {
+                        addMessage(t('kurs.gefundeneKurse.kursGefundeneKurse.kurs_Datum', {kursTag: oRow.tage_tag}));
                     }
 
-                    if(oRow.durchfuehrungszeiten_einzelkursende != null  && oRow.durchfuehrungszeiten_einzelkursende !== "" && oRow.durchfuehrungszeiten_einzelkursstart != null && oRow.durchfuehrungszeiten_einzelkursstart !== "" ){
-                        addMessage("Der Kurs Startet um " + oRow.durchfuehrungszeiten_einzelkursstart + " Uhr und endet um " +
-                            oRow.durchfuehrungszeiten_einzelkursende + " Uhr.");
+                    if (oRow.durchfuehrungszeiten_einzelkursende != null && oRow.durchfuehrungszeiten_einzelkursende !== "" && oRow.durchfuehrungszeiten_einzelkursstart != null && oRow.durchfuehrungszeiten_einzelkursstart !== "") {
+                        addMessage(t('kurs.gefundeneKurse.kursGefundeneKurse.kurs_Zeit', {einzelkursstart: oRow.durchfuehrungszeiten_einzelkursstart, einzelkursende: oRow.durchfuehrungszeiten_einzelkursende}));
                     }
 
                 }

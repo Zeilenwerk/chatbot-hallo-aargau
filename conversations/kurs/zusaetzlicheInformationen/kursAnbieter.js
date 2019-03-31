@@ -13,22 +13,24 @@
 module.exports = {
     convoKursAnbieter: function (convo, luisHelper, nextThread = "None") {
 
+        const { t } = require('../../../node_modules/localizify');
+
         console.log("Start askKursAnbieter");
 
         convo.addQuestion({
-            text: 'Wer soll den Kurs Anbieten?',
+            text: t('kurs.zusaetzlicheInformationen.kursAnbieter.convoKursAnbieter'),
             quick_replies: [
                 {
-                    title: 'Nosotras Aargau',
-                    payload: 'Nosotras Aargau',
+                    title: t('kurs.zusaetzlicheInformationen.kursAnbieter.convoKursAnbieter_Qr_Nosotras'),
+                    payload: t('kurs.zusaetzlicheInformationen.kursAnbieter.convoKursAnbieter_Qr_Nosotras'),
                 },
                 {
-                    title: 'Verein Lesen und Schreiben für Erwachsene',
-                    payload: 'Verein Lesen und Schreiben für Erwachsene',
+                    title: t('kurs.zusaetzlicheInformationen.kursAnbieter.convoKursAnbieter_Qr_Verein'),
+                    payload: t('kurs.zusaetzlicheInformationen.kursAnbieter.convoKursAnbieter_Qr_Verein'),
                 },
                 {
-                    title: 'TLC Baden',
-                    payload: 'TLC Baden',
+                    title: t('kurs.zusaetzlicheInformationen.kursAnbieter.convoKursAnbieter_Qr_Tlc'),
+                    payload: t('kurs.zusaetzlicheInformationen.kursAnbieter.convoKursAnbieter_Qr_Tlc'),
                 },
             ]
         }, [
@@ -40,8 +42,7 @@ module.exports = {
 
                     if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
                         // array empty or does not exist
-                        //TODO: Handle not found entity
-                        convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
+                        convo.addMessage(t('nicht_verstanden'));
                         convo.repeat();
                     } else {
                         convo.setVar("kursAnbieter", aEntity[0]);

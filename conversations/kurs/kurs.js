@@ -1,36 +1,10 @@
 module.exports = {
 
-    // //Get LUIS middleware
-    // var luis = require('../node_modules/botkit-middleware-luis/src/luis-middleware');
-    //
-    // controller.hears(["Deutschkurs Suchen", "Help", "Aufenthaltsstatus"], 'message_received', luis.middleware.hereIntent, function (bot, message) {
-    //
-    //     bot.startConversation(message, function (err, convo) {
-    //
-    //         //Log Message and top intent
-    //         console.log("Recieved Message:");
-    //         console.log(message);
-    //         console.log("Top Intent: " + message.topIntent.intent);
-    //         console.log("Score: " + message.topIntent.score);
-    //
-    //
-    //         if (message.topIntent.intent === "Deutschkurs Suchen") {
-    //
-    //             deutschkursSuchen(convo, message, bot);
-    //
-    //         } else {
-    //
-    //             bot.reply(message, "Leider noch nicht implementiert");
-    //
-    //         }
-    //
-    //     });
-    //
-    // });
+    kursSuchen : function(convo, message, bot) {
 
-    deutschkursSuchen : function(convo, message, bot) {
+        const { t } = require('../../node_modules/localizify');
 
-        convo.addMessage("Super, gerne helfe ich Ihnen ein Deutschkurs zu suchen. Dafür benötige ich noch folgende Angaben: Ort, Tag, Uhrzeit und Kursniveau.");
+        convo.addMessage(t('kurs.kursSuchen'));
 
         //********************************
         // Helpers
@@ -97,18 +71,18 @@ module.exports = {
         //Conversation Threads
         //********************************
 
-        convo.addMessage('Sie Suchen somit für den {{vars.kursTag}} um {{vars.kursZeit}} Uhr ein Niveau {{vars.kursNiveau}} Deutschkurs in {{vars.kursOrt}}. ', 'kursNotwendigeInfosMenu');
+        convo.addMessage(t('kurs.kursSuchen', {kursTag: "{{vars.kursTag}}", kursZeit: "{{vars.kursZeit}}", kursNiveau: "{{vars.kursNiveau}}", kursOrt: "{{vars.kursOrt}}"}), 'kursNotwendigeInfosMenu');
 
         convo.addQuestion({
-            text: 'Stimmen diese Angaben für Sie?',
+            text: t('kurs.kursNotwendigeInfosMenu_Question'),
             quick_replies: [
                 {
-                    title: 'Ja',
-                    payload: 'Ja',
+                    title: t('ja'),
+                    payload: t('ja'),
                 },
                 {
-                    title: 'Nein, ich möchte etwas ändern',
-                    payload: 'Nein',
+                    title: t('kurs.kursNotwendigeInfosMenu_Question_Qr_Nein'),
+                    payload: t('nein'),
                 },
             ]
         }, [
@@ -118,16 +92,16 @@ module.exports = {
 
                     switch (res.text) {
 
-                        case "Ja":
+                        case t('ja'):
                             convo.gotoThread("zusatzInfo");
                             convo.next();
                             break;
-                        case "Nein":
+                        case t('nein'):
                             convo.gotoThread("correctNeccessaryInfromation");
                             convo.next();
                             break;
                         default:
-                            convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
+                            convo.addMessage(t('nicht_verstanden'));
                             convo.repeat();
                             break;
                     }
@@ -139,24 +113,24 @@ module.exports = {
             text: 'Welche Angabe möchten sie abändern?',
             quick_replies: [
                 {
-                    title: 'Kurs Ort',
-                    payload: 'Kurs Ort',
+                    title: t('kurs.kurs_Ort'),
+                    payload: t('kurs.kurs_Ort'),
                 },
                 {
-                    title: 'Kurs Tag',
-                    payload: 'Kurs Tag',
+                    title: t('kurs.kurs_Tag'),
+                    payload: t('kurs.kurs_Tag'),
                 },
                 {
-                    title: 'Kurs Zeit',
-                    payload: 'Kurs Zeit',
+                    title: t('kurs.kurs_Zeit'),
+                    payload: t('kurs.kurs_Zeit'),
                 },
                 {
-                    title: 'Kurs Niveau',
-                    payload: 'Kurs Niveau',
+                    title: t('kurs.kurs_Niveau'),
+                    payload: t('kurs.kurs_Niveau'),
                 },
                 {
-                    title: 'Keine Änderung',
-                    payload: 'Keine Änderung',
+                    title: t('kurs.keine_Aenderung'),
+                    payload: t('kurs.keine_Aenderung'),
                 },
             ]
         }, [
@@ -166,24 +140,24 @@ module.exports = {
 
                     switch (res.text) {
 
-                        case "Kurs Ort":
+                        case t('kurs.kurs_Ort'):
                             convo.gotoThread("askKursOrt");
                             break;
-                        case "Kurs Tag":
+                        case t('kurs.kurs_Tag'):
                             convo.gotoThread("askKursTag");
                             break;
-                        case "Kurs Zeit":
+                        case t('kurs.kurs_Zeit'):
                             convo.gotoThread("askKursZeit");
                             break;
-                        case "Kurs Niveau":
+                        case t('kurs.kurs_Niveau'):
                             convo.gotoThread("askKursNiveau");
                             break;
-                        case "Keine Änderung":
-                            convo.say("Zusätzliche Infromationen helfen mir die Kurse besser für Sie anzuzeigen.");
+                        case t('kurs.keine_Aenderung'):
+                            convo.say(t('kurs.zusatzInfo_Say'));
                             convo.gotoThread("zusatzInfo");
                             break;
                         default:
-                            convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
+                            convo.addMessage(t('nicht_verstanden'));
                             convo.repeat();
                             break;
                     }
@@ -193,27 +167,27 @@ module.exports = {
 
 
         convo.addQuestion({
-            text: 'Möchten sie mir noch eine oder mehrere der folgenden Zusatzinformationen geben:',
+            text: 'Möchten sie mir noch eine oder mehrere der folgenden Zusatzinformationen geben?',
             quick_replies: [
                 {
-                    title: "Adressatengruppe",
-                    payload: 'Adressatengruppe',
+                    title: t('kurs.kurs_Adressatengruppe'),
+                    payload: t('kurs.Adressatengruppe'),
                 },
                 {
-                    title: "Kurs Anbieter",
-                    payload: 'Anbieter',
+                    title: t('kurs.kurs_Anbieter'),
+                    payload: t('kurs.Anbieter'),
                 },
                 {
-                    title: "Kurs Intensitaet",
-                    payload: 'Intensitaet',
+                    title: t('kurs.kurs_Intensitaet'),
+                    payload: t('kurs.Intensitaet'),
                 },
                 {
-                    title: "Kurs Kosten",
-                    payload: 'Kosten',
+                    title: t('kurs.kurs_Kosten'),
+                    payload: t('kurs.Kosten'),
                 },
                 {
-                    title: "Keine weiteren Angaben",
-                    payload: 'Keine weiteren Angaben',
+                    title: t('kurs.keine_weiteren_Angaben'),
+                    payload: t('kurs.keine_weiteren_Angaben'),
                 },
             ]
         }, [
@@ -223,25 +197,25 @@ module.exports = {
 
                     switch (res.text) {
 
-                        case "Adressatengruppe":
+                        case t('kurs.Adressatengruppe'):
                             convo.gotoThread("askKursAdressatengruppe");
                             break;
-                        case "Anbieter":
+                        case t('kurs.Anbieter'):
                             convo.gotoThread("askKursAnbieter");
                             break;
-                        case "Intensitaet":
+                        case t('kurs.Intensitaet'):
                             convo.gotoThread("askKursIntensitaet");
                             break;
-                        case "Kosten":
+                        case t('kurs.Kosten'):
                             convo.gotoThread("askKursKosten");
                             break;
-                        case "Keine weiteren Angaben":
+                        case t('kurs.keine_weiteren_Angaben'):
                             kursGefundeneKurse.displayGefundeneKurse(function (m) {
                                 bot.reply(message, m);
                             }, convo, convo.vars.maxKurse, convo.vars.offsetKurse);
                             break;
                         default:
-                            convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
+                            convo.addMessage(t('nicht_verstanden'));
                             convo.repeat();
                             break;
                     }
@@ -251,15 +225,15 @@ module.exports = {
 
 
         convo.addQuestion({
-            text: 'Möchten sie weitere Informationen zu einem dieser Kurse?',
+            text: t('kurs.gefundeneKurse_Question'),
             quick_replies: [
                 {
-                    title: "Ja, weitere Informationen anzeigen",
-                    payload: 'Ja, weitere Informationen anzeigen',
+                    title: t('kurs.gefundeneKurse_Question_QR_Ja'),
+                    payload: t('kurs.gefundeneKurse_Question_QR_Ja'),
                 },
                 {
-                    title: "Nein, weitere Kurse anzeigen",
-                    payload: 'Weitere Kurse anzeigen',
+                    title: t('kurs.gefundeneKurse_Question_QR_Nein'),
+                    payload: t('kurs.gefundeneKurse_Question_QR_Nein'),
                 },
             ]
         }, [
@@ -269,12 +243,12 @@ module.exports = {
 
                     switch (res.text) {
 
-                        case "Ja, weitere Informationen anzeigen":
+                        case t('kurs.gefundeneKurse_Question_QR_Ja'):
                             kursInformationenKurs.displayKursInfromationen(function (m) {
                                 bot.reply(message, m);
                             }, convo, convo.vars.maxKurse, convo.vars.offsetKurse);
                             break;
-                        case "Weitere Kurse anzeigen":
+                        case t('kurs.gefundeneKurse_Question_QR_Nein'):
 
                             //Add +1 to offset
                             convo.setVar("offsetKurse", convo.vars.offsetKurse + 1)
@@ -284,45 +258,13 @@ module.exports = {
                             }, convo, convo.vars.maxKurse, convo.vars.offsetKurse);
                             break;
                         default:
-                            convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
+                            convo.addMessage(t('nicht_verstanden'));
                             convo.repeat();
                             break;
                     }
                 }
             },
         ], {}, "gefundeneKurse");
-
-
-        //********************************
-        // Ending Threads
-        //********************************
-
-        convo.on('end', function (convo) {
-
-            convo.say('This is the end of the conversation.');
-
-            if (convo.status === 'completed') {
-                // do something useful with the users responses
-                var res = convo.extractResponses();
-
-                // reference a specific response by key
-                var value = convo.extractResponse('key');
-
-                // ... do more stuff...
-
-            } else {
-                // something happened that caused the conversation to stop prematurely
-            }
-
-        });
-
-        convo.onTimeout(function (convo) {
-
-            convo.say('Oh no! The time limit has expired.');
-            convo.gotoThread("end")
-
-        });
-
 
         //********************************
         //Check Notwendige Informationen
@@ -341,9 +283,9 @@ module.exports = {
                 kursOrt.askKursOrt(convo, luisHelper);
             } else {
                 if (convo.vars.kursBezirk !== "None") {
-                    convo.say("Den Ort haben Sie schon angegeben ({{vars.kursOrt}}, im Bezirk {kursBezirk}}), somit benötige ich dies nicht mehr.")
+                    convo.say(t('kurs.check_Notwendige_Informationen_Ort', {kursOrt: "{{vars.kursOrt}}", kursBezirk : "{{vars.kursBezirk}}"}))
                 } else {
-                    convo.say("Den Ort haben Sie schon angegeben ({{vars.kursOrt}}), somit benötige ich dies nicht mehr.")
+                    convo.say(t('kurs.check_Notwendige_Informationen_Ort_Bezirk', {kursOrt: "{{vars.kursOrt}}"}))
                 }
             }
 
@@ -351,21 +293,21 @@ module.exports = {
                 console.log("askKursTag");
                 kursTag.askKursTag(convo, luisHelper);
             } else {
-                convo.say("Als Kurstag, haben Sie den {{vars.kursTag}} gewählt.")
+                convo.say(t('kurs.check_Notwendige_Informationen_Tag', {kursTag: "{{vars.kursTag}}"}))
             }
 
             if (convo.vars.kursZeit === "None") {
                 console.log("askKursZeit");
                 kursZeit.askKursZeit(convo, luisHelper);
             } else {
-                convo.say("Die Zeit am {{vars.kursTag}} für den Kurs ist {{vars.kursZeit}} Uhr.")
+                convo.say(t('kurs.check_Notwendige_Informationen_Zeit', {kursZeit: "{{vars.kursZeit}}"}))
             }
 
             if (convo.vars.kursNiveau === "None") {
                 console.log("askKursNiveau");
                 kursNiveau.askKursNiveau(convo, luisHelper, "kursNotwendigeInfosMenu");
             } else {
-                convo.say("Das Kursniveau ist {{vars.kursNiveau}}.");
+                convo.say(t('kurs.check_Notwendige_Informationen_Niveau', {kursNiveau: "{{vars.kursNiveau}}"}));
             }
 
         }

@@ -11,30 +11,32 @@
 module.exports = {
     askKursZeit: function (convo, luisHelper, nextThread = "None") {
 
+        const { t } = require('../../../node_modules/localizify');
+
         console.log("Start askKursZeit");
 
         convo.ask({
-            text: 'Um wie viel Uhr soll der Kurs am {{vars.kursTag}} stattfinden?',
+            text: t('kurs.notwendigeInformationen.kursZeit.askKursZeit', {kursTag : "{{vars.kursTag}}"}),
             quick_replies: [
                 {
-                    title: 'Morgens (07:00 - 10:00 Uhr)',
-                    payload: '07:00 Uhr',
+                    title:  t('kurs.notwendigeInformationen.kursZeit.askKursZeit_Morgens'),
+                    payload:  t('kurs.notwendigeInformationen.kursZeit.askKursZeit_Morgens_Payload'),
                 },
                 {
-                    title: 'Mittags (10:00 - 13:00 Uhr)',
-                    payload: '10:00 Uhr',
+                    title:  t('kurs.notwendigeInformationen.kursZeit.askKursZeit_Mittags'),
+                    payload:  t('kurs.notwendigeInformationen.kursZeit.askKursZeit_Mittags_Payload'),
                 },
                 {
-                    title: 'Nachmittags (13:00 - 16:00 Uhr)',
-                    payload: '13:00 Uhr',
+                    title:  t('kurs.notwendigeInformationen.kursZeit.askKursZeit_Nachmittags'),
+                    payload:  t('kurs.notwendigeInformationen.kursZeit.askKursZeit_Nachmittags_Payload'),
                 },
                 {
-                    title: 'Abends (16:00 - 19:00 Uhr)',
-                    payload: '16:00 Uhr',
+                    title:  t('kurs.notwendigeInformationen.kursZeit.askKursZeit_Abends'),
+                    payload:  t('kurs.notwendigeInformationen.kursZeit.askKursZeit_Abends_Payload'),
                 },
                 {
-                    title: 'Nachts (19:00 - 22:00 Uhr)',
-                    payload: '19:00 Uhr',
+                    title:  t('kurs.notwendigeInformationen.kursZeit.askKursZeit_Nachts'),
+                    payload:  t('kurs.notwendigeInformationen.kursZeit.askKursZeit_Nachts_Payload'),
                 },
             ]
         }, [
@@ -48,8 +50,7 @@ module.exports = {
 
                     if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
                         // array empty or does not exist
-                        //TODO: Handle not found entity
-                        convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
+                        convo.addMessage(t('nicht_verstanden'));
                         convo.repeat();
                     } else {
                         //Get entity for zeit, not resolution (regex pattern)
@@ -70,30 +71,32 @@ module.exports = {
 
     convoKursZeit: function (convo, luisHelper, nextThread = "None") {
 
+        const { t } = require('../../../node_modules/localizify');
+
         console.log("Start askKursZeit");
 
         convo.addQuestion({
-            text: 'Um wie viel Uhr soll der Kurs am {{vars.kursTag}} stattfinden?',
+            text: t('kurs.notwendigeInformationen.kursZeit.askKursZeit', {kursTag : "{{vars.kursTag}}"}),
             quick_replies: [
                 {
-                    title: 'Morgens (07:00 - 10:00 Uhr)',
-                    payload: '07:00 Uhr',
+                    title:  t('kurs.notwendigeInformationen.kursZeit.askKursZeit_Morgens'),
+                    payload:  t('kurs.notwendigeInformationen.kursZeit.askKursZeit_Morgens_Payload'),
                 },
                 {
-                    title: 'Mittags (10:00 - 13:00 Uhr)',
-                    payload: '10:00 Uhr',
+                    title:  t('kurs.notwendigeInformationen.kursZeit.askKursZeit_Mittags'),
+                    payload:  t('kurs.notwendigeInformationen.kursZeit.askKursZeit_Mittags_Payload'),
                 },
                 {
-                    title: 'Nachmittags (13:00 - 16:00 Uhr)',
-                    payload: '13:00 Uhr',
+                    title:  t('kurs.notwendigeInformationen.kursZeit.askKursZeit_Nachmittags'),
+                    payload:  t('kurs.notwendigeInformationen.kursZeit.askKursZeit_Nachmittags_Payload'),
                 },
                 {
-                    title: 'Abends (16:00 - 19:00 Uhr)',
-                    payload: '16:00 Uhr',
+                    title:  t('kurs.notwendigeInformationen.kursZeit.askKursZeit_Abends'),
+                    payload:  t('kurs.notwendigeInformationen.kursZeit.askKursZeit_Abends_Payload'),
                 },
                 {
-                    title: 'Nachts (19:00 - 22:00 Uhr)',
-                    payload: '19:00 Uhr',
+                    title:  t('kurs.notwendigeInformationen.kursZeit.askKursZeit_Nachts'),
+                    payload:  t('kurs.notwendigeInformationen.kursZeit.askKursZeit_Nachts_Payload'),
                 },
             ]
         }, [
@@ -107,8 +110,7 @@ module.exports = {
 
                     if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
                         // array empty or does not exist
-                        //TODO: Handle not found entity
-                        convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
+                        convo.addMessage(t('nicht_verstanden'));
                         convo.repeat();
                     } else {
                         convo.setVar("kursZeit", aEntity[0]);

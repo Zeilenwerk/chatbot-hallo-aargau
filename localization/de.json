@@ -1,0 +1,189 @@
+{
+  "ja": "Ja",
+  "nein": "Nein",
+  "nicht_verstanden": "Leider habe ich die Antwort nicht verstanden.",
+  "_connection_events": {
+    "onboarding": "Guten Tag! Wie kann ich Ihenen helfen?",
+    "onboarding_Deutschkurs": "Deutschkurs suchen",
+    "onboarding_Aufenthaltsstatus": "Informationen zum Aufenthaltsstatus",
+    "onboarding_Hilfe": "Hilfe"
+  },
+  "bot_conversation": {
+    "onTimeout": "Leider ist das Zeitlimit überschirtten worden. Diese Sitzung wird beendet.",
+    "nicht_implementiert": "Leider noch nicht implementiert"
+  },
+  "kurs": {
+    "kursSuchen": "Super, gerne helfe ich Ihnen ein Deutschkurs zu suchen. Dafür benötige ich noch folgende Angaben: Ort, Tag, Uhrzeit und Kursniveau.",
+    "kursNotwendigeInfosMenu_Message": "Sie Suchen somit für den {kursTag} um {kursZeit} Uhr ein Niveau {kursNiveau} Deutschkurs in {kursOrt}.",
+    "kursNotwendigeInfosMenu_Question": "Stimmen diese Angaben für Sie?",
+    "kursNotwendigeInfosMenu_Question_Qr_Nein": "Nein, ich möchte etwas ändern",
+    "correctNeccessaryInfromation_Question": "",
+    "kurs_Ort": "Kurs Ort",
+    "kurs_Tag": "Kurs Tag",
+    "kurs_Zeit": "Kurs Zeit",
+    "kurs_Niveau": "Kurs Niveau",
+    "keine_Aenderung": "Keine Änderung",
+    "zusatzInfo_Say": "Zusätzliche Infromationen helfen mir die Kurse besser für Sie anzuzeigen.",
+    "zusatzInfo_Question": "Möchten sie mir noch eine oder mehrere der folgenden Zusatzinformationen geben?",
+    "kurs_Adressatengruppe": "Kurs Adressatengruppe",
+    "kurs_Anbieter": "Kurs Anbieter",
+    "kurs_Intensitaet": "Kurs Intensitaet",
+    "kurs_Kosten": "Kurs Kosten",
+    "keine_weiteren_Angaben": "Keine weiteren Angaben",
+    "Adressatengruppe": "Adressatengruppe",
+    "Anbieter": "Anbieter",
+    "Intensitaet": "Intensitaet",
+    "Kosten": "Kosten",
+    "gefundeneKurse_Question": "Möchten sie weitere Informationen zu einem dieser Kurse?",
+    "gefundeneKurse_Question_QR_Ja": "Ja, weitere Informationen anzeigen",
+    "gefundeneKurse_Question_QR_Nein": "Nein, weitere Kurse anzeigen",
+    "check_Notwendige_Informationen_Ort": "Den Ort haben Sie schon angegeben ({kursOrt}, im Bezirk {kursBezirk}), somit benötige ich dies nicht mehr.",
+    "check_Notwendige_Informationen_Ort_Bezirk": "Den Ort haben Sie schon angegeben ({kursOrt}), somit benötige ich dies nicht mehr.",
+    "check_Notwendige_Informationen_Tag": "Als Kurstag, haben Sie den {kursTag} gewählt.",
+    "check_Notwendige_Informationen_Zeit": "Die Zeit am {kursTag} für den Kurs ist {kursZeit} Uhr.",
+    "check_Notwendige_Informationen_Niveau": "Das Kursniveau ist {kursNiveau}.",
+    "gefundeneKurse": {
+      "kursGefundeneKurse": {
+        "kurse_Gefunden": "Ich habe folgende Kurse gefunden",
+        "kurse_nicht_Gefunden": "Leider habe ich für dieses Suchkriterium keine Kurse gefunden",
+        "kurs_Datum": "Der Kurs wird {kursTag}s durchgeführt.",
+        "kurs_Zeit": "Der Kurs Startet um {einzelkursstart} Uhr und endet um {einzelkursende} Uhr."
+      },
+      "kursInformationenKurs": {
+        "kurs_Informationen_Gefunden": "Ich habe folgende Kurse gefunden",
+        "kurs_Informationen_nicht_Gefunden": "Leider habe ich für dieses Suchkriterium keine Kurse gefunden",
+        "kursBeschreibung": "Kurs Beschreibung: {kursBeschreibung}",
+        "kursZweck": "Kurs Zweck: {kursZweck}",
+        "kursTag": "Der Kurs wird {kursTag}s durchgeführt.",
+        "kursZeit": "Der Kurs Startet um {einzelkursstart} Uhr und endet um {einzelkursende} Uhr.",
+        "kursAnbieter": "Kurs Anbieter: {kursAnbieter}",
+        "kursOrt": "Kursaddresse: {ortStrasse} - {ortPlz}, {ortName}.",
+        "kursAnbieter_Mail": "E-Mail: {kursAnbieter_Mail}",
+        "kursAnbieter_Telefon": "Telefon: {kursAnbieter_Telefon}",
+        "kursAnbieter_Website": "Website: {kursAnbieter_Website}",
+        "kursKontaktperson": "Kontaktperson: {kursKontaktperson_Name}, {kursKontaktperson_Telefon}"
+      }
+    },
+    "notwendigeInformationen": {
+      "kursNiveau":{
+        "askKursNiveau": "Für welches Sprachniveau suchen Sie den Kurs?",
+        "askKursNiveau_Qr_Anfaenger": "Kurs für Anfänger",
+        "askKursNiveau_Qr_Schrift": "Für Personen mit Kenntnis der lateinischen Schrift",
+        "askKursNiveau_Qr_A1": "A1",
+        "askKursNiveau_Qr_A2": "A2",
+        "askKursNiveau_Qr_B1": "B1",
+        "askKursNiveau_Qr_B2": "B2",
+        "askKursNiveau_Qr_C1": "C1",
+        "askKursNiveau_Qr_C2": "C2"
+      },
+      "kursOrt":{
+        "askKursOrt": "Wo soll der Deutschkurs stattfinden?",
+        "askKursOrt_Qr_Aarau": "Aarau",
+        "askKursOrt_Qr_Aarau_Payload": "Deutschkurs in Aarau",
+        "askKursOrt_Qr_Baden": "Baden",
+        "askKursOrt_Qr_Baden_Payload": "Deutschkurs in Baden"
+      },
+      "kursTag":{
+        "askKursTag": "An welchem Tag soll der Kurs in {kursOrt} stattfinden?",
+        "askKursTag_Qr_Montag": "Montag",
+        "askKursTag_Qr_Dienstag": "Dienstag",
+        "askKursTag_Qr_Mittwoch": "Mittwoch",
+        "askKursTag_Qr_Donnerstag": "Donnerstag",
+        "askKursTag_Qr_Freitag": "Freitag",
+        "askKursTag_Qr_Samstag": "Samstag",
+        "askKursTag_Qr_Sonntag": "Sonntag"
+      },
+      "kursZeit":{
+        "askKursZeit": "Um wie viel Uhr soll der Kurs am {kursTag} stattfinden?",
+        "askKursZeit_Morgens": "Morgens (07:00 - 10:00 Uhr)",
+        "askKursZeit_Morgens_Payload": "07:00 Uhr",
+        "askKursZeit_Mittags": "Mittags (10:00 - 13:00 Uhr)",
+        "askKursZeit_Mittags_Payload": "10:00 Uhr",
+        "askKursZeit_Nachmittags": "Nachmittags (13:00 - 16:00 Uhr)",
+        "askKursZeit_Nachmittags_Payload": "13:00 Uhr",
+        "askKursZeit_Abends": "Abends (16:00 - 19:00 Uhr)",
+        "askKursZeit_Abends_Payload": "16:00 Uhr",
+        "askKursZeit_Nachts": "Nachts (19:00 - 22:00 Uhr)",
+        "askKursZeit_Nachts_Payload": "19:00 Uhr"
+      }
+    },
+    "zusaetzlicheInformationen": {
+      "kursAdressatengruppe": {
+        "convoKursAdressatengruppe": "Für welches Adressatengruppe soll der Kurs sein?",
+        "convoKursAdressatengruppe_Qr_Frauen": "Frauen",
+        "convoKursAdressatengruppe_Qr_Frauen_Payload": "Frauen",
+        "convoKursAdressatengruppe_Qr_Erwachsene": "Erwachsene",
+        "convoKursAdressatengruppe_Qr_Erwachsene_Payload": "Erwachsene",
+        "convoKursAdressatengruppe_Qr_Muttersprache": "Erwachsene deutscher Muttersprache",
+        "convoKursAdressatengruppe_Qr_Muttersprache_Payload": "Erwachsene deutscher Muttersprache oder gute mündliche Deutschkenntnisse",
+        "convoKursAdressatengruppe_Qr_A1": "Niveau A1 abgschlossen",
+        "convoKursAdressatengruppe_Qr_A1_Payload": "Abgeschlossene Niveau A1 oder im Einstufungstest Niveau A2 erreicht",
+        "convoKursAdressatengruppe_Qr_A2": "Niveau A2 abgschlossen",
+        "convoKursAdressatengruppe_Qr_A2_Payload": "Erwachsene mit abgeschlossene Niveaustufe A2 oder im Einstufungstest Niveaustufe B1 erreicht",
+        "convoKursAdressatengruppe_Qr_B1": "Niveau B1 abgschlossen",
+        "convoKursAdressatengruppe_Qr_B1_Payload": "Erwachsene mit abgeschlossene Niveaustufe B1 oder im Einstufungstest Niveaustufe B2 erreicht",
+        "convoKursAdressatengruppe_Qr_B2": "Niveau B2 abgschlossen",
+        "convoKursAdressatengruppe_Qr_B2_Payload": "Erwachsene im Einstufungstest Niveaustufe B2 erreicht",
+        "convoKursAdressatengruppe_Qr_C1": "Niveau C1 abgschlossen",
+        "convoKursAdressatengruppe_Qr_C1_Payload": "Erwachsene mit abgeschlossene Niveaustufe C1 oder im Einstufungstest Niveaustufe C2 erreicht"
+      },
+      "kursAnbieter": {
+        "convoKursAnbieter": "Wer soll den Kurs Anbieten?",
+        "convoKursAnbieter_Qr_Nosotras": "Nosotras Aargau",
+        "convoKursAnbieter_Qr_Verein": "Verein Lesen und Schreiben für Erwachsene",
+        "convoKursAnbieter_Qr_Tlc": "TLC Baden"
+      },
+      "kursIntensitaet": {
+        "convoKursIntensitaet": "Was für eine Kursintensität suchen Sie?",
+        "convoKursIntensitaet_Qr_Wochenkurs": "Wochenkurs",
+        "convoKursIntensitaet_Qr_Intensivkurs": "Intensivkurs"
+      },
+      "kursKosten": {
+        "convoKursKosten": "Wie viel darf der Kurs Kosten?",
+        "convoKursKosten_Qr_Subventionierter": "Subventionierter Kurs (Gratis)",
+        "convoKursKosten_Qr_500": "Unter 500 Chf",
+        "convoKursKosten_Qr_1000": "Bis zu 1000 Chf",
+        "convoKursKosten_Qr_1000plus": "Mehr als 1000 Chf"
+      }
+    }
+  },
+  "help": {
+    "helpMenu_Message": "Wie kann ich Ihenen helfen?",
+    "helpMenu_Message_Qr_Kurs_Suchen": "Deutschkurs suchen",
+    "helpMenu_Message_Qr_Aufenthaltsstatus": "Informationen zum Aufenthaltsstatus",
+    "helpMenu_Message_Qr_Hilfe": "Hilfe",
+    "help_Question": "Was möchten sie gerne wissen?",
+    "help_Question_Qr_wer_bin_ich": "Wer bin ich",
+    "help_Question_Qr_Bedienung": "Wie können Sie mich bedienen",
+    "help_Question_Qr_wie_kann_ich_helfen": "Wie kann ich Ihnen helfen",
+    "help_wer_bin_ich": "Ich bin ein Chatbot.",
+    "help_Bedienung": "Schreiben sie mir mir...",
+    "help_wie_kann_ich_helfen": "Ich helfe Ihnen bei der Suche nach einem Deutschkurs oder bei Fragen zum Aufenthaltsstatus."
+  },
+  "feedback": {
+    "askFeedback": "",
+    "askFeedback_Qr_1": "★★★★★",
+    "askFeedback_Qr_1_Payload": "Sehr zufrieden",
+    "askFeedback_Qr_2": "★★★★",
+    "askFeedback_Qr_2_Payload": "Zufrieden",
+    "askFeedback_Qr_3": "★★★",
+    "askFeedback_Qr_3_Payload": "Mittelmässig zufrieden",
+    "askFeedback_Qr_4": "★★",
+    "askFeedback_Qr_4_Payload": "Eher nicht zufrieden",
+    "askFeedback_Qr_5": "★",
+    "askFeedback_Qr_5_Payload": "Gar nicht zufrieden",
+    "askFeedback_Transition_1": "Das freut mich, dass Sie sehr zufrieden sind.",
+    "askFeedback_Transition_2": "Das freut mich, dass Sie zufrieden sind.",
+    "askFeedback_Transition_3": "Ich hoffe nächstes mal kann ich Ihnen besser weiterhelfen.",
+    "askFeedback_Transition_4": "Das tut mir leid, das sie eher nicht zufriden sind.",
+    "askFeedback_Transition_5": "Das tut mir leid, das sie gar nicht zufriden sind."
+  },
+  "end": {
+    "convoEnd_Question": "Kann ich Ihnen weiterhin behilflich sein?",
+    "convoEnd_Question_Qr_Ja": "Ja, ich habe noch weitere Anliegen",
+    "convoEnd_Question_Qr_Ja_Payload": "Ja",
+    "convoEnd_Question_Qr_Nein": "Nein, das wäre alles",
+    "convoEnd_Question_Qr_Nein_Payload": "Nein",
+    "auf_wiedersehen": "Auf wiedersehen"
+  }
+}

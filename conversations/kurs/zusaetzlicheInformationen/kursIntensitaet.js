@@ -12,18 +12,20 @@
 module.exports = {
     convoKursIntensitaet: function (convo, luisHelper, nextThread = "None") {
 
+        const { t } = require('../../../node_modules/localizify');
+
         console.log("Start askKursIntensitaet");
 
         convo.addQuestion({
-            text: 'Was für eine Kursintensität suchen Sie?',
+            text: t('kurs.zusaetzlicheInformationen.kursIntensitaet.convoKursIntensitaet'),
             quick_replies: [
                 {
-                    title: 'Wochenkurs',
-                    payload: 'Wochenkurs',
+                    title: t('kurs.zusaetzlicheInformationen.kursIntensitaet.convoKursIntensitaet_Qr_Wochenkurs'),
+                    payload: t('kurs.zusaetzlicheInformationen.kursIntensitaet.convoKursIntensitaet_Qr_Wochenkurs'),
                 },
                 {
-                    title: 'Intensivkurs',
-                    payload: 'Intensivkurs',
+                    title: t('kurs.zusaetzlicheInformationen.kursIntensitaet.convoKursIntensitaet_Qr_Intensivkurs'),
+                    payload: t('kurs.zusaetzlicheInformationen.kursIntensitaet.convoKursIntensitaet_Qr_Intensivkurs'),
                 },
             ]
         }, [
@@ -35,8 +37,7 @@ module.exports = {
 
                     if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
                         // array empty or does not exist
-                        //TODO: Handle not found entity
-                        convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
+                        convo.addMessage(t('nicht_verstanden'));
                         convo.repeat();
                     } else {
                         convo.setVar("kursIntensitaet", aEntity[0]);

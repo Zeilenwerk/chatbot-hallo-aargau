@@ -8,19 +8,21 @@
 module.exports = {
     askKursOrt: function (convo, luisHelper, nextThread = "None") {
 
+        const { t } = require('../../../node_modules/localizify');
+
         console.log("Start askKursOrt");
 
         // set up a menu thread which other threads can point at.
         convo.ask({
-            text: 'Wo soll der Deutschkurs stattfinden?',
+            text:  t('kurs.notwendigeInformationen.kursOrt.askKursOrt'),
             quick_replies: [
                 {
-                    title: 'Aarau',
-                    payload: 'Deutschkurs in Aarau',
+                    title:  t('kurs.notwendigeInformationen.kursOrt.askKursOrt_Qr_Aarau'),
+                    payload:  t('kurs.notwendigeInformationen.kursOrt.askKursOrt_Qr_Aarau_Payload'),
                 },
                 {
-                    title: 'Baden',
-                    payload: 'Deutschkurs in Baden',
+                    title:  t('kurs.notwendigeInformationen.kursOrt.askKursOrt_Qr_Baden'),
+                    payload:  t('kurs.notwendigeInformationen.kursOrt.askKursOrt_Qr_Baden_Payload'),
                 },
             ]
         }, [
@@ -33,9 +35,7 @@ module.exports = {
                     let aEntity = luisHelper.getEntityFromLuisResponse("kursOrt", res);
 
                     if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
-                        // array empty or does not exist
-                        //TODO: Handle not found entity
-                        convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
+                        convo.addMessage(t('nicht_verstanden'));
                         convo.repeat();
                     } else {
                         convo.setVar("kursBezirk", aEntity[0]);
@@ -58,19 +58,21 @@ module.exports = {
 
     convoKursOrt: function (convo, luisHelper, nextThread = "None") {
 
+        const { t } = require('../../../node_modules/localizify');
+
         console.log("Start askKursOrt");
 
         // set up a menu thread which other threads can point at.
         convo.addQuestion({
-            text: 'Wo soll der Deutschkurs stattfinden?',
+            text:  t('kurs.notwendigeInformationen.kursOrt.askKursOrt'),
             quick_replies: [
                 {
-                    title: 'Aarau',
-                    payload: 'Deutschkurs in Aarau',
+                    title:  t('kurs.notwendigeInformationen.kursOrt.askKursOrt_Qr_Aarau'),
+                    payload:  t('kurs.notwendigeInformationen.kursOrt.askKursOrt_Qr_Aarau_Payload'),
                 },
                 {
-                    title: 'Baden',
-                    payload: 'Deutschkurs in Baden',
+                    title:  t('kurs.notwendigeInformationen.kursOrt.askKursOrt_Qr_Baden'),
+                    payload:  t('kurs.notwendigeInformationen.kursOrt.askKursOrt_Qr_Baden_Payload'),
                 },
             ]
         }, [
@@ -84,8 +86,7 @@ module.exports = {
 
                     if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
                         // array empty or does not exist
-                        //TODO: Handle not found entity
-                        convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
+                        convo.addMessage(t('nicht_verstanden'));
                         convo.repeat();
                     } else {
                         convo.setVar("kursOrt", aEntity[0]);

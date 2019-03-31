@@ -2,40 +2,42 @@ module.exports = {
 
     help: function (convo, message, bot) {
 
+        const { t } = require('../../../node_modules/localizify');
+
         console.log("Start help");
 
         convo.addMessage({
-            text: 'Wie kann ich Ihenen helfen?',
+            text: t('help.helpMenu_Message'),
             quick_replies: [
                 {
-                    title: 'Deutschkurs suchen',
-                    payload: 'Deutschkurs suchen',
+                    title: t('help.helpMenu_Message_Qr_Kurs_Suchen'),
+                    payload: t('help.helpMenu_Message_Qr_Kurs_Suchen'),
                 },
                 {
-                    title: 'Informationen zum Aufenthaltsstatus',
-                    payload: 'Informationen zum Aufenthaltsstatus',
+                    title: t('help.helpMenu_Message_Qr_Aufenthaltsstatus'),
+                    payload: t('help.helpMenu_Message_Qr_Aufenthaltsstatus'),
                 },
                 {
-                    title: 'Hilfe',
-                    payload: 'Hilfe',
+                    title: t('help.helpMenu_Message_Qr_Hilfe'),
+                    payload: t('help.helpMenu_Message_Qr_Hilfe'),
                 },
             ]
         }, "helpMenu");
 
         convo.addQuestion({
-            text: 'Was möchten sie gerne wissen?:',
+            text: t('help.help_Question'),
             quick_replies: [
                 {
-                    title: 'Wer bin ich?',
-                    payload: 'Wer bin ich',
+                    title: t('help.help_Question_Qr_wer_bin_ich'),
+                    payload: t('help.help_Question_Qr_wer_bin_ich'),
                 },
                 {
-                    title: 'Wie können Sie mich bedienen?',
-                    payload: 'Wie können Sie mich bedienen',
+                    title: t('help.help_Question_Qr_Bedienung'),
+                    payload: t('help.help_Question_Qr_Bedienung'),
                 },
                 {
-                    title: 'Wie kann ich Ihnen helfen?',
-                    payload: 'Wie kann ich Ihnen helfen',
+                    title: t('help.help_Question_Qr_wie_kann_ich_helfen'),
+                    payload: t('help.help_Question_Qr_wie_kann_ich_helfen'),
                 },
             ]
         }, [
@@ -45,17 +47,17 @@ module.exports = {
 
                     switch (res.text) {
 
-                        case "Wer bin ich":
-                            convo.transitionTo('helpMenu','Ich bin ein Chatbot.');
+                        case t('help.help_Question_Qr_wer_bin_ich'):
+                            convo.transitionTo('helpMenu',t('help.help_wer_bin_ich'));
                             break;
-                        case "Wie können Sie mich bedienen":
-                            convo.transitionTo('helpMenu','Schreiben sie mir mir..');
+                        case t('help.help_Question_Qr_Bedienung'):
+                            convo.transitionTo('helpMenu',t('help.help_Bedienung'));
                             break;
-                        case "Wie kann ich Ihnen helfen":
-                            convo.transitionTo('helpMenu','Ich helfe Ihnen bei der Suche nach einem Deutschkurs oder bei Fragen zum Aufenthaltsstatus.');
+                        case t('help.help_Question_Qr_wie_kann_ich_helfen'):
+                            convo.transitionTo('helpMenu',t('help.help_wie_kann_ich_helfen'));
                             break;
                         default:
-                            convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
+                            convo.addMessage(t('nicht_verstanden'));
                             convo.repeat();
                             break;
                     }

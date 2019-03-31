@@ -13,26 +13,28 @@
 module.exports = {
     convoKursKosten: function (convo, luisHelper, nextThread = "None") {
 
+        const { t } = require('../../../node_modules/localizify');
+
         console.log("Start askKursKosten");
 
         convo.addQuestion({
-            text: 'Wie viel darf der Kurs Kosten?',
+            text: t('kurs.zusaetzlicheInformationen.kursKosten.convoKursAdressatengruppe_Qr_C1'),
             quick_replies: [
                 {
-                    title: 'Subventionierter Kurs (Gratis)',
-                    payload: 'Subventionierter Kurs (Gratis)',
+                    title: t('kurs.zusaetzlicheInformationen.kursKosten.convoKursKosten_Qr_Subventionierter'),
+                    payload: t('kurs.zusaetzlicheInformationen.kursKosten.convoKursKosten_Qr_Subventionierter'),
                 },
                 {
-                    title: 'Unter 500 Chf',
-                    payload: 'Unter 500 Chf',
+                    title: t('kurs.zusaetzlicheInformationen.kursKosten.convoKursKosten_Qr_500'),
+                    payload: t('kurs.zusaetzlicheInformationen.kursKosten.convoKursKosten_Qr_500'),
                 },
                 {
-                    title: 'Bis zu 1000 Chf',
-                    payload: 'Bis zu 1000 Chf',
+                    title: t('kurs.zusaetzlicheInformationen.kursKosten.convoKursKosten_Qr_1000'),
+                    payload: t('kurs.zusaetzlicheInformationen.kursKosten.convoKursKosten_Qr_1000'),
                 },
                 {
-                    title: 'Mehr als 1000 Chf',
-                    payload: 'Mehr als 1000 Chf',
+                    title: t('kurs.zusaetzlicheInformationen.kursKosten.convoKursKosten_Qr_1000plus'),
+                    payload: t('kurs.zusaetzlicheInformationen.kursKosten.convoKursKosten_Qr_1000plus'),
                 },
             ]
         }, [
@@ -44,8 +46,7 @@ module.exports = {
 
                     if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
                         // array empty or does not exist
-                        //TODO: Handle not found entity
-                        convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
+                        convo.addMessage(t('nicht_verstanden'));
                         convo.repeat();
                     } else {
                         convo.setVar("kursKosten", aEntity[0]);

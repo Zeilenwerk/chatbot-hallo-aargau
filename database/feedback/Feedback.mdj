@@ -177,7 +177,7 @@
 							},
 							"name": "Benutzer",
 							"type": "VARCHAR",
-							"length": "30"
+							"length": "36"
 						},
 						{
 							"_type": "ERDColumn",
@@ -213,6 +213,18 @@
 					]
 				}
 			]
+		}
+	],
+	"tags": [
+		{
+			"_type": "Tag",
+			"_id": "AAAAAAFp07vUceipiz0=",
+			"_parent": {
+				"$ref": "AAAAAAFF+h6SjaM2Hec="
+			},
+			"name": "database",
+			"kind": "string",
+			"value": "feedback"
 		}
 	],
 	"version": "0.1"
