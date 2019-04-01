@@ -828,7 +828,7 @@
 									},
 									"font": "Arial;13;1",
 									"left": 600,
-									"top": 141,
+									"top": 93,
 									"width": 221.42626953125,
 									"height": 13,
 									"text": "Kurs_Adressatengruppe"
@@ -854,7 +854,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 605,
-											"top": 164,
+											"top": 116,
 											"width": 211.42626953125,
 											"height": 13
 										},
@@ -869,21 +869,21 @@
 											},
 											"font": "Arial;13;0",
 											"left": 605,
-											"top": 179,
+											"top": 131,
 											"width": 211.42626953125,
 											"height": 13
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 600,
-									"top": 159,
+									"top": 111,
 									"width": 221.42626953125,
 									"height": 38
 								}
 							],
 							"font": "Arial;13;0",
 							"left": 600,
-							"top": 136,
+							"top": 88,
 							"width": 221.42626953125,
 							"height": 61,
 							"nameLabel": {
@@ -1250,7 +1250,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 804,
+									"left": 686,
 									"top": 24,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -1267,8 +1267,8 @@
 										"$ref": "AAAAAAFpfXv0jcOGzco="
 									},
 									"font": "Arial;13;0",
-									"left": 789,
-									"top": 104,
+									"left": 671,
+									"top": 56,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 30,
@@ -1301,7 +1301,7 @@
 							"tail": {
 								"$ref": "AAAAAAFpfVg1NIVgb9U="
 							},
-							"points": "804:136;804:45;952:45",
+							"points": "686:88;686:45;952:45",
 							"nameLabel": {
 								"$ref": "AAAAAAFpfXv0jcOHvoE="
 							},
@@ -1875,7 +1875,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 473,
-									"top": 381,
+									"top": 356,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -1909,7 +1909,7 @@
 									},
 									"font": "Arial;13;0",
 									"left": 574,
-									"top": 147,
+									"top": 97,
 									"height": 13,
 									"alpha": -0.5235987755982988,
 									"distance": 30,
@@ -1926,7 +1926,7 @@
 								"$ref": "AAAAAAFpxfXLm89A17s="
 							},
 							"lineStyle": 2,
-							"points": "451:608;488:608;488:168;600:168",
+							"points": "451:608;488:608;488:118;600:118",
 							"nameLabel": {
 								"$ref": "AAAAAAFpxhZa4dDRBs0="
 							},
@@ -2850,8 +2850,8 @@
 								"$ref": "AAAAAAFLzntJC6ElOqo="
 							},
 							"font": "Arial;13;0",
-							"left": 552,
-							"top": 40,
+							"left": 480,
+							"top": 16,
 							"width": 131.287109375,
 							"height": 40,
 							"text": "Assoziationstabelle"
@@ -2870,7 +2870,7 @@
 								"$ref": "AAAAAAFpxlorOdNx4uM="
 							},
 							"lineStyle": 1,
-							"points": "635:80;683:135"
+							"points": "587:56;648:87"
 						},
 						{
 							"_type": "UMLNoteView",
@@ -4041,7 +4041,7 @@
 							},
 							"name": "Raum",
 							"type": "VARCHAR",
-							"length": "30",
+							"length": "100",
 							"nullable": true
 						}
 					]

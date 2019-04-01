@@ -20,41 +20,19 @@ module.exports = {
         const { t } = require('../../../node_modules/localizify');
         const logHelper = require("../../../util/logHelper");
 
-
         logHelper.debug("Start askKursTag");
+
+        //Get All Tage from Config and add as Quick Replies
+        var tag = process.env.KURS_TAG.split(",");
+        var tag_payload = process.env.KURS_TAG_PAYLOAD.split(",");
+        var qr = [];
+        for (let i = 0; i < tag.length; i++) {
+            qr.push({title: tag[i], payload: tag_payload[i]})
+        }
 
         convo.ask({
             text: t('kurs.notwendigeInformationen.kursTag.askKursTag'),
-            quick_replies: [
-                {
-                    title: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Montag'),
-                    payload: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Montag'),
-                },
-                {
-                    title: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Dienstag'),
-                    payload: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Dienstag'),
-                },
-                {
-                    title: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Mittwoch'),
-                    payload: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Mittwoch'),
-                },
-                {
-                    title: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Donnerstag'),
-                    payload: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Donnerstag'),
-                },
-                {
-                    title: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Freitag'),
-                    payload: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Freitag'),
-                },
-                {
-                    title: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Samstag'),
-                    payload: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Samstag'),
-                },
-                {
-                    title: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Sonntag'),
-                    payload: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Sonntag'),
-                },
-            ]
+            quick_replies: qr
         }, [
             {
                 default: true,
@@ -88,41 +66,19 @@ module.exports = {
         const { t } = require('../../../node_modules/localizify');
         const logHelper = require("../../../util/logHelper");
 
-
         logHelper.debug("Start askKursTag");
+
+        //Get All Tage from Config and add as Quick Replies
+        var tag = process.env.KURS_TAG.split(",");
+        var tag_payload = process.env.KURS_TAG_PAYLOAD.split(",");
+        var qr = [];
+        for (let i = 0; i < tag.length; i++) {
+            qr.push({title: tag[i], payload: tag_payload[i]})
+        }
 
         convo.addQuestion({
             text: t('kurs.notwendigeInformationen.kursTag.askKursTag'),
-            quick_replies: [
-                {
-                    title: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Montag'),
-                    payload: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Montag'),
-                },
-                {
-                    title: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Dienstag'),
-                    payload: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Dienstag'),
-                },
-                {
-                    title: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Mittwoch'),
-                    payload: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Mittwoch'),
-                },
-                {
-                    title: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Donnerstag'),
-                    payload: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Donnerstag'),
-                },
-                {
-                    title: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Freitag'),
-                    payload: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Freitag'),
-                },
-                {
-                    title: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Samstag'),
-                    payload: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Samstag'),
-                },
-                {
-                    title: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Sonntag'),
-                    payload: t('kurs.notwendigeInformationen.kursTag.askKursTag_Qr_Sonntag'),
-                },
-            ]
+            quick_replies: qr
         }, [
             {
                 default: true,

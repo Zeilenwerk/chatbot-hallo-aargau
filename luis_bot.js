@@ -47,6 +47,8 @@
 var env = require('node-env-file');
 env(__dirname + '/.env');
 
+//Log Helper
+const logHelper = require("./util/logHelper");
 
 var Botkit = require('botkit');
 var debug = require('debug')('botkit:main');
@@ -80,9 +82,6 @@ if (!process.env.serviceUri) {
     logHelper.error('Error: Specify Luis service uri');
     process.exit(1);
 }
-
-//Log Helper
-const logHelper = require("./util/logHelper");
 
 var luisOptions = {serviceUri: process.env.serviceUri};
 

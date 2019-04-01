@@ -5,8 +5,6 @@ module.exports = {
 
         //Get Postgres Middleware
         var pg = require('pg');
-        // var async = require('async');
-        // var q = require('q');
 
         const dbConfig = {
             user: process.env.BOTKIT_STORAGE_POSTGRES_USER || 'botkit',

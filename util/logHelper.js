@@ -24,7 +24,7 @@ module.exports = {
             " VALUES ('" + userId + "', to_timestamp(" + timeUtil.getEpoch(date) + "))" +
             " ON CONFLICT (Benutzer) DO NOTHING";
 
-        this.info("DB Query: " + pgQuery);
+        this.debug("Benutzer DB Query: " + pgQuery);
 
         pgClient.query(pgQuery,
             (err, res) => {
@@ -32,8 +32,8 @@ module.exports = {
 
                 pgClient.end();
 
-                this.info("DB Response:");
-                this.info(JSON.stringify(res));
+                this.debug("Add New User DB Response:");
+                this.debug(JSON.stringify(res));
 
             });
 
@@ -189,7 +189,7 @@ module.exports = {
                     "WHERE b.Benutzer = '" + userId + "'" +
                     "AND n.code = '" + messageType + "'";
 
-                this.info("DB Query: " + pgQuery);
+                this.debug("Benutzer Log DB Query: " + pgQuery);
 
                 pgClient.query(pgQuery,
                     (err, res) => {
@@ -197,8 +197,8 @@ module.exports = {
 
                         pgClient.end();
 
-                        this.info("DB Response:");
-                        this.info(JSON.stringify(res));
+                        this.debug("Store Message DB Response:");
+                        this.debug(JSON.stringify(res));
 
                     });
             }

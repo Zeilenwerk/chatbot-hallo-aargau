@@ -26,7 +26,7 @@ module.exports = {
             if (res.entities[i].type === sEntitType) {
 
                 logHelper.info("Entity found for Type " + sEntitType);
-                logHelper.info(res.entities[i]);
+                logHelper.info(JSON.stringify(res.entities[i]));
 
                 sEntity = res.entities[i].entity;
                 sResolution = "None";

@@ -2,6 +2,13 @@
   "ja": "Ja",
   "nein": "Nein",
   "nicht_verstanden": "Leider habe ich die Antwort nicht verstanden.",
+  "tag_montag": "Montag",
+  "tag_dienstag": "Dienstag",
+  "tag_mittwoch": "Mittwoch",
+  "tag_donnerstag": "Donnerstag",
+  "tag_freitag": "Freitag",
+  "tag_samstag": "Samstag",
+  "tag_sonntag": "Sonntag",
   "_connection_events": {
     "onboarding": "Guten Tag! Wie kann ich Ihenen helfen?",
     "onboarding_Deutschkurs": "Deutschkurs suchen",

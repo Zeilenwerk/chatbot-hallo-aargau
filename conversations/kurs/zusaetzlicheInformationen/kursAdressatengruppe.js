@@ -21,47 +21,19 @@ module.exports = {
         const { t } = require('../../../node_modules/localizify');
         const logHelper = require("../../../util/logHelper");
 
-
         logHelper.debug("Start askKursAdressatengruppe");
+
+        //Get All Adressatengruppen from Config and add as Quick Replies
+        var adressatengruppen = process.env.KURS_ADRESSATENGRUPPEN.split(",");
+        var adressatengruppen_payload = process.env.KURS_ADRESSATENGRUPPEN_PAYLOAD.split(",");
+        var qr = [];
+        for (let i = 0; i < adressatengruppen.length; i++) {
+            qr.push({title: adressatengruppen[i], payload: adressatengruppen_payload[i]})
+        }
 
         convo.addQuestion({
             text:  t('kurs.zusaetzlicheInformationen.kursAdressatengruppe.convoKursAdressatengruppe'),
-            quick_replies: [
-                {
-                    title:  t('kurs.zusaetzlicheInformationen.kursAdressatengruppe.convoKursAdressatengruppe_Qr_Frauen'),
-                    payload:  t('kurs.zusaetzlicheInformationen.kursAdressatengruppe.convoKursAdressatengruppe_Qr_Frauen_Payload'),
-                },
-                {
-                    title:  t('kurs.zusaetzlicheInformationen.kursAdressatengruppe.convoKursAdressatengruppe_Qr_Erwachsene'),
-                    payload:  t('kurs.zusaetzlicheInformationen.kursAdressatengruppe.convoKursAdressatengruppe_Qr_Erwachsene_Payload'),
-                },
-
-                {
-                    title:  t('kurs.zusaetzlicheInformationen.kursAdressatengruppe.convoKursAdressatengruppe_Qr_Muttersprache'),
-                    payload:  t('kurs.zusaetzlicheInformationen.kursAdressatengruppe.convoKursAdressatengruppe_Qr_Muttersprache_Payload'),
-                },
-                {
-                    title:  t('kurs.zusaetzlicheInformationen.kursAdressatengruppe.convoKursAdressatengruppe_Qr_A1'),
-                    payload:  t('kurs.zusaetzlicheInformationen.kursAdressatengruppe.convoKursAdressatengruppe_Qr_A1_Payload'),
-                },
-                {
-                    title:  t('kurs.zusaetzlicheInformationen.kursAdressatengruppe.convoKursAdressatengruppe_Qr_A2'),
-                    payload:  t('kurs.zusaetzlicheInformationen.kursAdressatengruppe.convoKursAdressatengruppe_Qr_A2_Payload'),
-                },
-                {
-                    title:  t('kurs.zusaetzlicheInformationen.kursAdressatengruppe.convoKursAdressatengruppe_Qr_B1'),
-                    payload:  t('kurs.zusaetzlicheInformationen.kursAdressatengruppe.convoKursAdressatengruppe_Qr_B1_Payload'),
-                },
-                {
-                    title:  t('kurs.zusaetzlicheInformationen.kursAdressatengruppe.convoKursAdressatengruppe_Qr_B2'),
-                    payload:  t('kurs.zusaetzlicheInformationen.kursAdressatengruppe.convoKursAdressatengruppe_Qr_B2_Payload'),
-                },
-                {
-                    title:  t('kurs.zusaetzlicheInformationen.kursAdressatengruppe.convoKursAdressatengruppe_Qr_C1'),
-                    payload:  t('kurs.zusaetzlicheInformationen.kursAdressatengruppe.convoKursAdressatengruppe_Qr_C1_Payload'),
-                },
-
-            ]
+            quick_replies: qr
         }, [
             {
                 default: true,

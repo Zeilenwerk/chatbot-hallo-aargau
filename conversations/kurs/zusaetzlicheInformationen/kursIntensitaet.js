@@ -15,21 +15,19 @@ module.exports = {
         const { t } = require('../../../node_modules/localizify');
         const logHelper = require("../../../util/logHelper");
 
-
         console.log("Start askKursIntensitaet");
+
+        //Get All Intensitaet from Config and add as Quick Replies
+        var intensitaet = process.env.KURS_INTENSITAET.split(",");
+        var intensitaet_payload = process.env.KURS_INTENSITAET_PAYLOAD.split(",");
+        var qr = [];
+        for (let i = 0; i < intensitaet.length; i++) {
+            qr.push({title: intensitaet[i], payload: intensitaet_payload[i]})
+        }
 
         convo.addQuestion({
             text: t('kurs.zusaetzlicheInformationen.kursIntensitaet.convoKursIntensitaet'),
-            quick_replies: [
-                {
-                    title: t('kurs.zusaetzlicheInformationen.kursIntensitaet.convoKursIntensitaet_Qr_Wochenkurs'),
-                    payload: t('kurs.zusaetzlicheInformationen.kursIntensitaet.convoKursIntensitaet_Qr_Wochenkurs'),
-                },
-                {
-                    title: t('kurs.zusaetzlicheInformationen.kursIntensitaet.convoKursIntensitaet_Qr_Intensivkurs'),
-                    payload: t('kurs.zusaetzlicheInformationen.kursIntensitaet.convoKursIntensitaet_Qr_Intensivkurs'),
-                },
-            ]
+            quick_replies: qr
         }, [
             {
                 default: true,

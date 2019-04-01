@@ -13,9 +13,10 @@ module.exports = {
 
         //Get All Orte from Config and add as Quick Replies
         var orte = process.env.KURS_ORTE.split(",");
+        var orte_payload = process.env.KURS_ORTE_PAYLOAD.split(",");
         var qr = [];
         for (let i = 0; i < orte.length; i++) {
-            qr.push({title: orte[i], payload: a[i]})
+            qr.push({title: orte[i], payload: orte_payload[i]})
         }
 
         logHelper.debug("Start askKursOrt");
@@ -58,14 +59,15 @@ module.exports = {
         const { t } = require('../../../node_modules/localizify');
         const logHelper = require("../../../util/logHelper");
 
+        logHelper.debug("Start askKursOrt");
+
         //Get All Orte from Config and add as Quick Replies
         var orte = process.env.KURS_ORTE.split(",");
+        var orte_payload = process.env.KURS_ORTE_PAYLOAD.split(",");
         var qr = [];
         for (let i = 0; i < orte.length; i++) {
-            qr.push({title: orte[i], payload: a[i]})
+            qr.push({title: orte[i], payload: orte_payload[i]})
         }
-
-        logHelper.debug("Start askKursOrt");
 
         // set up a menu thread which other threads can point at.
         convo.addQuestion({

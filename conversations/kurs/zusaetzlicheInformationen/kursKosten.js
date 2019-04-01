@@ -20,7 +20,7 @@ module.exports = {
         logHelper.debug("Start askKursKosten");
 
         convo.addQuestion({
-            text: t('kurs.zusaetzlicheInformationen.kursKosten.convoKursAdressatengruppe_Qr_C1'),
+            text: t('kurs.zusaetzlicheInformationen.kursKosten.convoKursKosten'),
             quick_replies: [
                 {
                     title: t('kurs.zusaetzlicheInformationen.kursKosten.convoKursKosten_Qr_Subventionierter'),

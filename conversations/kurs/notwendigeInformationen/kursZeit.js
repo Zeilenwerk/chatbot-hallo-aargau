@@ -77,7 +77,8 @@ module.exports = {
         logHelper.debug("Start askKursZeit");
 
         convo.addQuestion({
-            text: t('kurs.notwendigeInformationen.kursZeit.askKursZeit', {kursTag : "{{vars.kursTag}}"}),
+            //text: t('kurs.notwendigeInformationen.kursZeit.askKursZeit', {kursTag : "{{vars.kursTag}}"}),
+            text: t('kurs.notwendigeInformationen.kursZeit.askKursZeit', {kursTag : ""}),
             quick_replies: [
                 {
                     title:  t('kurs.notwendigeInformationen.kursZeit.askKursZeit_Morgens'),

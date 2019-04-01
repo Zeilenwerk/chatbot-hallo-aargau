@@ -25,7 +25,7 @@ module.exports = {
                             " FROM Benutzer b " +
                             " WHERE b.Benutzer = '" + userId + "'";
 
-        logHelper.info("DB Query: " + pgQuery);
+        logHelper.debug("Feedback DB Query: " + pgQuery);
 
         pgClient.query(pgQuery,
             (err, res) => {
@@ -33,7 +33,7 @@ module.exports = {
 
                 pgClient.end();
 
-                logHelper.info("DB Response:");
+                logHelper.info("Feedback DB Response:");
                 logHelper.info(JSON.stringify(res));
 
             });

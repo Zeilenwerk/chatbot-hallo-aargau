@@ -27,7 +27,6 @@ module.exports = {
         const kursKosten = require("./zusaetzlicheInformationen/kursKosten");
 
         const kursGefundeneKurse = require("./gefundeneKurse/kursGefundeneKurse");
-        const kursInformationenKurs = require("./gefundeneKurse/kursInfomrationenKurs");
 
         //********************************
         // Initialize Conversation
@@ -245,7 +244,7 @@ module.exports = {
                     switch (res.text) {
 
                         case t('kurs.gefundeneKurse_Question_QR_Ja'):
-                            kursInformationenKurs.displayKursInfromationen(function (m) {
+                            kursGefundeneKurse.displayKursInfromationen(function (m) {
                                 bot.reply(message, m);
                             }, convo, convo.vars.maxKurse, convo.vars.offsetKurse);
                             break;

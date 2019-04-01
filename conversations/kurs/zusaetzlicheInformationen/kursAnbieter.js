@@ -16,25 +16,19 @@ module.exports = {
         const { t } = require('../../../node_modules/localizify');
         const logHelper = require("../../../util/logHelper");
 
-
         logHelper.debug("Start askKursAnbieter");
+
+        //Get All Anbieter from Config and add as Quick Replies
+        var anbieter = process.env.KURS_ANBIETER.split(",");
+        var anbieter_payload = process.env.KURS_ANBIETER_PAYLOAD.split(",");
+        var qr = [];
+        for (let i = 0; i < anbieter.length; i++) {
+            qr.push({title: anbieter[i], payload: anbieter_payload[i]})
+        }
 
         convo.addQuestion({
             text: t('kurs.zusaetzlicheInformationen.kursAnbieter.convoKursAnbieter'),
-            quick_replies: [
-                {
-                    title: t('kurs.zusaetzlicheInformationen.kursAnbieter.convoKursAnbieter_Qr_Nosotras'),
-                    payload: t('kurs.zusaetzlicheInformationen.kursAnbieter.convoKursAnbieter_Qr_Nosotras'),
-                },
-                {
-                    title: t('kurs.zusaetzlicheInformationen.kursAnbieter.convoKursAnbieter_Qr_Verein'),
-                    payload: t('kurs.zusaetzlicheInformationen.kursAnbieter.convoKursAnbieter_Qr_Verein'),
-                },
-                {
-                    title: t('kurs.zusaetzlicheInformationen.kursAnbieter.convoKursAnbieter_Qr_Tlc'),
-                    payload: t('kurs.zusaetzlicheInformationen.kursAnbieter.convoKursAnbieter_Qr_Tlc'),
-                },
-            ]
+            quick_replies: qr
         }, [
             {
                 default: true,

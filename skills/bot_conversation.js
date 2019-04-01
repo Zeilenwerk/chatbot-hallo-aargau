@@ -16,8 +16,8 @@ module.exports = function (controller) {
         bot.startConversation(message, function (err, convo) {
 
             //Log Message and top intent
-            logHelper.info("Recieved Message:");
-            logHelper.info(message);
+            logHelper.info("Recieved Message: " + message.text);
+            logHelper.debug(JSON.stringify(message));
             logHelper.info("Top Intent: " + message.topIntent.intent);
             logHelper.info("Score: " + message.topIntent.score);
 
