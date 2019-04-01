@@ -52,10 +52,13 @@ module.exports = {
         let date = new Date();
         let logLevel = 1;
 
-        console.log(timeUtil.formatDate(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry);
+        if (process.env.LOG_DEBUG_2_CONSOLE === "true") {
+            console.log(timeUtil.formatDate(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry);
+        }
 
         //If debug Log is not enabled, dont log to DB
-        if (process.env.LOG_DEBUG === "true") this.storeLogEntry(logLevel, date, entry);
+        if (process.env.LOG_DEBUG_2_DB === "true" ) this.logEntry_2_DB(logLevel, date, entry);
+        if (process.env.LOG_DEBUG_2_FILE === "true") this.logEntry_2_File(logLevel, date, entry);
 
     },
 
@@ -69,9 +72,13 @@ module.exports = {
         let date = new Date();
         let logLevel = 2;
 
-        console.log(timeUtil.formatDate(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry);
+        if (process.env.LOG_INFO_2_CONSOLE === "true") {
+            console.log(timeUtil.formatDate(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry);
+        }
 
-        if (process.env.LOG_INFO === "true") this.storeLogEntry(logLevel, date, entry);
+        //If debug Log is not enabled, dont log to DB
+        if (process.env.LOG_INFO_2_DB === "true" ) this.logEntry_2_DB(logLevel, date, entry);
+        if (process.env.LOG_INFO_2_FILE === "true") this.logEntry_2_File(logLevel, date, entry);
 
     },
 
@@ -85,9 +92,13 @@ module.exports = {
         let date = new Date();
         let logLevel = 3;
 
-        console.log(timeUtil.formatDate(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry);
+        if (process.env.LOG_WARN_2_CONSOLE === "true") {
+            console.log(timeUtil.formatDate(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry);
+        }
 
-        if (process.env.LOG_WARN === "true") this.storeLogEntry(logLevel, date, entry);
+        //If debug Log is not enabled, dont log to DB
+        if (process.env.LOG_WARN_2_DB === "true" ) this.logEntry_2_DB(logLevel, date, entry);
+        if (process.env.LOG_WARN_2_FILE === "true") this.logEntry_2_File(logLevel, date, entry);
 
     },
 
@@ -101,9 +112,13 @@ module.exports = {
         let date = new Date();
         let logLevel = 4;
 
-        console.log(timeUtil.formatDate(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry);
+        if (process.env.LOG_ERROR_2_CONSOLE === "true") {
+            console.log(timeUtil.formatDate(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry);
+        }
 
-        if (process.env.LOG_ERROR === "true") this.storeLogEntry(logLevel, date, entry);
+        //If debug Log is not enabled, dont log to DB
+        if (process.env.LOG_ERROR_2_DB === "true" ) this.logEntry_2_DB(logLevel, date, entry);
+        if (process.env.LOG_ERROR_2_FILE === "true") this.logEntry_2_File(logLevel, date, entry);
 
     },
 
@@ -112,7 +127,7 @@ module.exports = {
     // 2 = INFO
     // 3 = WARNING
     // 4 = ERROR
-    storeLogEntry: function (logLevel, date, entry) {
+    logEntry_2_DB: function (logLevel, date, entry) {
 
         const timeUtil = require("./timeUtil");
 
@@ -135,6 +150,13 @@ module.exports = {
                     pgClient.end();
                 });
         }
+
+        return null;
+    },
+
+    logEntry_2_File: function (logLevel, date, entry) {
+
+        const timeUtil = require("./timeUtil");
 
         if(process.env.LOG_2_FILE === "true"){
 

@@ -11,22 +11,19 @@ module.exports = {
         const { t } = require('../../../node_modules/localizify');
         const logHelper = require("../../../util/logHelper");
 
+        //Get All Orte from Config and add as Quick Replies
+        var orte = process.env.KURS_ORTE.split(",");
+        var qr = [];
+        for (let i = 0; i < orte.length; i++) {
+            qr.push({title: orte[i], payload: a[i]})
+        }
 
         logHelper.debug("Start askKursOrt");
 
         // set up a menu thread which other threads can point at.
         convo.ask({
             text:  t('kurs.notwendigeInformationen.kursOrt.askKursOrt'),
-            quick_replies: [
-                {
-                    title:  t('kurs.notwendigeInformationen.kursOrt.askKursOrt_Qr_Aarau'),
-                    payload:  t('kurs.notwendigeInformationen.kursOrt.askKursOrt_Qr_Aarau_Payload'),
-                },
-                {
-                    title:  t('kurs.notwendigeInformationen.kursOrt.askKursOrt_Qr_Baden'),
-                    payload:  t('kurs.notwendigeInformationen.kursOrt.askKursOrt_Qr_Baden_Payload'),
-                },
-            ]
+            quick_replies: qr
         }, [
             {
                 default: true,
@@ -61,22 +58,19 @@ module.exports = {
         const { t } = require('../../../node_modules/localizify');
         const logHelper = require("../../../util/logHelper");
 
+        //Get All Orte from Config and add as Quick Replies
+        var orte = process.env.KURS_ORTE.split(",");
+        var qr = [];
+        for (let i = 0; i < orte.length; i++) {
+            qr.push({title: orte[i], payload: a[i]})
+        }
 
         logHelper.debug("Start askKursOrt");
 
         // set up a menu thread which other threads can point at.
         convo.addQuestion({
             text:  t('kurs.notwendigeInformationen.kursOrt.askKursOrt'),
-            quick_replies: [
-                {
-                    title:  t('kurs.notwendigeInformationen.kursOrt.askKursOrt_Qr_Aarau'),
-                    payload:  t('kurs.notwendigeInformationen.kursOrt.askKursOrt_Qr_Aarau_Payload'),
-                },
-                {
-                    title:  t('kurs.notwendigeInformationen.kursOrt.askKursOrt_Qr_Baden'),
-                    payload:  t('kurs.notwendigeInformationen.kursOrt.askKursOrt_Qr_Baden_Payload'),
-                },
-            ]
+            quick_replies: qr
         }, [
             {
                 default: true,
