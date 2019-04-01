@@ -37,7 +37,7 @@
 										"$ref": "AAAAAAFpyAq1Rd4uELY="
 									},
 									"font": "Arial;13;1",
-									"left": 344,
+									"left": 528,
 									"top": 285,
 									"width": 195.17236328125,
 									"height": 13,
@@ -63,7 +63,7 @@
 												"$ref": "AAAAAAFpyArSuN45G/Y="
 											},
 											"font": "Arial;13;0",
-											"left": 349,
+											"left": 533,
 											"top": 308,
 											"width": 185.17236328125,
 											"height": 13
@@ -78,7 +78,7 @@
 												"$ref": "AAAAAAFpyAuHwd5UcxA="
 											},
 											"font": "Arial;13;0",
-											"left": 349,
+											"left": 533,
 											"top": 323,
 											"width": 185.17236328125,
 											"height": 13
@@ -93,7 +93,7 @@
 												"$ref": "AAAAAAFpyArjMN5A0N0="
 											},
 											"font": "Arial;13;0",
-											"left": 349,
+											"left": 533,
 											"top": 338,
 											"width": 185.17236328125,
 											"height": 13
@@ -108,7 +108,7 @@
 												"$ref": "AAAAAAFpyAr4iN5HH6s="
 											},
 											"font": "Arial;13;0",
-											"left": 349,
+											"left": 533,
 											"top": 353,
 											"width": 185.17236328125,
 											"height": 13
@@ -123,21 +123,21 @@
 												"$ref": "AAAAAAFpyBmxD95hZEY="
 											},
 											"font": "Arial;13;0",
-											"left": 349,
+											"left": 533,
 											"top": 368,
 											"width": 185.17236328125,
 											"height": 13
 										}
 									],
 									"font": "Arial;13;0",
-									"left": 344,
+									"left": 528,
 									"top": 303,
 									"width": 195.17236328125,
 									"height": 83
 								}
 							],
 							"font": "Arial;13;0",
-							"left": 344,
+							"left": 528,
 							"top": 280,
 							"width": 195.17236328125,
 							"height": 106,
@@ -147,6 +147,35 @@
 							"columnCompartment": {
 								"$ref": "AAAAAAFpyAq1Rt4wEig="
 							}
+						},
+						{
+							"_type": "UMLNoteView",
+							"_id": "AAAAAAFp19gomG1pU08=",
+							"_parent": {
+								"$ref": "AAAAAAFLzntJC6ElOqo="
+							},
+							"font": "Arial;13;0",
+							"left": 336,
+							"top": 168,
+							"width": 233,
+							"height": 33,
+							"text": "Benutzer RelationAnalog Logging"
+						},
+						{
+							"_type": "UMLNoteLinkView",
+							"_id": "AAAAAAFp19ici21x0e4=",
+							"_parent": {
+								"$ref": "AAAAAAFLzntJC6ElOqo="
+							},
+							"font": "Arial;13;0",
+							"head": {
+								"$ref": "AAAAAAFpyAq1Rd4uELY="
+							},
+							"tail": {
+								"$ref": "AAAAAAFp19gomG1pU08="
+							},
+							"lineStyle": 1,
+							"points": "472:201;563:279"
 						}
 					]
 				},
