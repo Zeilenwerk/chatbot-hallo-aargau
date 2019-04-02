@@ -10,7 +10,9 @@
 module.exports = {
     getEntityFromLuisResponse: function (sEntitType, res) {
 
-        console.log("Start getEntityFromLuisResponse");
+        const logHelper = require("./logHelper");
+
+        logHelper.debug("Start getEntityFromLuisResponse");
 
         let sEntity = "None";
         let sResolution = "None";
@@ -21,12 +23,10 @@ module.exports = {
                 "\n\t-> Entity: '" + res.entities[i].entity + "'" +
                 "\n\t-> Type: '" + res.entities[i].type + "'";
 
-            //console.log(log);
-
             if (res.entities[i].type === sEntitType) {
 
-                console.log("Entity found for Type " + sEntitType);
-                console.log(res.entities[i]);
+                logHelper.info("Entity found for Type " + sEntitType);
+                logHelper.info(JSON.stringify(res.entities[i]));
 
                 sEntity = res.entities[i].entity;
                 sResolution = "None";
@@ -36,7 +36,7 @@ module.exports = {
 
                 let aRetVal = [sResolution, sEntity];
 
-                console.log("Ret Val: " + aRetVal);
+                logHelper.info("Ret Val: " + aRetVal);
 
                 return aRetVal;
             }
@@ -44,4 +44,4 @@ module.exports = {
         }
         return null;
     }
-}
+};

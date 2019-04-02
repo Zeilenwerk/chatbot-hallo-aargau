@@ -2,18 +2,21 @@ module.exports = {
 
     convoEnd: function (convo, message, bot) {
 
-        console.log("Start convoEnd");
+        const { t } = require('../../node_modules/localizify');
+        const logHelper = require("../../util/logHelper");
+
+        logHelper.debug("Start convoEnd");
 
         convo.addQuestion({
-            text: 'Kann ich Ihnen weiterhin behilflich sein?.',
+            text: t('end.convoEnd_Question'),
             quick_replies : [
                 {
-                    title: 'Ja, ich habe noch weitere anliegen',
-                    payload: 'Ja',
+                    title: t('end.convoEnd_Question_Qr_Ja'),
+                    payload: t('end.convoEnd_Question_Qr_Ja_Payload'),
                 },
                 {
-                    title: 'Nein, das wäre alles',
-                    payload: 'Nein',
+                    title: t('end.convoEnd_Question_Qr_Nein'),
+                    payload: t('end.convoEnd_Question_Qr_Nein_Payload'),
                 },
 
             ]
@@ -24,13 +27,13 @@ module.exports = {
 
                     switch (res.text) {
 
-                        case "Ja":
+                        case t('end.convoEnd_Question_Qr_Ja_Payload'):
                             convo.gotoThread("helpMenu");
                             break;
-                        case "Nein":
+                        case t('end.convoEnd_Question_Qr_Nein_Payload'):
                             bot.findConversation(message, function (convo) {
                                 if (convo) {
-                                    bot.reply(message, "Auf wiedersehen");
+                                    bot.reply(message, t('end.auf_wiedersehen'));
                                     // stop the conversation and swallow this message
                                     convo.stop('quit');
                                 } else {
@@ -40,13 +43,33 @@ module.exports = {
                             });
                             break;
                         default:
-                            convo.addMessage("Leider habe ich die Antwort nicht verstanden.");
+                            convo.addMessage(t('nicht_verstanden'));
                             convo.repeat();
                             break;
                     }
                 }
             }
         ], {}, "convoEnd");
+
+    },
+
+    convoQuit: function (convo, message, bot) {
+
+        const { t } = require('../../node_modules/localizify');
+        const logHelper = require("../../util/logHelper");
+
+        logHelper.debug("Start convoQuit");
+
+        bot.findConversation(message, function (convo) {
+            if (convo) {
+                bot.reply(message, t('end.convoQuit_Message'));
+                // stop the conversation and swallow this message
+                convo.stop('quit');
+            } else {
+                // nothing ongoing, this message passes through
+                next();
+            }
+        });
 
     }
 

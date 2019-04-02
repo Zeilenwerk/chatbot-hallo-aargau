@@ -2,66 +2,9 @@
 
 module.exports = function (controller) {
 
-    //Get LUIS middleware
-    var luis = require('../node_modules/botkit-middleware-luis/src/luis-middleware');
-
-    //*********************************
-    // Handle User Intents
-    //*********************************
-
-    controller.hears(["Deutschkurs suchen", "Hilfe", "Help", "Informationen zum Aufenthaltsstatus"], 'message_received', luis.middleware.hereIntent, function (bot, message) {
-
-        bot.startConversation(message, function (err, convo) {
-
-            //Log Message and top intent
-            console.log("Recieved Message:");
-            console.log(message);
-            console.log("Top Intent: " + message.topIntent.intent);
-            console.log("Score: " + message.topIntent.score);
-
-            //Set Timeout in milliseconds
-            // 1 min = 60000
-            // 2 min = 120000
-            // 3 min = 180000
-            // 4 min = 240000
-            // 5 min = 300000
-            convo.setTimeout(120000);
-
-            //Timeout conversation
-            convo.onTimeout(function(convo) {
-                convo.say('Leider ist das Zeitlimit überschirtten worden. Diese Sitzung wird beendet.');
-                convo.gotoThread("convoEnd");
-            });
-
-            //End conversation
-            const end = require('../conversations/end/convoEnd');
-            end.convoEnd(convo, message, bot);
-
-            //Help Thread
-            const help = require('../conversations/help/help');
-            help.help(convo, message, bot, controller);
-
-            //Fedback
-            const feedback = require('../conversations/feedback/userFeedback');
-            feedback.askFeedback(convo, message, bot);
-
-            //Deutschkurs
-            const deutschkurs = require('../conversations/deutschkurs/deutschkurse');
-
-            if (message.topIntent.intent === "Deutschkurs Suchen") {
-                deutschkurs.deutschkursSuchen(convo, message, bot);
-            } else if (message.topIntent.intent === "Help") {
-                convo.gotoThread("help");
-            } else if (message.topIntent.intent === "Hallo") {
-                convo.gotoThread("helpMenu");
-            } else {
-                bot.reply(message, "Leider noch nicht implementiert");
-                convo.gotoThread("convoEnd");
-            }
-
-        });
-
-    });
+    const logHelper = require("../util/logHelper");
+    const timeUtil = require("../util/timeUtil");
+    const { t } = require('../node_modules/localizify');
 
     //*********************************
     // On Bot Start / Resume
@@ -99,13 +42,17 @@ module.exports = function (controller) {
     //*********************************
     controller.on('conversationStarted', function (bot, convo) {
         //A conversation has started. handler should be in the form of function(bot, convo)
-        console.log('A conversation started with ', convo.context.user);
+        logHelper.info('A conversation started with ' + convo.context.user);
+
+        //Insert new User to  on cinversation start
+        logHelper.addNewUser(convo.context.user, new Date());
+
+
     });
 
     controller.on('conversationEnded', function (bot, convo) {
         //A conversation has ended. handler should be in the form of function(bot, convo)
-        console.log('A conversation ended with ', convo.context.user);
-        console.log('\t-> Text: ', convo.context.text);
+        logHelper.info('A conversation ended with ' + convo.context.user);
     });
 
     controller.on('heard-trigger', function (bot, triggers, message) {
@@ -123,22 +70,24 @@ module.exports = function (controller) {
     //*********************************
     function conductOnboarding(bot, message) {
 
+        const { t } = require('../node_modules/localizify');
+
         bot.startConversation(message, function (err, convo) {
 
             convo.say({
-                text: 'Guten Tag! Wie kann ich Ihenen helfen?',
+                text: t('_connection_events.onboarding'),
                 quick_replies: [
                     {
-                        title: 'Deutschkurs suchen',
-                        payload: 'Deutschkurs suchen',
+                        title: t('_connection_events.onboarding_Deutschkurs'),
+                        payload: t('_connection_events.onboarding_Deutschkurs'),
                     },
                     {
-                        title: 'Informationen zum Aufenthaltsstatus',
-                        payload: 'Informationen zum Aufenthaltsstatus',
+                        title: t('_connection_events.onboarding_Aufenthaltsstatus'),
+                        payload: t('_connection_events.onboarding_Aufenthaltsstatus'),
                     },
                     {
-                        title: 'Hilfe',
-                        payload: 'Hilfe',
+                        title: t('_connection_events.onboarding_Hilfe'),
+                        payload: t('_connection_events.onboarding_Hilfe'),
                     },
                 ]
             });

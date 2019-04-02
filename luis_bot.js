@@ -47,6 +47,8 @@
 var env = require('node-env-file');
 env(__dirname + '/.env');
 
+//Log Helper
+const logHelper = require("./util/logHelper");
 
 var Botkit = require('botkit');
 var debug = require('debug')('botkit:main');
@@ -64,24 +66,24 @@ var bot_options = {
     })
 };
 
+//Localization
+// Source: https://github.com/noveogroup-amorgunov/localizify
+const localizify = require('./node_modules/localizify');
+
+const de = require('./localization/de');
+
+localizify
+    .add('de', de)
+    .setLocale('de');
+
 var luis = require('./node_modules/botkit-middleware-luis/src/luis-middleware');
 
 if (!process.env.serviceUri) {
-    console.log('Error: Specify Luis service uri');
+    logHelper.error('Error: Specify Luis service uri');
     process.exit(1);
 }
 
 var luisOptions = {serviceUri: process.env.serviceUri};
-
-// // Use a mongo database if specified, otherwise store in a JSON file local to the app.
-// // Mongo is automatically configured when deploying to Heroku
-// if (process.env.MONGO_URI) {
-//     // create a custom db access method
-//     var db = require(__dirname + '/components/database.js')({});
-//     bot_options.storage = db;
-// } else {
-//     bot_options.json_file_store = __dirname + '/.data/db/'; // store user data in a simple JSON format
-// }
 
 // Create the Botkit controller, which controls all instances of the bot.
 var controller = Botkit.socketbot(bot_options);
@@ -92,6 +94,7 @@ var webserver = require(__dirname + '/components/express_webserver.js')(controll
 // Open the web socket server
 controller.openSocketServer(controller.httpserver);
 
+//Add Luis Middleware to controller
 controller.middleware.receive.use(luis.middleware.receive(luisOptions));
 
 // Start the bot brain in motion!!
@@ -102,4 +105,4 @@ require("fs").readdirSync(normalizedPath).forEach(function(file) {
     require("./skills/" + file)(controller);
 });
 
-console.log('I AM ONLINE! COME TALK TO ME: http://localhost:' + (process.env.PORT || 3000));
+logHelper.info('I AM ONLINE! COME TALK TO ME: http://localhost:' + (process.env.PORT || 3000));
