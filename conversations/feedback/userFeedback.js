@@ -39,6 +39,13 @@ module.exports = {
                     const dbFeedbackHelper = require("../../util/feedbackHelper");
                     let rating = "0";
 
+                    //reset all conversatino variables
+                    let aVars = ["kursOrt", "kursBezirk", "kursZeit", "kursTag", "kursTagUndZeit", "kursDatum", "kursIntensitaet", "kursAnbieter", "kursNiveau", "kursSprache", "kursAdressatengruppe", "kursKosten"];
+                    for (let x = 0; x < aVars.length; x++) {
+                        convo.setVar(aVars[x], "None");
+                    }
+                    convo.setVar("offsetKurse", 0);
+
                     switch (res.text) {
 
                         case t('feedback.askFeedback_Qr_1_Payload'):

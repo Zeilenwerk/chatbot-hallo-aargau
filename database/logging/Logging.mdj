@@ -165,8 +165,8 @@
 										"$ref": "AAAAAAFpyBvCjipA+1s="
 									},
 									"font": "Arial;13;1",
-									"left": 216,
-									"top": 309,
+									"left": 152,
+									"top": 301,
 									"width": 269.53515625,
 									"height": 13,
 									"text": "Benutzer"
@@ -191,8 +191,8 @@
 												"$ref": "AAAAAAFpyBvcTSpMRYY="
 											},
 											"font": "Arial;13;0",
-											"left": 221,
-											"top": 332,
+											"left": 157,
+											"top": 324,
 											"width": 259.53515625,
 											"height": 13
 										},
@@ -206,8 +206,8 @@
 												"$ref": "AAAAAAFpyByd1ypXhdE="
 											},
 											"font": "Arial;13;0",
-											"left": 221,
-											"top": 347,
+											"left": 157,
+											"top": 339,
 											"width": 259.53515625,
 											"height": 13
 										},
@@ -221,22 +221,22 @@
 												"$ref": "AAAAAAFpyviCcXxqtCM="
 											},
 											"font": "Arial;13;0",
-											"left": 221,
-											"top": 362,
+											"left": 157,
+											"top": 354,
 											"width": 259.53515625,
 											"height": 13
 										}
 									],
 									"font": "Arial;13;0",
-									"left": 216,
-									"top": 327,
+									"left": 152,
+									"top": 319,
 									"width": 269.53515625,
 									"height": 53
 								}
 							],
 							"font": "Arial;13;0",
-							"left": 216,
-							"top": 304,
+							"left": 152,
+							"top": 296,
 							"width": 269.53515625,
 							"height": 76,
 							"nameLabel": {
@@ -377,7 +377,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 514,
+									"left": 482,
 									"top": 312,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -394,7 +394,7 @@
 										"$ref": "AAAAAAFpyB+Z3CrL06k="
 									},
 									"font": "Arial;13;0",
-									"left": 510,
+									"left": 446,
 									"top": 312,
 									"height": 13,
 									"alpha": 0.5235987755982988,
@@ -429,7 +429,7 @@
 								"$ref": "AAAAAAFpyBvCjipA+1s="
 							},
 							"lineStyle": 2,
-							"points": "485:333;544:333",
+							"points": "421:333;544:333",
 							"nameLabel": {
 								"$ref": "AAAAAAFpyB+Z3CrM7XU="
 							},
@@ -567,9 +567,9 @@
 										"$ref": "AAAAAAFpyCVClitEqQY="
 									},
 									"font": "Arial;13;1",
-									"left": 576,
+									"left": 536,
 									"top": 621,
-									"width": 184.31787109375,
+									"width": 239.244140625,
 									"height": 13,
 									"text": "Bot_Log"
 								},
@@ -593,9 +593,9 @@
 												"$ref": "AAAAAAFpyCVVRitPeU8="
 											},
 											"font": "Arial;13;0",
-											"left": 581,
+											"left": 541,
 											"top": 644,
-											"width": 174.31787109375,
+											"width": 229.244140625,
 											"height": 13
 										},
 										{
@@ -608,9 +608,9 @@
 												"$ref": "AAAAAAFpyCcOHyty/CU="
 											},
 											"font": "Arial;13;0",
-											"left": 581,
+											"left": 541,
 											"top": 659,
-											"width": 174.31787109375,
+											"width": 229.244140625,
 											"height": 13
 										},
 										{
@@ -623,9 +623,9 @@
 												"$ref": "AAAAAAFpyCVn7ytWwxg="
 											},
 											"font": "Arial;13;0",
-											"left": 581,
+											"left": 541,
 											"top": 674,
-											"width": 174.31787109375,
+											"width": 229.244140625,
 											"height": 13
 										},
 										{
@@ -638,23 +638,23 @@
 												"$ref": "AAAAAAFpyCV+Bytd+CY="
 											},
 											"font": "Arial;13;0",
-											"left": 581,
+											"left": 541,
 											"top": 689,
-											"width": 174.31787109375,
+											"width": 229.244140625,
 											"height": 13
 										}
 									],
 									"font": "Arial;13;0",
-									"left": 576,
+									"left": 536,
 									"top": 639,
-									"width": 184.31787109375,
+									"width": 239.244140625,
 									"height": 68
 								}
 							],
 							"font": "Arial;13;0",
-							"left": 576,
+							"left": 536,
 							"top": 616,
-							"width": 184.31787109375,
+							"width": 239.244140625,
 							"height": 91,
 							"nameLabel": {
 								"$ref": "AAAAAAFpyCVClitFc28="
@@ -690,7 +690,7 @@
 								"$ref": "AAAAAAFpyCXH5itlG8s="
 							},
 							"lineStyle": 1,
-							"points": "569:545;628:615"
+							"points": "567:545;620:615"
 						},
 						{
 							"_type": "ERDEntityView",
@@ -823,7 +823,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 867,
+									"left": 875,
 									"top": 646,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -840,7 +840,7 @@
 										"$ref": "AAAAAAFpyCjBQiuy0AI="
 									},
 									"font": "Arial;13;0",
-									"left": 784,
+									"left": 799,
 									"top": 646,
 									"height": 13,
 									"alpha": 0.5235987755982988,
@@ -875,7 +875,7 @@
 								"$ref": "AAAAAAFpyCVClitEqQY="
 							},
 							"lineStyle": 2,
-							"points": "759:667;976:667",
+							"points": "774:667;976:667",
 							"nameLabel": {
 								"$ref": "AAAAAAFpyCjBQiuzADc="
 							},
@@ -993,7 +993,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFpyBt9qyoqDck="
 							},
-							"name": "Zeit",
+							"name": "Erfasst_am",
 							"type": "DATETIME",
 							"length": 0
 						},
@@ -1063,7 +1063,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFpyBvCjio+tLA="
 							},
-							"name": "Benutzer",
+							"name": "Benutzer_Kennung",
 							"documentation": "Benutzer ID wird von Botikt erzeugt bei einer neuen Verbindung",
 							"type": "VARCHAR",
 							"length": "36",
@@ -1075,9 +1075,8 @@
 							"_parent": {
 								"$ref": "AAAAAAFpyBvCjio+tLA="
 							},
-							"name": "Datum_Hinzugefuegt",
-							"type": "TIMESTAMP",
-							"length": "3"
+							"name": "Registriert_am",
+							"type": "DATETIME"
 						}
 					]
 				},
@@ -1197,9 +1196,8 @@
 							"_parent": {
 								"$ref": "AAAAAAFpyCVClCtCtx4="
 							},
-							"name": "Zeit",
-							"type": "TIMESTAMP",
-							"length": "3"
+							"name": "Erfasst_am",
+							"type": "DATETIME"
 						},
 						{
 							"_type": "ERDColumn",

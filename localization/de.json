@@ -54,6 +54,7 @@
         "kurse_Gefunden": "Ich habe folgende Kurse gefunden",
         "kurse_nicht_Gefunden": "Leider habe ich für dieses Suchkriterium keine Kurse gefunden",
         "kurs_Datum": "Der Kurs wird {kursTag}s durchgeführt.",
+        "kurs_Tag_Datum": "Der Kurs wird am {kursTag} {kursDatum} durchgeführt.",
         "kurs_Zeit": "Der Kurs Startet um {einzelkursstart} Uhr und endet um {einzelkursende} Uhr."
       },
       "kursInformationenKurs": {
@@ -62,6 +63,7 @@
         "kursBeschreibung": "Kurs Beschreibung: {kursBeschreibung}",
         "kursZweck": "Kurs Zweck: {kursZweck}",
         "kursTag": "Der Kurs wird {kursTag}s durchgeführt.",
+        "kursTag_Datum": "Der Kurs wird am {kursTag} {kursDatum} durchgeführt.",
         "kursZeit": "Der Kurs Startet um {einzelkursstart} Uhr und endet um {einzelkursende} Uhr.",
         "kursAnbieter": "Kurs Anbieter: {kursAnbieter}",
         "kursOrt": "Kursaddresse: {ortStrasse} - {ortPlz}, {ortName}.",
@@ -91,7 +93,7 @@
         "askKursOrt_Qr_Baden_Payload": "Deutschkurs in Baden"
       },
       "kursTag":{
-        "askKursTag": "An welchem Tag soll der Kurs in {kursOrt} stattfinden?",
+        "askKursTag": "An welchem Tag soll der Kurs stattfinden?",
         "askKursTag_Qr_Montag": "Montag",
         "askKursTag_Qr_Dienstag": "Dienstag",
         "askKursTag_Qr_Mittwoch": "Mittwoch",
@@ -168,7 +170,7 @@
     "help_wie_kann_ich_helfen": "Ich helfe Ihnen bei der Suche nach einem Deutschkurs oder bei Fragen zum Aufenthaltsstatus."
   },
   "feedback": {
-    "askFeedback": "Waren sie mit dem Bot zufrieden?",
+    "askFeedback": "Waren sie mit dem Bot zufrieden? Ich würde mich sehr auf Ihr Fedback freuen.",
     "askFeedback_Qr_1": "★★★★★",
     "askFeedback_Qr_1_Payload": "Sehr zufrieden",
     "askFeedback_Qr_2": "★★★★",

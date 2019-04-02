@@ -6,7 +6,7 @@ module.exports = {
         const logHelper = require("../../../util/logHelper");
         const timeUtil = require("../../../util/timeUtil");
 
-        let pgQuery = this.prepareKursQuery(convo, maxKurse = 1, offsetKurse = 0);
+        let pgQuery = this.prepareKursQuery(convo, maxKurse, offsetKurse);
 
         //Connect to DB
         /////////////////////////////
@@ -29,6 +29,7 @@ module.exports = {
                     addMessage(t('kurs.gefundeneKurse.kursGefundeneKurse.kurse_Gefunden'));
                 } else {
                     addMessage(t('kurs.gefundeneKurse.kursGefundeneKurse.kurse_nicht_Gefunden'));
+                    convo.setVar("offsetKurse", 0);
                     convo.gotoThread("kursNotwendigeInfosMenu");
                 }
 
@@ -37,7 +38,7 @@ module.exports = {
                     var oRow = res.rows[i];
 
                     if (oRow.tag != null && oRow.tag !== "") {
-                        addMessage(t('kurs.gefundeneKurse.kursGefundeneKurse.kurs_Datum', {kursTag: timeUtil.getDayNameFromNumber(oRow.tag_nummer)}));
+                        addMessage(t('kurs.gefundeneKurse.kursGefundeneKurse.kurs_Tag_Datum', {kursTag: timeUtil.getDayNameFromNumber(oRow.tag_nummer), kursDatum: timeUtil.formatDate(oRow.tag)}));
                     }
 
                     if (oRow.start_zeit != null && oRow.start_zeit !== "" && oRow.end_zeit != null && oRow.end_zeit !== "") {
@@ -61,7 +62,7 @@ module.exports = {
         const logHelper = require("../../../util/logHelper");
         const timeUtil = require("../../../util/timeUtil");
 
-        let pgQuery = this.prepareKursQuery(convo, maxKurse = 1, offsetKurse = 0);
+        let pgQuery = this.prepareKursQuery(convo, maxKurse, offsetKurse);
 
         //Connect to DB
         /////////////////////////////
@@ -83,6 +84,7 @@ module.exports = {
                     addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kurs_Informationen_Gefunden'));
                 } else {
                     addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kurs_Informationen_nicht_Gefunden'));
+                    convo.setVar("offsetKurse", 0);
                     convo.gotoThread("kursNotwendigeInfosMenu");
                 }
 
@@ -93,12 +95,13 @@ module.exports = {
                     if (oRow.kurs_beschreibung != null && oRow.kurs_beschreibung !== "") {
                         addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kursBeschreibung', {kursBeschreibung: oRow.kurs_beschreibung}));
                     }
+
                     if (oRow.zweck != null && oRow.zweck !== "") {
                         addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kursZweck', {kursZweck: oRow.zweck}));
                     }
 
                     if (oRow.tag_nummer != null && oRow.tag_nummer > 0) {
-                        addMessage("Der Kurs wird " + timeUtil.getDayNameFromNumber(oRow.tag_nummer) + "s durchgeführt.");
+                        addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kursTag_Datum', {kursTag: timeUtil.getDayNameFromNumber(oRow.tag_nummer), kursDatum: timeUtil.formatDate(oRow.tag)}));
                     }
 
                     if (oRow.start_zeit != null && oRow.start_zeit !== "" && oRow.end_zeit != null && oRow.end_zeit !== "") {
@@ -234,7 +237,7 @@ module.exports = {
             + "        z.wert AS zweck, "
             + "        dz.reihenfolge AS reihenfolge, "
             + "        dz.tag AS tag, "
-            + "        to_char(dz.tag, 'TMDay') AS tag, "
+            + "        to_char(dz.tag, 'TMDay') AS tag_name, "
             + "        extract(isodow from dz.tag) AS tag_Nummer, "
             + "        dz.zeit_start AS start_Zeit, "
             + "        dz.zeit_ende AS end_Zeit, "
@@ -288,6 +291,9 @@ module.exports = {
             + " " + query_limit;
 
         logHelper.debug("Kurs Select DB Query: " + pgQuery);
+
+        //Reste offset
+        convo.setVar("offsetKurse", 0);
 
         return pgQuery;
     }

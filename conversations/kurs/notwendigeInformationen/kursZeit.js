@@ -73,12 +73,10 @@ module.exports = {
         const { t } = require('../../../node_modules/localizify');
         const logHelper = require("../../../util/logHelper");
 
-
         logHelper.debug("Start askKursZeit");
 
         convo.addQuestion({
-            //text: t('kurs.notwendigeInformationen.kursZeit.askKursZeit', {kursTag : "{{vars.kursTag}}"}),
-            text: t('kurs.notwendigeInformationen.kursZeit.askKursZeit', {kursTag : ""}),
+            text: t('kurs.notwendigeInformationen.kursZeit.askKursZeit', {kursTag : "{{vars.kursTag}}"}),
             quick_replies: [
                 {
                     title:  t('kurs.notwendigeInformationen.kursZeit.askKursZeit_Morgens'),

@@ -251,7 +251,7 @@ module.exports = {
                         case t('kurs.gefundeneKurse_Question_QR_Nein'):
 
                             //Add +1 to offset
-                            convo.setVar("offsetKurse", convo.vars.offsetKurse + 1)
+                            convo.setVar("offsetKurse", convo.vars.offsetKurse + 1);
 
                             kursGefundeneKurse.displayGefundeneKurse(function (m) {
                                 bot.reply(message, m);

@@ -12,7 +12,7 @@ module.exports = {
         return date + ' ' + time;
     },
 
-    formatDate: function (dateToFormat) {
+    formatDateTime: function (dateToFormat) {
 
         const logHelper = require("./logHelper");
 
@@ -44,6 +44,24 @@ module.exports = {
         let time = hours + ":" + mins + ":" + sec + ":" + milis;
 
         return date + ' ' + time;
+
+    },
+
+    formatDate: function (dateToFormat) {
+
+        const logHelper = require("./logHelper");
+
+        let day = dateToFormat.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        let month = dateToFormat.getMonth() + 1; //Months are zero based
+        if (month < 10) {
+            month = "0" + month;
+        }
+        let year = dateToFormat.getFullYear();
+
+        return day + "." + month + "." + year;
 
     },
 

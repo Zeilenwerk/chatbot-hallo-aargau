@@ -10,8 +10,8 @@ VALUES (1, 'Frauen', 'Frauen')
      , (9, 'A1_A2', 'Abgeschlossene Niveau A1 oder im Einstufungstest Niveau A2 erreicht');
 
 INSERT INTO public.intensitaet(code, wert, beschreibung)
-VALUES (1, 'Wochenkurs', '')
-     , (2, 'Intensivkurs', '');
+VALUES (1, 'Wochenkurs', NULL)
+     , (2, 'Intensivkurs', NULL);
 
 INSERT INTO public.niveau(code, wert, beschreibung)
 VALUES (1, 'Anfänger', 'Personen mit gar keinen oder nur wenigen Deutschkenntnissen')
@@ -39,28 +39,28 @@ VALUES (1, 'nein', 'nein')
      , (13, 'B2_Konversation', 'Deutsch Konversation B2');
 
 INSERT INTO public.zweck(code, wert, beschreibung)
-VALUES (1, 'Konversation', '')
-     , (2, 'Deutsch Lesen und Schreiben', '')
-     , (3, 'Deutsch A1', '')
-     , (4, 'Deutsch A2', '')
-     , (5, 'Deutsch A2 (Intensiv)', '')
-     , (6, 'Deutsch B1', '')
-     , (7, 'Deutsch B1 (Intensiv)', '')
-     , (8, 'Konversation B2', '')
-     , (9, 'Deutsch B2', '')
-     , (10, 'Geschäftsdeutsch B2', '')
-     , (11, 'Deutsch C1', '')
-     , (12, 'Deutsch C2', '');
+VALUES (1, 'Konversation', NULL)
+     , (2, 'Deutsch Lesen und Schreiben', NULL)
+     , (3, 'Deutsch A1', NULL)
+     , (4, 'Deutsch A2', NULL)
+     , (5, 'Deutsch A2 (Intensiv)', NULL)
+     , (6, 'Deutsch B1', NULL)
+     , (7, 'Deutsch B1 (Intensiv)', NULL)
+     , (8, 'Konversation B2', NULL)
+     , (9, 'Deutsch B2', NULL)
+     , (10, 'Geschäftsdeutsch B2', NULL)
+     , (11, 'Deutsch C1', NULL)
+     , (12, 'Deutsch C2', NULL);
 
 INSERT INTO public.konversation(code, wert, beschreibung)
-VALUES (1, 'Lockere Konversation', '')
-     , (2, 'Formale Konversation', '');
+VALUES (1, 'Lockere Konversation', NULL)
+     , (2, 'Formale Konversation', NULL);
 
 INSERT INTO public.Kostenart(code, wert, beschreibung)
-VALUES (1, 'Gesamtkurs', '')
-     , (2, 'Lehrmaterial', '')
-     , (3, 'Einzelkurs', '')
-     , (4, 'Einstufungstest', '');
+VALUES (1, 'Gesamtkurs', NULL)
+     , (2, 'Lehrmaterial', NULL)
+     , (3, 'Einzelkurs', NULL)
+     , (4, 'Einstufungstest', NULL);
 
 INSERT INTO public.kosten(FK_Kurs, FK_Kostenart, Betrag)
   (SELECT 1, k.Id, 0.00
@@ -182,7 +182,7 @@ INSERT INTO public.kosten(FK_Kurs, FK_Kostenart, Betrag)
 INSERT INTO public.anbieter(Offizieller_Name, beschreibung, url, mail, telefon, strasse, plz, ort)
 VALUES ('Nosotras Aargau',
         'NoSotras setzt sich dafür ein, Frauen zu aktivieren und zu integrieren. IN Aarau und Baden bieten sie Deutschkurse und Konversationskurse an.',
-        'www.nosotras-aargau.ch', 'info@nosotras-aargau.ch', '', '', '', '')
+        'www.nosotras-aargau.ch', 'info@nosotras-aargau.ch', NULL, NULL, NULL, NULL)
      , ('Verein Lesen und Schreiben für Erwachsene',
         'Lesen, Schreiben, Rechtschreibung, Grammatik, Stil, Wortschatz, Fremdwörter und Textverständnis. Das Kurs- und Beratungsangebot richtet sich an Erwachsene mit deutscher Muttersprache oder guten mündlichen Deutschkenntnissen, die im Umgang mit der deutschen Sprache unsicher sind.',
         'www.lesenschreibenaargau.ch', 'info@lesenschreibenaargau.ch', '+41628240525', 'Entfelderstrasse 61', '5000',
@@ -192,8 +192,8 @@ VALUES ('Nosotras Aargau',
         'www.ihbaden.ch', 'info@ihbaden.ch', '+41562055178', 'Bahnhofstrasse 44', '5400', 'Baden');
 
 INSERT INTO public.anrede(code, wert, beschreibung)
-VALUES (1, 'Frau', '');
-VALUES (2, 'Herr', '');
+VALUES (1, 'Frau', NULL);
+VALUES (2, 'Herr', NULL);
 
 INSERT INTO public.kontaktperson(fk_anbieter, FK_Stellvertreter, FK_Anrede, Name, Vorname, Telefon)
 VALUES (1, NULL, 1, 'Vogt', 'Ligia', '+41793350661');

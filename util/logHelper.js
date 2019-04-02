@@ -20,9 +20,9 @@ module.exports = {
 
         //If user exists do nothing, else insert User to DB
         let pgQuery = "INSERT INTO public.Benutzer(" +
-            " Benutzer, Datum_Hinzugefuegt)" +
+            " Benutzer_Kennung, Registriert_am)" +
             " VALUES ('" + userId + "', to_timestamp(" + timeUtil.getEpoch(date) + "))" +
-            " ON CONFLICT (Benutzer) DO NOTHING";
+            " ON CONFLICT (Benutzer_Kennung) DO NOTHING";
 
         this.debug("Benutzer DB Query: " + pgQuery);
 
@@ -53,7 +53,7 @@ module.exports = {
         let logLevel = 1;
 
         if (process.env.LOG_DEBUG_2_CONSOLE === "true") {
-            console.log(timeUtil.formatDate(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry);
+            console.log(timeUtil.formatDateTime(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry);
         }
 
         //If debug Log is not enabled, dont log to DB
@@ -73,7 +73,7 @@ module.exports = {
         let logLevel = 2;
 
         if (process.env.LOG_INFO_2_CONSOLE === "true") {
-            console.log(timeUtil.formatDate(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry);
+            console.log(timeUtil.formatDateTime(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry);
         }
 
         //If debug Log is not enabled, dont log to DB
@@ -93,7 +93,7 @@ module.exports = {
         let logLevel = 3;
 
         if (process.env.LOG_WARN_2_CONSOLE === "true") {
-            console.log(timeUtil.formatDate(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry);
+            console.log(timeUtil.formatDateTime(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry);
         }
 
         //If debug Log is not enabled, dont log to DB
@@ -113,7 +113,7 @@ module.exports = {
         let logLevel = 4;
 
         if (process.env.LOG_ERROR_2_CONSOLE === "true") {
-            console.log(timeUtil.formatDate(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry);
+            console.log(timeUtil.formatDateTime(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry);
         }
 
         //If debug Log is not enabled, dont log to DB
@@ -139,7 +139,7 @@ module.exports = {
             pgClient.connect();
 
             let pgQuery = "INSERT INTO public.Bot_Log(" +
-                " Level, Zeit, Eintrag)" +
+                " Level, Erfasst_am, Eintrag)" +
                 " SELECT l.Id, to_timestamp(" + timeUtil.getEpoch(date) + "), '" + pgHelper.escape_string(entry) + "' " +
                 " FROM Log_Level l " +
                 " WHERE l.code = " + logLevel;
@@ -162,7 +162,7 @@ module.exports = {
 
             const fs = require('fs');
 
-            let data = timeUtil.formatDate(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry;
+            let data = timeUtil.formatDateTime(date) + " (" + this.getLogLevelString(logLevel) + ") - " + entry;
             let file = "./log/log_entries/" + timeUtil.getCurrentDate() + ' log.txt';
 
             var stream = fs.createWriteStream(file, {flags:'a'});
@@ -183,10 +183,10 @@ module.exports = {
                 pgClient.connect();
 
                 let pgQuery = "INSERT INTO public.Benutzer_Log(" +
-                    " Nachricht_Typ, Benutzer, Zeit, Nachricht)" +
+                    " Nachricht_Typ, Benutzer, Erfasst_am, Nachricht)" +
                     " SELECT n.Id, b.Id, to_timestamp(" + timeUtil.getEpoch(date) + "), '" + pgHelper.escape_string(message) + "' " +
                     "FROM Benutzer b, Nachricht_Typ n " +
-                    "WHERE b.Benutzer = '" + userId + "'" +
+                    "WHERE b.Benutzer_Kennung = '" + userId + "'" +
                     "AND n.code = '" + messageType + "'";
 
                 this.debug("Benutzer Log DB Query: " + pgQuery);
@@ -207,7 +207,7 @@ module.exports = {
 
                 const fs = require('fs');
 
-                let data = timeUtil.formatDate(date) + " (" + this.getMessagTypeString(messageType) + ")\t\t To User '" + userId + "' - " + message;
+                let data = timeUtil.formatDateTime(date) + " (" + this.getMessagTypeString(messageType) + ")\t\t To User '" + userId + "' - " + message;
                 let file = "./log/messages/" + timeUtil.getCurrentDate() + ' log_messages.txt';
 
                 //Write to file

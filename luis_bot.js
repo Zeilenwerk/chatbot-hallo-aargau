@@ -94,6 +94,7 @@ var webserver = require(__dirname + '/components/express_webserver.js')(controll
 // Open the web socket server
 controller.openSocketServer(controller.httpserver);
 
+//Add Luis Middleware to controller
 controller.middleware.receive.use(luis.middleware.receive(luisOptions));
 
 // Start the bot brain in motion!!
