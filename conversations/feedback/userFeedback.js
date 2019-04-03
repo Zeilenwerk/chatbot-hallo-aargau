@@ -40,7 +40,7 @@ module.exports = {
                     let rating = "0";
 
                     //reset all conversatino variables
-                    let aVars = ["kursOrt", "kursBezirk", "kursZeit", "kursTag", "kursTagUndZeit", "kursDatum", "kursIntensitaet", "kursAnbieter", "kursNiveau", "kursSprache", "kursAdressatengruppe", "kursKosten"];
+                    let aVars = ["kursOrt", "kursBezirk", "kursZeit", "kursTag", "kursTagUndZeit", "kursDatum", "kursIntensitaet", "kursAnbieter", "kursNiveau", "kursSprache", "kursAdressatengruppe", "kursKosten", "kursZweck"];
                     for (let x = 0; x < aVars.length; x++) {
                         convo.setVar(aVars[x], "None");
                     }

@@ -17,7 +17,7 @@
 module.exports = {
     askKursTag: function (convo, luisHelper, nextThread = "None") {
 
-        const { t } = require('../../../node_modules/localizify');
+        const { t } = require('localizify');
         const logHelper = require("../../../util/logHelper");
 
         logHelper.debug("Start askKursTag");
@@ -31,7 +31,7 @@ module.exports = {
         }
 
         convo.ask({
-            text: t('kurs.notwendigeInformationen.kursTag.askKursTag'),
+            text: t('kurs.zusaetzlicheInformationen.kursTag.askKursTag'),
             quick_replies: qr
         }, [
             {
@@ -63,7 +63,7 @@ module.exports = {
 
     convoKursTag: function (convo, luisHelper, nextThread = "None") {
 
-        const { t } = require('../../../node_modules/localizify');
+        const { t } = require('localizify');
         const logHelper = require("../../../util/logHelper");
 
         logHelper.debug("Start askKursTag");
@@ -77,7 +77,7 @@ module.exports = {
         }
 
         convo.addQuestion({
-            text: t('kurs.notwendigeInformationen.kursTag.askKursTag'),
+            text: t('kurs.zusaetzlicheInformationen.kursTag.askKursTag'),
             quick_replies: qr
         }, [
             {

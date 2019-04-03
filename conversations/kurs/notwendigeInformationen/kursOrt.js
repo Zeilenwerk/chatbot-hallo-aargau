@@ -36,11 +36,11 @@ module.exports = {
                         convo.addMessage(t('nicht_verstanden'));
                         convo.repeat();
                     } else {
-                        convo.setVar("kursBezirk", aEntity[0]);
-                        logHelper.debug("kursBezirk = " + convo.vars.kursBezirk);
-
-                        convo.setVar("kursOrt", aEntity[1]);
+                        convo.setVar("kursOrt", aEntity[0]);
                         logHelper.debug("kursOrt = " + convo.vars.kursOrt);
+
+                        // convo.setVar("kursBezirk", aEntity[1]);
+                        // logHelper.debug("kursBezirk = " + convo.vars.kursBezirk);
                     }
 
                     if (nextThread !== "None") {
@@ -88,8 +88,8 @@ module.exports = {
                         convo.setVar("kursOrt", aEntity[0]);
                         logHelper.debug("kursOrt = " + convo.vars.kursOrt);
 
-                        convo.setVar("kursBezirk", aEntity[1]);
-                        logHelper.debug("kursBezirk = " + convo.vars.kursBezirk);
+                        // convo.setVar("kursBezirk", aEntity[1]);
+                        // logHelper.debug("kursBezirk = " + convo.vars.kursBezirk);
                     }
 
                     if (nextThread !== "None") {

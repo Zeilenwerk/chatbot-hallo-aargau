@@ -21,7 +21,7 @@
   },
   "kurs": {
     "kursSuchen": "Super, gerne helfe ich Ihnen ein Deutschkurs zu suchen. Dafür benötige ich noch folgende Angaben: Ort, Tag, Uhrzeit und Kursniveau.",
-    "kursNotwendigeInfosMenu_Message": "Sie Suchen somit für den {kursTag} um {kursZeit} Uhr ein Niveau {kursNiveau} Deutschkurs in {kursOrt}.",
+    "kursNotwendigeInfosMenu_Message": "Sie Suchen somit einen {kursIntensitaet} für {kursAdressatengruppe} in {kursOrt}. Der Kurs Zweck ist {kursZweck} und entspricht dem Niveau {kursNiveau}.",
     "kursNotwendigeInfosMenu_Question": "Stimmen diese Angaben für Sie?",
     "kursNotwendigeInfosMenu_Question_Qr_Nein": "Nein, ich möchte etwas ändern",
     "correctNeccessaryInfromation_Question": "Welche Angabe möchten sie abändern?",
@@ -44,11 +44,15 @@
     "gefundeneKurse_Question": "Möchten sie weitere Informationen zu einem dieser Kurse?",
     "gefundeneKurse_Question_QR_Ja": "Ja, weitere Informationen anzeigen",
     "gefundeneKurse_Question_QR_Nein": "Nein, weitere Kurse anzeigen",
+    "gefundeneKurse_Question_QR_Infromationen_aendern": "Nein, angegebene Informationen ändern",
     "check_Notwendige_Informationen_Ort": "Den Ort haben Sie schon angegeben ({kursOrt}, im Bezirk {kursBezirk}), somit benötige ich dies nicht mehr.",
     "check_Notwendige_Informationen_Ort_Bezirk": "Den Ort haben Sie schon angegeben ({kursOrt}), somit benötige ich dies nicht mehr.",
     "check_Notwendige_Informationen_Tag": "Als Kurstag, haben Sie den {kursTag} gewählt.",
     "check_Notwendige_Informationen_Zeit": "Die Zeit am {kursTag} für den Kurs ist {kursZeit} Uhr.",
     "check_Notwendige_Informationen_Niveau": "Das Kursniveau ist {kursNiveau}.",
+    "check_Notwendige_Informationen_Adressatengruppe": "Die Adressatengruppe ist {kursAdressatengruppe}.",
+    "check_Notwendige_Informationen_Zweck": "Der Kurs Zweck ist {kursZweck}.",
+    "check_Notwendige_Informationen_Intensitaet": "Als Kursintensität wurde ein {kursIntensitaet} gewählt.",
     "gefundeneKurse": {
       "kursGefundeneKurse": {
         "kurse_Gefunden": "Ich habe folgende Kurse gefunden",
@@ -92,6 +96,41 @@
         "askKursOrt_Qr_Baden": "Baden",
         "askKursOrt_Qr_Baden_Payload": "Deutschkurs in Baden"
       },
+      "kursIntensitaet": {
+        "convoKursIntensitaet": "Was für eine Kursintensität suchen Sie?",
+        "convoKursIntensitaet_Qr_Wochenkurs": "Wochenkurs",
+        "convoKursIntensitaet_Qr_Intensivkurs": "Intensivkurs"
+      },
+      "kursAdressatengruppe": {
+        "convoKursAdressatengruppe": "Für welches Adressatengruppe soll der Kurs sein?",
+        "convoKursAdressatengruppe_Qr_Frauen": "Frauen",
+        "convoKursAdressatengruppe_Qr_Frauen_Payload": "Frauen",
+        "convoKursAdressatengruppe_Qr_Erwachsene": "Erwachsene",
+        "convoKursAdressatengruppe_Qr_Erwachsene_Payload": "Erwachsene",
+        "convoKursAdressatengruppe_Qr_Muttersprache": "Erwachsene deutscher Muttersprache",
+        "convoKursAdressatengruppe_Qr_Muttersprache_Payload": "Erwachsene deutscher Muttersprache oder gute mündliche Deutschkenntnisse",
+        "convoKursAdressatengruppe_Qr_A1": "Niveau A1 abgschlossen",
+        "convoKursAdressatengruppe_Qr_A1_Payload": "Abgeschlossene Niveau A1 oder im Einstufungstest Niveau A2 erreicht",
+        "convoKursAdressatengruppe_Qr_A2": "Niveau A2 abgschlossen",
+        "convoKursAdressatengruppe_Qr_A2_Payload": "Erwachsene mit abgeschlossene Niveaustufe A2 oder im Einstufungstest Niveaustufe B1 erreicht",
+        "convoKursAdressatengruppe_Qr_B1": "Niveau B1 abgschlossen",
+        "convoKursAdressatengruppe_Qr_B1_Payload": "Erwachsene mit abgeschlossene Niveaustufe B1 oder im Einstufungstest Niveaustufe B2 erreicht",
+        "convoKursAdressatengruppe_Qr_B2": "Niveau B2 abgschlossen",
+        "convoKursAdressatengruppe_Qr_B2_Payload": "Erwachsene im Einstufungstest Niveaustufe B2 erreicht",
+        "convoKursAdressatengruppe_Qr_C1": "Niveau C1 abgschlossen",
+        "convoKursAdressatengruppe_Qr_C1_Payload": "Erwachsene mit abgeschlossene Niveaustufe C1 oder im Einstufungstest Niveaustufe C2 erreicht"
+      },
+      "kursZweck": {
+        "askKursZweck": "Was für einen Zweck soll der Kurs erfüllen?"
+      }
+    },
+    "zusaetzlicheInformationen": {
+      "kursAnbieter": {
+        "convoKursAnbieter": "Wer soll den Kurs Anbieten?",
+        "convoKursAnbieter_Qr_Nosotras": "Nosotras Aargau",
+        "convoKursAnbieter_Qr_Verein": "Verein Lesen und Schreiben für Erwachsene",
+        "convoKursAnbieter_Qr_Tlc": "TLC Baden"
+      },
       "kursTag":{
         "askKursTag": "An welchem Tag soll der Kurs stattfinden?",
         "askKursTag_Qr_Montag": "Montag",
@@ -114,38 +153,6 @@
         "askKursZeit_Abends_Payload": "16:00 Uhr",
         "askKursZeit_Nachts": "Nachts (19:00 - 22:00 Uhr)",
         "askKursZeit_Nachts_Payload": "19:00 Uhr"
-      }
-    },
-    "zusaetzlicheInformationen": {
-      "kursAdressatengruppe": {
-        "convoKursAdressatengruppe": "Für welches Adressatengruppe soll der Kurs sein?",
-        "convoKursAdressatengruppe_Qr_Frauen": "Frauen",
-        "convoKursAdressatengruppe_Qr_Frauen_Payload": "Frauen",
-        "convoKursAdressatengruppe_Qr_Erwachsene": "Erwachsene",
-        "convoKursAdressatengruppe_Qr_Erwachsene_Payload": "Erwachsene",
-        "convoKursAdressatengruppe_Qr_Muttersprache": "Erwachsene deutscher Muttersprache",
-        "convoKursAdressatengruppe_Qr_Muttersprache_Payload": "Erwachsene deutscher Muttersprache oder gute mündliche Deutschkenntnisse",
-        "convoKursAdressatengruppe_Qr_A1": "Niveau A1 abgschlossen",
-        "convoKursAdressatengruppe_Qr_A1_Payload": "Abgeschlossene Niveau A1 oder im Einstufungstest Niveau A2 erreicht",
-        "convoKursAdressatengruppe_Qr_A2": "Niveau A2 abgschlossen",
-        "convoKursAdressatengruppe_Qr_A2_Payload": "Erwachsene mit abgeschlossene Niveaustufe A2 oder im Einstufungstest Niveaustufe B1 erreicht",
-        "convoKursAdressatengruppe_Qr_B1": "Niveau B1 abgschlossen",
-        "convoKursAdressatengruppe_Qr_B1_Payload": "Erwachsene mit abgeschlossene Niveaustufe B1 oder im Einstufungstest Niveaustufe B2 erreicht",
-        "convoKursAdressatengruppe_Qr_B2": "Niveau B2 abgschlossen",
-        "convoKursAdressatengruppe_Qr_B2_Payload": "Erwachsene im Einstufungstest Niveaustufe B2 erreicht",
-        "convoKursAdressatengruppe_Qr_C1": "Niveau C1 abgschlossen",
-        "convoKursAdressatengruppe_Qr_C1_Payload": "Erwachsene mit abgeschlossene Niveaustufe C1 oder im Einstufungstest Niveaustufe C2 erreicht"
-      },
-      "kursAnbieter": {
-        "convoKursAnbieter": "Wer soll den Kurs Anbieten?",
-        "convoKursAnbieter_Qr_Nosotras": "Nosotras Aargau",
-        "convoKursAnbieter_Qr_Verein": "Verein Lesen und Schreiben für Erwachsene",
-        "convoKursAnbieter_Qr_Tlc": "TLC Baden"
-      },
-      "kursIntensitaet": {
-        "convoKursIntensitaet": "Was für eine Kursintensität suchen Sie?",
-        "convoKursIntensitaet_Qr_Wochenkurs": "Wochenkurs",
-        "convoKursIntensitaet_Qr_Intensivkurs": "Intensivkurs"
       },
       "kursKosten": {
         "convoKursKosten": "Wie viel darf der Kurs Kosten?",
