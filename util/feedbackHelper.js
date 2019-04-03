@@ -20,10 +20,10 @@ module.exports = {
         pgClient.connect();
 
         let pgQuery = "INSERT INTO public.Feedback(" +
-                            " Benutzer, Zeit, Sterne, Nachricht)" +
-                            " SELECT b.Id, to_timestamp("+ timeUtil.getEpoch(date) + "), s.Id, '" + message + "' " +
+                            " FK_Benutzer, FK_Stern, erfasst_am, Nachricht)" +
+                            " SELECT b.Id, s.Id, to_timestamp("+ timeUtil.getEpoch(date) + "),  '" + message + "' " +
                             " FROM Benutzer b, Stern s " +
-                            " WHERE b.Benutzer = '" + userId + "'" +
+                            " WHERE b.Benutzer_Kennung = '" + userId + "'" +
                             " AND s.code = '" + rating + "'";
 
         logHelper.debug("Feedback DB Query: " + pgQuery);

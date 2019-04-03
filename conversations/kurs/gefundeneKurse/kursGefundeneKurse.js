@@ -157,20 +157,30 @@ module.exports = {
         const niveauHelper = require("../../../util/niveauHelper");
         const adressatengruppenHelper = require("../../../util/adressatengruppenHelper");
         const intensitaetHelper = require("../../../util/intensitaetHelper");
+        const zweckHelper = require("../../../util/zweckHelper");
 
         //Notwendige Informationen
         /////////////////////////////
+        //1 = Wochenkurs | 2 = intensivkurs
+        let kursIntensitaet = "";
+        if (convo.vars.kursIntensitaet !== "None" && intensitaetHelper.getIntensitaetCodeFromString(convo.vars.kursIntensitaet) !== 0) {
+            kursIntensitaet = " AND i.code = " + intensitaetHelper.getIntensitaetCodeFromString(convo.vars.kursIntensitaet);
+        }
+
         let kursOrt = "";
-        if (convo.vars.kursBezirk && convo.vars.kursBezirk !== "None") {
-            kursOrt = " AND LOWER(o.ort) = '" + convo.vars.kursBezirk.toLowerCase() + "' ";
-        } else {
+        if (convo.vars.kursOrt !== "None") {
             kursOrt = " AND LOWER(o.ort) = '" + convo.vars.kursOrt.toLowerCase() + "' ";
         }
-        let kursTag = " AND extract(isodow from dz.tag) = " + timeUtil.getDayNumberFromString(convo.vars.kursTag) + " ";
-        let kursZeit_start = " AND dz.zeit_start >= '" + convo.vars.kursZeit + ":00' ";
-        //Add 3 Hours to the start time
-        let kursZeit_ende = " AND dz.zeit_start <= '" + (parseInt(convo.vars.kursZeit.substring(0, 2)) + 3) +
-            convo.vars.kursZeit.substring(2, convo.vars.kursZeit.length) + ":00' ";
+
+        let kursAdressatengruppe = "";
+        if (convo.vars.kursAdressatengruppe !== "None" && adressatengruppenHelper.getAdressatengruppeCodeFromString(convo.vars.kursAdressatengruppe) !== 0) {
+            kursAdressatengruppe = " AND ad.code = " + adressatengruppenHelper.getAdressatengruppeCodeFromString(convo.vars.kursAdressatengruppe);
+        }
+
+        let kursZweck = "";
+        if (zweckHelper.getZweckCodeFromString(convo.vars.kursZweck) !== 0) {
+            kursZweck = " AND z.code = " + zweckHelper.getZweckCodeFromString(convo.vars.kursZweck);
+        }
 
         let kursNiveau = "";
         if (niveauHelper.getNiveauCodeFromString(convo.vars.kursNiveau) !== 0) {
@@ -179,18 +189,27 @@ module.exports = {
 
         //Zusatzinfos
         /////////////////////////////
-        let kursAdressatengruppe = "";
-        if (convo.vars.kursAdressatengruppe !== "None" && adressatengruppenHelper.getAdressatengruppeCodeFromString(convo.vars.kursAdressatengruppe) !== 0) {
-            kursAdressatengruppe = " AND ad.code = " + adressatengruppenHelper.getAdressatengruppeCodeFromString(convo.vars.kursAdressatengruppe);
+
+
+        let kursAnbieter = "";
+        if (convo.vars.kursAnbieter !== "None") {
+            kursAnbieter = " AND LOWER(a.offizieller_name) = '" + convo.vars.kursAnbieter.toLowerCase() + "' ";
         }
 
-        let kursAnbieter = (convo.vars.kursAnbieter !== "None") ? " AND LOWER(a.offizieller_name) = '" + convo.vars.kursAnbieter.toLowerCase() + "' " : "";
-
-        //0 = Wochenkurs | 1 = intensivkurs
-        let kursIntensitaet = "";
-        if (convo.vars.kursIntensitaet !== "None" && intensitaetHelper.getIntensitaetCodeFromString(convo.vars.kursIntensitaet) !== 0) {
-            kursIntensitaet = " AND i.code = " + intensitaetHelper.getIntensitaetCodeFromString(convo.vars.kursIntensitaet);
+        let kursTag = "";
+        if(convo.vars.kursTag !== "None"){
+            kursTag = " AND extract(isodow from dz.tag) = " + timeUtil.getDayNumberFromString(convo.vars.kursTag) + " ";
         }
+
+        let kursZeit_start = "";
+        let kursZeit_ende = "";
+        if(convo.vars.kursZeit !== "None"){
+            kursZeit_start = " AND dz.zeit_start >= '" + convo.vars.kursZeit + ":00' ";
+            //Add 3 Hours to the start time
+            kursZeit_ende = " AND dz.zeit_start <= '" + (parseInt(convo.vars.kursZeit.substring(0, 2)) + 3) +
+                convo.vars.kursZeit.substring(2, convo.vars.kursZeit.length) + ":00' ";
+        }
+
 
         let kursKosten = "";
         if (convo.vars.kursKosten !== "None") {
@@ -276,15 +295,16 @@ module.exports = {
             + "                             WHERE id_kurs = ku.id) "
             + " WHERE (dz.tag IS NULL OR dz.tag >= now()) "
             //Necessary Information
+            + " " + kursIntensitaet
+            + " " + kursAdressatengruppe
+            + " " + kursOrt
+            + " " + kursZweck
+            + " " + kursNiveau
+            //Additional Information
+            + " " + kursAnbieter
             + " " + kursTag
             + " " + kursZeit_start
             + " " + kursZeit_ende
-            + " " + kursNiveau
-            + " " + kursOrt
-            //Additional Information
-            + " " + kursAdressatengruppe
-            + " " + kursAnbieter
-            + " " + kursIntensitaet
             + " " + kursKosten
             + " ORDER BY dz.reihenfolge "
             + " " + query_offset
