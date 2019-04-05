@@ -45,10 +45,11 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 var env = require('node-env-file');
-env(__dirname + '/.env');
 
 if (process.env.NODE_ENV === 'production') {
   env(__dirname + '/.env_production');
+} else {
+  env(__dirname + '/.env');
 }
 
 //Log Helper
