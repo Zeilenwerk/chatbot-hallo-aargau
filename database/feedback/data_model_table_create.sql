@@ -2,8 +2,7 @@ CREATE TABLE public.feedback (
     id SERIAL NOT NULL,
     fk_benutzer integer NOT NULL,
     fk_stern integer NOT NULL,
-    zeit timestamp with time zone NOT NULL,
-    sterne char(1) NOT NULL,
+    erfasst_am timestamp with time zone NOT NULL,
     nachricht text,
     PRIMARY KEY (id)
 );
