@@ -47,6 +47,10 @@
 var env = require('node-env-file');
 env(__dirname + '/.env');
 
+if (process.env.NODE_ENV === 'production') {
+  env(__dirname + '/.env_production');
+}
+
 //Log Helper
 const logHelper = require("./util/logHelper");
 
@@ -78,12 +82,12 @@ localizify
 
 var luis = require('./node_modules/botkit-middleware-luis/src/luis-middleware');
 
-if (!process.env.serviceUri) {
+if (!process.env.SERVICEURI) {
     logHelper.error('Error: Specify Luis service uri');
     process.exit(1);
 }
 
-var luisOptions = {serviceUri: process.env.serviceUri};
+var luisOptions = {serviceUri: process.env.SERVICEURI};
 
 // Create the Botkit controller, which controls all instances of the bot.
 var controller = Botkit.socketbot(bot_options);
@@ -100,9 +104,12 @@ controller.middleware.receive.use(luis.middleware.receive(luisOptions));
 // Start the bot brain in motion!!
 controller.startTicking();
 
-var normalizedPath = require("path").join(__dirname, "skills");
-require("fs").readdirSync(normalizedPath).forEach(function(file) {
-    require("./skills/" + file)(controller);
-});
+var fs = require("fs")
+var normalizedPath = require("path").join(__dirname, "skills")
+fs.readdirSync(normalizedPath).forEach(function(file) {
+  if (!fs.lstatSync("./skills/" + file).isDirectory()) {
+    require("./skills/" + file)(controller)
+  }
+})
 
 logHelper.info('I AM ONLINE! COME TALK TO ME: http://localhost:' + (process.env.PORT || 3000));
