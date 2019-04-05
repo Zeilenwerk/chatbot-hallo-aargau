@@ -17,13 +17,13 @@ module.exports = {
         /////////////////////////////
         pgClient.query(pgQuery,
             (err, res) => {
-                if (err) throw new Error(err.stack);
+                if (err) require("../../../util/errorHelper").displayErrorMessage(convo, err.stack, false);
 
                 pgClient.end();
 
-                logHelper.info("Gefundene Kurse DB Response:");
-                logHelper.info(JSON.stringify(res.rows));
-                logHelper.debug(JSON.stringify(res));
+                if(res.rows) logHelper.info("Gefundene Kurse DB Response:");
+                if(res.rows) logHelper.info(JSON.stringify(res.rows));
+                if(res.rows) logHelper.debug(JSON.stringify(res));
 
                 if (res.rows.length > 0) {
                     addMessage(t('kurs.gefundeneKurse.kursGefundeneKurse.kurse_Gefunden'));
@@ -73,7 +73,7 @@ module.exports = {
         /////////////////////////////
         pgClient.query(pgQuery,
             (err, res) => {
-                if (err) throw new Error(err.stack);
+                if (err) require("../../../util/errorHelper").displayErrorMessage(convo, err.stack, false);
 
                 pgClient.end();
 

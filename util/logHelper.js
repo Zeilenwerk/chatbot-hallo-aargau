@@ -28,7 +28,7 @@ module.exports = {
 
         pgClient.query(pgQuery,
             (err, res) => {
-                if (err) throw new Error(err.stack);
+                if (err) require("./errorHelper").displayErrorMessage(convo, err.stack, false);
 
                 pgClient.end();
 
@@ -146,7 +146,7 @@ module.exports = {
 
             pgClient.query(pgQuery,
                 (err, res) => {
-                    if (err) throw new Error(err.stack);
+                    if (err) require("./errorHelper").displayErrorMessage(convo, err.stack, false);
                     pgClient.end();
                 });
         }
@@ -193,7 +193,7 @@ module.exports = {
 
                 pgClient.query(pgQuery,
                     (err, res) => {
-                        if (err) throw new Error(err.stack);
+                        if (err) require("./errorHelper").displayErrorMessage(convo, err.stack, false);
 
                         pgClient.end();
 

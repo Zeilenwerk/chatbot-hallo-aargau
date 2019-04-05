@@ -57,7 +57,7 @@ module.exports = function (controller) {
             } else if (message.topIntent.intent === "Hallo") {
                 convo.gotoThread("helpMenu");
             } else {
-                bot.reply(message, t('bot_conversation.nicht_implementiert'));
+                bot.replyWithTyping(message, t('bot_conversation.nicht_implementiert'));
                 convo.gotoThread("convoEnd");
             }
 

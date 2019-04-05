@@ -211,7 +211,7 @@ module.exports = {
                             break;
                         case t('kurs.keine_weiteren_Angaben'):
                             kursGefundeneKurse.displayGefundeneKurse(function (m) {
-                                bot.reply(message, m);
+                                bot.replyWithTyping(message, m);
                             }, convo, convo.vars.maxKurse, convo.vars.offsetKurse);
                             break;
                         default:
@@ -249,7 +249,7 @@ module.exports = {
 
                         case t('kurs.gefundeneKurse_Question_QR_Ja'):
                             kursGefundeneKurse.displayKursInfromationen(function (m) {
-                                bot.reply(message, m);
+                                bot.replyWithTyping(message, m);
                             }, convo, convo.vars.maxKurse, convo.vars.offsetKurse);
                             break;
                         case t('kurs.gefundeneKurse_Question_QR_Nein'):
@@ -258,7 +258,7 @@ module.exports = {
                             convo.setVar("offsetKurse", convo.vars.offsetKurse + 1);
 
                             kursGefundeneKurse.displayGefundeneKurse(function (m) {
-                                bot.reply(message, m);
+                                bot.replyWithTyping(message, m);
                             }, convo, convo.vars.maxKurse, convo.vars.offsetKurse);
                             break;
                         case t('kurs.gefundeneKurse_Question_QR_Infromationen_aendern'):

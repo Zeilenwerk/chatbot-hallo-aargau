@@ -11,6 +11,7 @@ module.exports = function (controller) {
     //*********************************
     controller.on('hello', conductOnboarding);
     controller.on('welcome_back', conductOnboarding);
+    controller.on('reconnect', conductOnReconnect);
 
     //*********************************
     // Middleware Error handling
@@ -18,22 +19,22 @@ module.exports = function (controller) {
     //*********************************
     controller.on('ingest_error', function (err, bot, message) {
         //An error happend while processing the message in an ingest middleware.
-        bot.reply(message, `There was an error processing your request. Please try again later. Error: ${err.toString()}`);
+        bot.replyWithTyping(message, `There was an error processing your request. Please try again later. Error: ${err.toString()}`);
     });
 
     controller.on('normalize_error', function (err, bot, message) {
         //An error happend while processing the message in a normalize middleware.
-        bot.reply(message, `There was an error processing your request. Please try again later. Error: ${err.toString()}`);
+        bot.replyWithTyping(message, `There was an error processing your request. Please try again later. Error: ${err.toString()}`);
     });
 
     controller.on('categorize_error', function (err, bot, message) {
         //An error happend while processing the message in a categorize middleware.
-        bot.reply(message, `There was an error processing your request. Please try again later. Error: ${err.toString()}`);
+        bot.replyWithTyping(message, `There was an error processing your request. Please try again later. Error: ${err.toString()}`);
     });
 
     controller.on('receive_error', function (err, bot, message) {
         //An error happend while processing the message in a receive middleware.
-        bot.reply(message, `There was an error processing your request. Please try again later. Error: ${err.toString()}`);
+        bot.replyWithTyping(message, `There was an error processing your request. Please try again later. Error: ${err.toString()}`);
     });
 
     //*********************************
@@ -66,6 +67,14 @@ module.exports = function (controller) {
     // });
 
     //*********************************
+    // Errro Handling
+    //*********************************
+
+    // catch the uncaught errors that weren't wrapped in a domain or try catch statement
+    // do not use this in modules, but only in applications, as otherwise we could have multiple of these bound
+    process.on('uncaughtException', handleUncaughtExcpetion);
+
+    //*********************************
     // Custom Triggers
     //*********************************
     function conductOnboarding(bot, message) {
@@ -94,6 +103,42 @@ module.exports = function (controller) {
 
 
         });
+
+    }
+
+    function conductOnReconnect(bot, message) {
+
+        const { t } = require('../node_modules/localizify');
+
+        bot.startConversation(message, function (err, convo) {
+
+            convo.say({
+                text: t('_connection_events.reconnect'),
+                quick_replies: [
+                    {
+                        title: t('_connection_events.onboarding_Deutschkurs'),
+                        payload: t('_connection_events.onboarding_Deutschkurs'),
+                    },
+                    {
+                        title: t('_connection_events.onboarding_Aufenthaltsstatus'),
+                        payload: t('_connection_events.onboarding_Aufenthaltsstatus'),
+                    },
+                    {
+                        title: t('_connection_events.onboarding_Hilfe'),
+                        payload: t('_connection_events.onboarding_Hilfe'),
+                    },
+                ]
+            });
+
+
+        });
+
+    }
+
+    function handleUncaughtExcpetion(err) {
+
+        console.log("handleUncaughtExcpetion: "+err.stack);
+        //require("../util/errorHelper").uncaughtExceptionHandling(bot, err.stack);
 
     }
 

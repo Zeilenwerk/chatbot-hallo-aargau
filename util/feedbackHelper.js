@@ -9,7 +9,7 @@
  * */
 module.exports = {
 
-    addNewFeedback: function (userId, date, rating, message = "") {
+    addNewFeedback: function (convo, userId, date, rating, message = "") {
 
         const logHelper = require("./logHelper");
 
@@ -30,7 +30,7 @@ module.exports = {
 
         pgClient.query(pgQuery,
             (err, res) => {
-                if (err) throw new Error(err.stack);
+                if (err) require("./errorHelper").displayErrorMessage(convo, err.stack, false);
 
                 pgClient.end();
 

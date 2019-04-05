@@ -74,7 +74,7 @@ module.exports = {
                             break;
                     }
 
-                    dbFeedbackHelper.addNewFeedback(message.user, new Date(), rating, "");
+                    dbFeedbackHelper.addNewFeedback(convo, message.user, new Date(), rating, "");
                 }
             }
         ], {}, "askFeedback");

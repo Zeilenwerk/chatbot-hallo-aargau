@@ -24,14 +24,14 @@ module.exports = function(controller) {
     // respond to the `hello` event, fired when a web chat begins with a new user
     controller.on('hello', function(bot, message) {
 
-        bot.reply(message,'Welcome, new human!');
+        bot.replyWithTyping(message,'Welcome, new human!');
 
     });
 
     // listen for the word "help"
     controller.hears('help',  'message_received', function(bot, message) {
 
-        bot.reply(message,'Need help? I am here!');
+        bot.replyWithTyping(message,'Need help? I am here!');
 
     });
 

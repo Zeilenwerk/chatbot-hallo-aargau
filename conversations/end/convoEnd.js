@@ -33,7 +33,7 @@ module.exports = {
                         case t('end.convoEnd_Question_Qr_Nein_Payload'):
                             bot.findConversation(message, function (convo) {
                                 if (convo) {
-                                    bot.reply(message, t('end.auf_wiedersehen'));
+                                    bot.replyWithTyping(message, t('end.convoQuit_Message'));
                                     // stop the conversation and swallow this message
                                     convo.stop('quit');
                                 } else {
@@ -62,7 +62,7 @@ module.exports = {
 
         bot.findConversation(message, function (convo) {
             if (convo) {
-                bot.reply(message, t('end.convoQuit_Message'));
+                bot.replyWithTyping(message, t('end.convoQuit_Message'));
                 // stop the conversation and swallow this message
                 convo.stop('quit');
             } else {
