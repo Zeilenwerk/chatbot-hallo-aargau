@@ -3,9 +3,10 @@ module.exports = {
     help: function (convo, message, bot) {
 
         const { t } = require('../../node_modules/localizify');
-        const logHelper = require("../../util/logHelper");
+        const logUtil = require("../../util/logUtil");
+        const errorUtil = require("../../util/errorUtil");
 
-        logHelper.debug("Start help");
+        logUtil.debug("Start help");
 
         convo.addMessage({
             text: t('help.helpMenu_Message'),
@@ -46,23 +47,26 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    switch (res.text) {
+                    try{
+                        switch (res.text) {
 
-                        case t('help.help_Question_Qr_wer_bin_ich'):
-                            convo.transitionTo('helpMenu',t('help.help_wer_bin_ich'));
-                            break;
-                        case t('help.help_Question_Qr_Bedienung'):
-                            convo.transitionTo('helpMenu',t('help.help_Bedienung'));
-                            break;
-                        case t('help.help_Question_Qr_wie_kann_ich_helfen'):
-                            convo.transitionTo('helpMenu',t('help.help_wie_kann_ich_helfen'));
-                            break;
-                        default:
-                            convo.addMessage(t('nicht_verstanden'));
-                            convo.repeat();
-                            break;
+                            case t('help.help_Question_Qr_wer_bin_ich'):
+                                convo.transitionTo('helpMenu',t('help.help_wer_bin_ich'));
+                                break;
+                            case t('help.help_Question_Qr_Bedienung'):
+                                convo.transitionTo('helpMenu',t('help.help_Bedienung'));
+                                break;
+                            case t('help.help_Question_Qr_wie_kann_ich_helfen'):
+                                convo.transitionTo('helpMenu',t('help.help_wie_kann_ich_helfen'));
+                                break;
+                            default:
+                                convo.addMessage(t('nicht_verstanden'));
+                                convo.repeat();
+                                break;
+                        }
+                    }catch(err){
+                        errorUtil.displayErrorMessage(bot, message, err, false, false);
                     }
-
 
                 }
             }

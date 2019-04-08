@@ -1,8 +1,6 @@
 module.exports = function (controller) {
 
-    const dbLogHelper = require("../util/logHelper");
-    const timeUtil = require("../util/timeUtil");
-    const logHelper = require("../util/logHelper");
+    const dblogUtil = require("../util/logUtil");
 
     function logMessage(message, messageType, date) {
 
@@ -19,7 +17,7 @@ module.exports = function (controller) {
                 log_type = 2;
             }
 
-            dbLogHelper.storeMessage(log_user, log_type, log_date, log_message);
+            dblogUtil.storeMessage(log_user, log_type, log_date, log_message);
 
         }
     }

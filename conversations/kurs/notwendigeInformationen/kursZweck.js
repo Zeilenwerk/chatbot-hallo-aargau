@@ -17,12 +17,13 @@
     * */
 
 module.exports = {
-    askKursZweck: function (convo, luisHelper, nextThread = "None") {
+    askKursZweck: function (bot, message, convo, luisUtil, nextThread = "None") {
 
         const { t } = require('../../../node_modules/localizify');
-        const logHelper = require("../../../util/logHelper");
+        const logUtil = require("../../../util/logUtil");
+        const errorUtil = require("../../../util/errorUtil");
 
-        logHelper.debug("Start askKursZweck");
+        logUtil.debug("Start askKursZweck");
 
         //Get All Zweck from Config and add as Quick Replies
         var niveau = process.env.KURS_ZWECK.split(",");
@@ -40,7 +41,7 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    let aEntity = luisHelper.getEntityFromLuisResponse("kursZweck", res);
+                    let aEntity = luisUtil.getEntityFromLuisResponse("kursZweck", res);
 
                     if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
                         // array empty or does not exist
@@ -48,7 +49,7 @@ module.exports = {
                         convo.repeat();
                     } else {
                         convo.setVar("kursZweck", aEntity[0]);
-                        logHelper.debug("kursZweck = " + convo.vars.kursZweck);
+                        logUtil.debug("kursZweck = " + convo.vars.kursZweck);
                     }
 
                     if (nextThread !== "None") {
@@ -62,12 +63,13 @@ module.exports = {
 
     },
 
-    convoKursZweck: function (convo, luisHelper, nextThread = "None") {
+    convoKursZweck: function (bot, message, convo, luisUtil, nextThread = "None") {
 
         const { t } = require('../../../node_modules/localizify');
-        const logHelper = require("../../../util/logHelper");
+        const logUtil = require("../../../util/logUtil");
+        const errorUtil = require("../../../util/errorUtil");
 
-        logHelper.debug("Start askKursZweck");
+        logUtil.debug("Start askKursZweck");
 
         //Get All Zweck from Config and add as Quick Replies
         var niveau = process.env.KURS_ZWECK.split(",");
@@ -85,7 +87,7 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    let aEntity = luisHelper.getEntityFromLuisResponse("kursZweck", res);
+                    let aEntity = luisUtil.getEntityFromLuisResponse("kursZweck", res);
 
                     if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
                         // array empty or does not exist
@@ -93,7 +95,7 @@ module.exports = {
                         convo.repeat();
                     } else {
                         convo.setVar("kursZweck", aEntity[0]);
-                        logHelper.debug("kursZweck = " + convo.vars.kursZweck);
+                        logUtil.debug("kursZweck = " + convo.vars.kursZweck);
                     }
 
                     if (nextThread !== "None") {

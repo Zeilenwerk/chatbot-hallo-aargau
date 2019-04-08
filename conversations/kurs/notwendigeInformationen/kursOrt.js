@@ -6,10 +6,11 @@
     *
     * */
 module.exports = {
-    askKursOrt: function (convo, luisHelper, nextThread = "None") {
+    askKursOrt: function (bot, message, convo, luisUtil, nextThread = "None") {
 
         const { t } = require('../../../node_modules/localizify');
-        const logHelper = require("../../../util/logHelper");
+        const logUtil = require("../../../util/logUtil");
+        const errorUtil = require("../../../util/errorUtil");
 
         //Get All Orte from Config and add as Quick Replies
         var orte = process.env.KURS_ORTE.split(",");
@@ -19,7 +20,7 @@ module.exports = {
             qr.push({title: orte[i], payload: orte_payload[i]})
         }
 
-        logHelper.debug("Start askKursOrt");
+        logUtil.debug("Start askKursOrt");
 
         // set up a menu thread which other threads can point at.
         convo.ask({
@@ -30,36 +31,42 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    let aEntity = luisHelper.getEntityFromLuisResponse("kursOrt", res);
+                    try{
+                        let aEntity = luisUtil.getEntityFromLuisResponse("kursOrt", res);
 
-                    if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
-                        convo.addMessage(t('nicht_verstanden'));
-                        convo.repeat();
-                    } else {
-                        convo.setVar("kursOrt", aEntity[0]);
-                        logHelper.debug("kursOrt = " + convo.vars.kursOrt);
+                        if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
+                            convo.addMessage(t('nicht_verstanden'));
+                            convo.repeat();
+                        } else {
+                            convo.setVar("kursOrt", aEntity[0]);
+                            logUtil.debug("kursOrt = " + convo.vars.kursOrt);
 
-                        // convo.setVar("kursBezirk", aEntity[1]);
-                        // logHelper.debug("kursBezirk = " + convo.vars.kursBezirk);
+                            // convo.setVar("kursBezirk", aEntity[1]);
+                            // logUtil.debug("kursBezirk = " + convo.vars.kursBezirk);
+                        }
+
+                        if (nextThread !== "None") {
+                            convo.gotoThread(nextThread);
+                        } else {
+                            convo.next();
+                        }
+                    }catch(err){
+                        errorUtil.displayErrorMessage(bot, message, err, false, false);
                     }
 
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    } else {
-                        convo.next();
-                    }
                 }
             }
         ]);
 
     },
 
-    convoKursOrt: function (convo, luisHelper, nextThread = "None") {
+    convoKursOrt: function (bot, message, convo, luisUtil, nextThread = "None") {
 
         const { t } = require('../../../node_modules/localizify');
-        const logHelper = require("../../../util/logHelper");
+        const logUtil = require("../../../util/logUtil");
+        const errorUtil = require("../../../util/errorUtil");
 
-        logHelper.debug("Start askKursOrt");
+        logUtil.debug("Start askKursOrt");
 
         //Get All Orte from Config and add as Quick Replies
         var orte = process.env.KURS_ORTE.split(",");
@@ -78,25 +85,30 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    let aEntity = luisHelper.getEntityFromLuisResponse("kursOrt", res);
+                    try{
+                        let aEntity = luisUtil.getEntityFromLuisResponse("kursOrt", res);
 
-                    if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
-                        // array empty or does not exist
-                        convo.addMessage(t('nicht_verstanden'));
-                        convo.repeat();
-                    } else {
-                        convo.setVar("kursOrt", aEntity[0]);
-                        logHelper.debug("kursOrt = " + convo.vars.kursOrt);
+                        if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
+                            // array empty or does not exist
+                            convo.addMessage(t('nicht_verstanden'));
+                            convo.repeat();
+                        } else {
+                            convo.setVar("kursOrt", aEntity[0]);
+                            logUtil.debug("kursOrt = " + convo.vars.kursOrt);
 
-                        // convo.setVar("kursBezirk", aEntity[1]);
-                        // logHelper.debug("kursBezirk = " + convo.vars.kursBezirk);
+                            // convo.setVar("kursBezirk", aEntity[1]);
+                            // logUtil.debug("kursBezirk = " + convo.vars.kursBezirk);
+                        }
+
+                        if (nextThread !== "None") {
+                            convo.gotoThread(nextThread);
+                        } else {
+                            convo.next();
+                        }
+                    }catch(err){
+                        errorUtil.displayErrorMessage(bot, message, err, false, false);
                     }
 
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    } else {
-                        convo.next();
-                    }
                 }
             }
         ], {}, "askKursOrt");

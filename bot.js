@@ -23,7 +23,7 @@ var Botkit = require('botkit');
 var debug = require('debug')('botkit:main');
 
 var bot_options = {
-    replyWithTyping: true,
+    reply: true,
 };
 
 // Use a mongo database if specified, otherwise store in a JSON file local to the app.
@@ -59,12 +59,12 @@ require("fs").readdirSync(normalizedPath).forEach(function(file) {
   require("./skills/" + file)(controller);
 });
 
-logHelper.debug('I AM ONLINE! COME TALK TO ME: http://localhost:' + (process.env.PORT || 3000))
+logUtil.debug('I AM ONLINE! COME TALK TO ME: http://localhost:' + (process.env.PORT || 3000))
 
 function usage_tip() {
-    logHelper.debug('~~~~~~~~~~');
-    logHelper.debug('Botkit Starter Kit');
-    logHelper.debug('Execute your bot application like this:');
-    logHelper.debug('PORT=3000 node bot.js');
-    logHelper.debug('~~~~~~~~~~');
+    logUtil.debug('~~~~~~~~~~');
+    logUtil.debug('Botkit Starter Kit');
+    logUtil.debug('Execute your bot application like this:');
+    logUtil.debug('PORT=3000 node bot.js');
+    logUtil.debug('~~~~~~~~~~');
 }

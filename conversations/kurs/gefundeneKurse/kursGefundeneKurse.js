@@ -1,72 +1,78 @@
 module.exports = {
-    displayGefundeneKurse: function (addMessage, convo, maxKurse = 1, offsetKurse = 0) {
+    displayGefundeneKurse: function (bot, message, addMessage, convo, maxKurse = 1, offsetKurse = 0) {
 
-        const pgHelper = require("../../../util/pgHelper");
+        const pgUtil = require("../../../util/pgUtil");
         const {t} = require('../../../node_modules/localizify');
-        const logHelper = require("../../../util/logHelper");
+        const logUtil = require("../../../util/logUtil");
         const timeUtil = require("../../../util/timeUtil");
+        const errorUtil = require("../../../util/errorUtil");
 
-        let pgQuery = this.prepareKursQuery(convo, maxKurse, offsetKurse);
+        let pgQuery = this.prepareKursQuery(bot, message, convo, maxKurse, offsetKurse);
 
         //Connect to DB
         /////////////////////////////
-        const pgClient = pgHelper.getDB();
+        const pgClient = pgUtil.getDB();
         pgClient.connect();
 
         // Execute Query and return res
         /////////////////////////////
-        pgClient.query(pgQuery,
-            (err, res) => {
-                if (err) throw new Error(err.stack);
+        try{
+            pgClient.query(pgQuery,
+                (err, res) => {
+                    if (err) throw new Error(err.stack);
 
-                pgClient.end();
+                    pgClient.end();
 
-                logHelper.info("Gefundene Kurse DB Response:");
-                logHelper.info(JSON.stringify(res.rows));
-                logHelper.debug(JSON.stringify(res));
+                    if(res.rows) logUtil.info("Gefundene Kurse DB Response:");
+                    if(res.rows) logUtil.info(JSON.stringify(res.rows));
+                    if(res.rows) logUtil.debug(JSON.stringify(res));
 
-                if (res.rows.length > 0) {
-                    addMessage(t('kurs.gefundeneKurse.kursGefundeneKurse.kurse_Gefunden'));
-                } else {
-                    addMessage(t('kurs.gefundeneKurse.kursGefundeneKurse.kurse_nicht_Gefunden'));
-                    convo.setVar("offsetKurse", 0);
-                    convo.gotoThread("kursNotwendigeInfosMenu");
-                }
-
-                for (var i = 0; i < res.rows.length; i++) {
-
-                    var oRow = res.rows[i];
-
-                    if (oRow.tag != null && oRow.tag !== "") {
-                        addMessage(t('kurs.gefundeneKurse.kursGefundeneKurse.kurs_Tag_Datum', {kursTag: timeUtil.getDayNameFromNumber(oRow.tag_nummer), kursDatum: timeUtil.formatDate(oRow.tag)}));
+                    if (res.rows.length > 0) {
+                        addMessage(t('kurs.gefundeneKurse.kursGefundeneKurse.kurse_Gefunden'));
+                    } else {
+                        addMessage(t('kurs.gefundeneKurse.kursGefundeneKurse.kurse_nicht_Gefunden'));
+                        convo.setVar("offsetKurse", 0);
+                        convo.gotoThread("kursNotwendigeInfosMenu");
                     }
 
-                    if (oRow.start_zeit != null && oRow.start_zeit !== "" && oRow.end_zeit != null && oRow.end_zeit !== "") {
-                        addMessage(t('kurs.gefundeneKurse.kursGefundeneKurse.kurs_Zeit', {
-                            einzelkursstart: oRow.start_zeit,
-                            einzelkursende: oRow.end_zeit
-                        }));
-                    }
-                }
-                if (res.rows.length > 0) {
-                    convo.gotoThread("gefundeneKurse");
-                }
+                    for (var i = 0; i < res.rows.length; i++) {
 
-            });
+                        var oRow = res.rows[i];
+
+                        if (oRow.tag != null && oRow.tag !== "") {
+                            addMessage(t('kurs.gefundeneKurse.kursGefundeneKurse.kurs_Tag_Datum', {kursTag: timeUtil.getDayNameFromNumber(oRow.tag_nummer), kursDatum: timeUtil.formatDate(oRow.tag)}));
+                        }
+
+                        if (oRow.start_zeit != null && oRow.start_zeit !== "" && oRow.end_zeit != null && oRow.end_zeit !== "") {
+                            addMessage(t('kurs.gefundeneKurse.kursGefundeneKurse.kurs_Zeit', {
+                                einzelkursstart: oRow.start_zeit,
+                                einzelkursende: oRow.end_zeit
+                            }));
+                        }
+                    }
+                    if (res.rows.length > 0) {
+                        convo.gotoThread("gefundeneKurse");
+                    }
+
+                });
+        }catch(err){
+            errorUtil.displayErrorMessage(bot, message, err, false, false)
+        }
+
     },
 
-    displayKursInfromationen: function (addMessage, convo, maxKurse = 1, offsetKurse = 0) {
+    displayKursInfromationen: function (bot, message, addMessage, convo, maxKurse = 1, offsetKurse = 0) {
 
-        const pgHelper = require("../../../util/pgHelper");
+        const pgUtil = require("../../../util/pgUtil");
         const {t} = require('../../../node_modules/localizify');
-        const logHelper = require("../../../util/logHelper");
+        const logUtil = require("../../../util/logUtil");
         const timeUtil = require("../../../util/timeUtil");
 
-        let pgQuery = this.prepareKursQuery(convo, maxKurse, offsetKurse);
+        let pgQuery = this.prepareKursQuery(bot, message, convo, maxKurse, offsetKurse);
 
         //Connect to DB
         /////////////////////////////
-        const pgClient = pgHelper.getDB();
+        const pgClient = pgUtil.getDB();
         pgClient.connect();
 
         // Execute Query and return res
@@ -77,8 +83,8 @@ module.exports = {
 
                 pgClient.end();
 
-                logHelper.debug("Display Kurs Informationen DB Response:");
-                logHelper.debug(JSON.stringify(res));
+                logUtil.debug("Display Kurs Informationen DB Response:");
+                logUtil.debug(JSON.stringify(res));
 
                 if (res.rows.length > 0) {
                     addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kurs_Informationen_Gefunden'));
@@ -150,14 +156,14 @@ module.exports = {
             });
     },
 
-    prepareKursQuery: function (convo, maxKurse = 1, offsetKurse = 0) {
+    prepareKursQuery: function (bot, message, convo, maxKurse = 1, offsetKurse = 0) {
 
-        const logHelper = require("../../../util/logHelper");
+        const logUtil = require("../../../util/logUtil");
         const timeUtil = require("../../../util/timeUtil");
-        const niveauHelper = require("../../../util/niveauHelper");
-        const adressatengruppenHelper = require("../../../util/adressatengruppenHelper");
-        const intensitaetHelper = require("../../../util/intensitaetHelper");
-        const zweckHelper = require("../../../util/zweckHelper");
+        const niveauHelper = require("../../../util/helper/niveauHelper");
+        const adressatengruppenHelper = require("../../../util/helper/adressatengruppenHelper");
+        const intensitaetHelper = require("../../../util/helper/intensitaetHelper");
+        const zweckHelper = require("../../../util/helper/zweckHelper");
 
         //Notwendige Informationen
         /////////////////////////////
@@ -310,7 +316,7 @@ module.exports = {
             + " " + query_offset
             + " " + query_limit;
 
-        logHelper.debug("Kurs Select DB Query: " + pgQuery);
+        logUtil.debug("Kurs Select DB Query: " + pgQuery);
 
         //Reste offset
         convo.setVar("offsetKurse", 0);

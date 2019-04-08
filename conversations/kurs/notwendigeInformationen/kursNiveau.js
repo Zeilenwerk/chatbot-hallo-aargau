@@ -17,12 +17,13 @@
     * */
 
 module.exports = {
-    askKursNiveau: function (convo, luisHelper, nextThread = "None") {
+    askKursNiveau: function (bot, message, convo, luisUtil, nextThread = "None") {
 
         const { t } = require('../../../node_modules/localizify');
-        const logHelper = require("../../../util/logHelper");
+        const logUtil = require("../../../util/logUtil");
+        const errorUtil = require("../../../util/errorUtil");
 
-        logHelper.debug("Start askKursNiveau");
+        logUtil.debug("Start askKursNiveau");
 
         //Get All Niveau from Config and add as Quick Replies
         var niveau = process.env.KURS_NIVEAU.split(",");
@@ -40,34 +41,40 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    let aEntity = luisHelper.getEntityFromLuisResponse("kursNiveau", res);
+                    try{
+                        let aEntity = luisUtil.getEntityFromLuisResponse("kursNiveau", res);
 
-                    if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
-                        // array empty or does not exist
-                        convo.addMessage(t('nicht_verstanden'));
-                        convo.repeat();
-                    } else {
-                        convo.setVar("kursNiveau", aEntity[0]);
-                        logHelper.debug("kursNiveau = " + convo.vars.kursNiveau);
+                        if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
+                            // array empty or does not exist
+                            convo.addMessage(t('nicht_verstanden'));
+                            convo.repeat();
+                        } else {
+                            convo.setVar("kursNiveau", aEntity[0]);
+                            logUtil.debug("kursNiveau = " + convo.vars.kursNiveau);
+                        }
+
+                        if (nextThread !== "None") {
+                            convo.gotoThread(nextThread);
+                        } else {
+                            convo.next();
+                        }
+                    }catch(err){
+                        errorUtil.displayErrorMessage(bot, message, err, false, false);
                     }
 
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    } else {
-                        convo.next();
-                    }
                 }
             }
         ]);
 
     },
 
-    convoKursNiveau: function (convo, luisHelper, nextThread = "None") {
+    convoKursNiveau: function (bot, message, convo, luisUtil, nextThread = "None") {
 
         const { t } = require('../../../node_modules/localizify');
-        const logHelper = require("../../../util/logHelper");
+        const logUtil = require("../../../util/logUtil");
+        const errorUtil = require("../../../util/errorUtil");
 
-        logHelper.debug("Start askKursNiveau");
+        logUtil.debug("Start askKursNiveau");
 
         //Get All Niveau from Config and add as Quick Replies
         var niveau = process.env.KURS_NIVEAU.split(",");
@@ -85,22 +92,28 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    let aEntity = luisHelper.getEntityFromLuisResponse("kursNiveau", res);
+                    try{
+                        let aEntity = luisUtil.getEntityFromLuisResponse("kursNiveau", res);
 
-                    if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
-                        // array empty or does not exist
-                        convo.addMessage(t('nicht_verstanden'));
-                        convo.repeat();
-                    } else {
-                        convo.setVar("kursNiveau", aEntity[0]);
-                        logHelper.debug("kursNiveau = " + convo.vars.kursNiveau);
+                        if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
+                            // array empty or does not exist
+                            convo.addMessage(t('nicht_verstanden'));
+                            convo.repeat();
+                        } else {
+                            convo.setVar("kursNiveau", aEntity[0]);
+                            logUtil.debug("kursNiveau = " + convo.vars.kursNiveau);
+                        }
+
+                        if (nextThread !== "None") {
+                            convo.gotoThread(nextThread);
+                        } else {
+                            convo.next();
+                        }
+                    }catch(err){
+                        errorUtil.displayErrorMessage(bot, message, err, false, false);
                     }
 
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    } else {
-                        convo.next();
-                    }
+
                 }
             }
         ], {}, "askKursNiveau");

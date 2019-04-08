@@ -11,6 +11,7 @@
   "tag_sonntag": "Sonntag",
   "_connection_events": {
     "onboarding": "Guten Tag! Wie kann ich Ihenen helfen?",
+    "reconnect": "Willkommen zurück! Wie kann ich Ihenen helfen?",
     "onboarding_Deutschkurs": "Deutschkurs suchen",
     "onboarding_Aufenthaltsstatus": "Informationen zum Aufenthaltsstatus",
     "onboarding_Hilfe": "Hilfe"
@@ -202,5 +203,8 @@
     "convoEnd_Question_Qr_Nein_Payload": "Nein",
     "auf_wiedersehen": "Auf wiedersehen",
     "convoQuit_Message": "Auf wiedersehen. Bei weiteren Anliegen können sie gerne 'Hallo' in das Chat Fenster schreiben."
+  },
+  "error": {
+    "default_error_message": "Ein Fehler ist aufgetreten."
   }
 }

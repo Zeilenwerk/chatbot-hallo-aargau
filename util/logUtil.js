@@ -14,8 +14,8 @@ module.exports = {
         this.debug("Add new user to DB: " + userId + " at " + date);
 
         const timeUtil = require("./timeUtil");
-        const pgHelper = require("./pgHelper");
-        const pgClient = pgHelper.getDB();
+        const pgUtil = require("./pgUtil");
+        const pgClient = pgUtil.getDB();
         pgClient.connect();
 
         //If user exists do nothing, else insert User to DB
@@ -47,7 +47,7 @@ module.exports = {
         const timeUtil = require("./timeUtil");
 
         let logLineDetails = ((new Error().stack).split("at ")[3]).trim();
-        entry = logLineDetails + " - " + entry;
+        entry = logLineDetails + " - " + JSON.stringify(entry);
 
         let date = new Date();
         let logLevel = 1;
@@ -67,7 +67,7 @@ module.exports = {
         const timeUtil = require("./timeUtil");
 
         let logLineDetails = ((new Error().stack).split("at ")[3]).trim();
-        entry = logLineDetails + " - " + entry;
+        entry = logLineDetails + " - " + JSON.stringify(entry);
 
         let date = new Date();
         let logLevel = 2;
@@ -87,7 +87,7 @@ module.exports = {
         const timeUtil = require("./timeUtil");
 
         let logLineDetails = ((new Error().stack).split("at ")[3]).trim();
-        entry = logLineDetails + " - " + entry;
+        entry = logLineDetails + " - " + JSON.stringify(entry);
 
         let date = new Date();
         let logLevel = 3;
@@ -107,7 +107,7 @@ module.exports = {
         const timeUtil = require("./timeUtil");
 
         let logLineDetails = ((new Error().stack).split("at ")[3]).trim();
-        entry = logLineDetails + " - " + entry;
+        entry = logLineDetails + " - " + JSON.stringify(entry);
 
         let date = new Date();
         let logLevel = 4;
@@ -133,14 +133,14 @@ module.exports = {
 
         if (process.env.LOG_2_DB === "true"){
 
-            const pgHelper = require("./pgHelper");
-            const pgClient = pgHelper.getDB();
+            const pgUtil = require("./pgUtil");
+            const pgClient = pgUtil.getDB();
 
             pgClient.connect();
 
             let pgQuery = "INSERT INTO public.Bot_Log(" +
                 " Level, Erfasst_am, Eintrag)" +
-                " SELECT l.Id, to_timestamp(" + timeUtil.getEpoch(date) + "), '" + pgHelper.escape_string(entry) + "' " +
+                " SELECT l.Id, to_timestamp(" + timeUtil.getEpoch(date) + "), '" + pgUtil.escape_string(entry) + "' " +
                 " FROM Log_Level l " +
                 " WHERE l.code = " + logLevel;
 
@@ -178,13 +178,13 @@ module.exports = {
 
         if (process.env.LOG_MESSAGES_2_DB === "true") {
             {
-                const pgHelper = require("./pgHelper");
-                const pgClient = pgHelper.getDB();
+                const pgUtil = require("./pgUtil");
+                const pgClient = pgUtil.getDB();
                 pgClient.connect();
 
                 let pgQuery = "INSERT INTO public.Benutzer_Log(" +
                     " Nachricht_Typ, Benutzer, Erfasst_am, Nachricht)" +
-                    " SELECT n.Id, b.Id, to_timestamp(" + timeUtil.getEpoch(date) + "), '" + pgHelper.escape_string(message) + "' " +
+                    " SELECT n.Id, b.Id, to_timestamp(" + timeUtil.getEpoch(date) + "), '" + pgUtil.escape_string(message) + "' " +
                     "FROM Benutzer b, Nachricht_Typ n " +
                     "WHERE b.Benutzer_Kennung = '" + userId + "'" +
                     "AND n.code = '" + messageType + "'";

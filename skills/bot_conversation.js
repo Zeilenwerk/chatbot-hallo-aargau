@@ -5,7 +5,7 @@ module.exports = function (controller) {
     //Get LUIS middleware
     var luis = require('../node_modules/botkit-middleware-luis/src/luis-middleware');
     const { t } = require('../node_modules/localizify');
-    const logHelper = require("../util/logHelper");
+    const logUtil = require("../util/logUtil");
 
     //*********************************
     // Handle User Intents
@@ -16,10 +16,10 @@ module.exports = function (controller) {
         bot.startConversation(message, function (err, convo) {
 
             //Log Message and top intent
-            logHelper.info("Recieved Message: " + message.text);
-            logHelper.debug(JSON.stringify(message));
-            logHelper.info("Top Intent: " + message.topIntent.intent);
-            logHelper.info("Score: " + message.topIntent.score);
+            logUtil.info("Recieved Message: " + message.text);
+            logUtil.debug(JSON.stringify(message));
+            logUtil.info("Top Intent: " + message.topIntent.intent);
+            logUtil.info("Score: " + message.topIntent.score);
 
             //Set Timeout in milliseconds
             // 1 min = 60000

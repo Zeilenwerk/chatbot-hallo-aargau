@@ -16,12 +16,13 @@
 *
 * */
 module.exports = {
-    askKursAdressatengruppe: function (convo, luisHelper, nextThread = "None") {
+    askKursAdressatengruppe: function (bot, message, convo, luisUtil, nextThread = "None") {
 
-        const { t } = require('localizify');
-        const logHelper = require("../../../util/logHelper");
+        const {t} = require('localizify');
+        const logUtil = require("../../../util/logUtil");
+        const errorUtil = require("../../../util/errorUtil");
 
-        logHelper.debug("Start askKursAdressatengruppe");
+        logUtil.debug("Start askKursAdressatengruppe");
 
         //Get All Adressatengruppen from Config and add as Quick Replies
         var adressatengruppen = process.env.KURS_ADRESSATENGRUPPEN.split(",");
@@ -32,30 +33,33 @@ module.exports = {
         }
 
         convo.ask({
-            text:  t('kurs.notwendigeInformationen.kursAdressatengruppe.convoKursAdressatengruppe'),
+            text: t('kurs.notwendigeInformationen.kursAdressatengruppe.convoKursAdressatengruppe'),
             quick_replies: qr
         }, [
             {
                 default: true,
                 callback: function (res, convo) {
 
-                    let aEntity = luisHelper. getEntityFromLuisResponse("kursAdressatengruppe", res);
+                    try{
+                        let aEntity = luisUtil.getEntityFromLuisResponse("kursAdressatengruppe", res);
 
-                    if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
-                        // array empty or does not exist
-                        convo.addMessage(t('nicht_verstanden'));
-                        convo.repeat();
-                    } else {
-                        convo.setVar("kursAdressatengruppe", aEntity[0]);
-                        logHelper.debug("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
+                        if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
+                            // array empty or does not exist
+                            convo.addMessage(t('nicht_verstanden'));
+                            convo.repeat();
+                        } else {
+                            convo.setVar("kursAdressatengruppe", aEntity[0]);
+                            logUtil.debug("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
+                        }
+
+                        if (nextThread !== "None") {
+                            convo.gotoThread(nextThread);
+                        } else {
+                            convo.next();
+                        }
+                    }catch(err){
+                        errorUtil.displayErrorMessage(bot, message, err, false, false) ;
                     }
-
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }else{
-                        convo.next();
-                    }
-
 
                 }
             }
@@ -63,12 +67,13 @@ module.exports = {
 
     },
 
-    convoKursAdressatengruppe: function (convo, luisHelper, nextThread = "None") {
+    convoKursAdressatengruppe: function (bot, message, convo, luisUtil, nextThread = "None") {
 
-        const { t } = require('localizify');
-        const logHelper = require("../../../util/logHelper");
+        const {t} = require('localizify');
+        const logUtil = require("../../../util/logUtil");
+        const errorUtil = require("../../../util/errorUtil");
 
-        logHelper.debug("Start askKursAdressatengruppe");
+        logUtil.debug("Start askKursAdressatengruppe");
 
         //Get All Adressatengruppen from Config and add as Quick Replies
         var adressatengruppen = process.env.KURS_ADRESSATENGRUPPEN.split(",");
@@ -79,34 +84,38 @@ module.exports = {
         }
 
         convo.addQuestion({
-            text:  t('kurs.notwendigeInformationen.kursAdressatengruppe.convoKursAdressatengruppe'),
+            text: t('kurs.notwendigeInformationen.kursAdressatengruppe.convoKursAdressatengruppe'),
             quick_replies: qr
         }, [
             {
                 default: true,
                 callback: function (res, convo) {
 
-                    let aEntity = luisHelper. getEntityFromLuisResponse("kursAdressatengruppe", res);
+                    try {
+                        let aEntity = luisUtil.getEntityFromLuisResponse("kursAdressatengruppe", res);
 
-                    if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
-                        // array empty or does not exist
-                        convo.addMessage(t('nicht_verstanden'));
-                        convo.repeat();
-                    } else {
-                        convo.setVar("kursAdressatengruppe", aEntity[0]);
-                        logHelper.debug("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
+                        if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
+                            // array empty or does not exist
+                            convo.addMessage(t('nicht_verstanden'));
+                            convo.repeat();
+                        } else {
+                            convo.setVar("kursAdressatengruppe", aEntity[0]);
+                            logUtil.debug("kursAdressatengruppe = " + convo.vars.kursAdressatengruppe);
+                        }
+
+                        if (nextThread !== "None") {
+                            convo.gotoThread(nextThread);
+                        } else {
+                            convo.next();
+                        }
+
+                    } catch (err) {
+                        errorUtil.displayErrorMessage(bot, message, err, false, false);
                     }
-
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }else{
-                        convo.next();
-                    }
-
 
                 }
             }
-        ], {},"askKursAdressatengruppe");
+        ], {}, "askKursAdressatengruppe");
 
     }
 };
