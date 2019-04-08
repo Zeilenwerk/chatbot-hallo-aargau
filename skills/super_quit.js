@@ -17,7 +17,7 @@ module.exports = function(controller) {
                 if (convo) {
                     // stop the conversation and swallow this message
                     convo.stop('quit');
-                    bot.replyWithTyping(message,'Auf wiedersehen.');
+                    bot.reply(message,'Auf wiedersehen.');
                 } else {
                     // nothing ongoing, this message passes through
                     next();

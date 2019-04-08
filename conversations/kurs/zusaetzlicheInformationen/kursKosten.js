@@ -11,13 +11,14 @@
 *
 * */
 module.exports = {
-    convoKursKosten: function (convo, luisHelper, nextThread = "None") {
+    convoKursKosten: function (bot, message, convo, luisUtil, nextThread = "None") {
 
         const { t } = require('../../../node_modules/localizify');
-        const logHelper = require("../../../util/logHelper");
+        const logUtil = require("../../../util/logUtil");
+        const errorUtil = require("../../../util/errorUtil");
 
 
-        logHelper.debug("Start askKursKosten");
+        logUtil.debug("Start askKursKosten");
 
         convo.addQuestion({
             text: t('kurs.zusaetzlicheInformationen.kursKosten.convoKursKosten'),
@@ -44,22 +45,28 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    let aEntity = luisHelper. getEntityFromLuisResponse("kursKosten", res);
+                    try{
+                        let aEntity = luisUtil. getEntityFromLuisResponse("kursKosten", res);
 
-                    if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
-                        // array empty or does not exist
-                        convo.addMessage(t('nicht_verstanden'));
-                        convo.repeat();
-                    } else {
-                        convo.setVar("kursKosten", aEntity[0]);
-                        logHelper.debug("kursKosten = " + convo.vars.kursKosten);
+                        if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
+                            // array empty or does not exist
+                            convo.addMessage(t('nicht_verstanden'));
+                            convo.repeat();
+                        } else {
+                            convo.setVar("kursKosten", aEntity[0]);
+                            logUtil.debug("kursKosten = " + convo.vars.kursKosten);
+                        }
+
+                        if (nextThread !== "None") {
+                            convo.gotoThread(nextThread);
+                        }else{
+                            convo.next();
+                        }
+                    }catch(err){
+                        errorUtil.displayErrorMessage(bot, message, err, false, false);
                     }
 
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }else{
-                        convo.next();
-                    }
+
 
 
                 }

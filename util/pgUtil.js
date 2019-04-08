@@ -1,8 +1,6 @@
 module.exports = {
     getDB: function () {
 
-        const logHelper = require("./logHelper");
-
         //Get Postgres Middleware
         var pg = require('pg');
 
@@ -19,10 +17,9 @@ module.exports = {
 
     escape_string: function (str) {
 
-        const logHelper = require("./logHelper");
-
-        if (typeof str != 'string')
+        if (typeof str != 'string'){
             return str;
+        }
 
         return str.replace(/[\0\x08\x09\x1a\n\r"'\\\%]/g, function (char) {
             switch (char) {

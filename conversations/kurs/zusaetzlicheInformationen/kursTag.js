@@ -15,58 +15,13 @@
    *
    * */
 module.exports = {
-    askKursTag: function (convo, luisHelper, nextThread = "None") {
+
+    convoKursTag: function (bot, message, convo, luisUtil, nextThread = "None") {
 
         const { t } = require('localizify');
-        const logHelper = require("../../../util/logHelper");
+        const logUtil = require("../../../util/logUtil");
 
-        logHelper.debug("Start askKursTag");
-
-        //Get All Tage from Config and add as Quick Replies
-        var tag = process.env.KURS_TAG.split(",");
-        var tag_payload = process.env.KURS_TAG_PAYLOAD.split(",");
-        var qr = [];
-        for (let i = 0; i < tag.length; i++) {
-            qr.push({title: tag[i], payload: tag_payload[i]})
-        }
-
-        convo.ask({
-            text: t('kurs.zusaetzlicheInformationen.kursTag.askKursTag'),
-            quick_replies: qr
-        }, [
-            {
-                default: true,
-                callback: function (res, convo) {
-
-                    let aEntity = luisHelper.getEntityFromLuisResponse("kursTag", res);
-
-                    if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
-                        // array empty or does not exist
-                        convo.addMessage(t('nicht_verstanden'));
-                        convo.repeat();
-                    } else {
-                        convo.setVar("kursTag", aEntity[0]);
-                        logHelper.debug("kursTag = " + convo.vars.kursTag);
-                    }
-
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    } else {
-                        convo.next();
-                    }
-
-                }
-            }
-        ]);
-
-    },
-
-    convoKursTag: function (convo, luisHelper, nextThread = "None") {
-
-        const { t } = require('localizify');
-        const logHelper = require("../../../util/logHelper");
-
-        logHelper.debug("Start askKursTag");
+        logUtil.debug("Start askKursTag");
 
         //Get All Tage from Config and add as Quick Replies
         var tag = process.env.KURS_TAG.split(",");
@@ -84,21 +39,25 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    let aEntity = luisHelper.getEntityFromLuisResponse("kursTag", res);
+                    try{
+                        let aEntity = luisUtil.getEntityFromLuisResponse("kursTag", res);
 
-                    if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
-                        // array empty or does not exist
-                        convo.addMessage(t('nicht_verstanden'));
-                        convo.repeat();
-                    } else {
-                        convo.setVar("kursTag", aEntity[0]);
-                        logHelper.debug("kursTag = " + convo.vars.kursTag);
-                    }
+                        if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
+                            // array empty or does not exist
+                            convo.addMessage(t('nicht_verstanden'));
+                            convo.repeat();
+                        } else {
+                            convo.setVar("kursTag", aEntity[0]);
+                            logUtil.debug("kursTag = " + convo.vars.kursTag);
+                        }
 
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    } else {
-                        convo.next();
+                        if (nextThread !== "None") {
+                            convo.gotoThread(nextThread);
+                        } else {
+                            convo.next();
+                        }
+                    }catch(err){
+                        errorUtil.displayErrorMessage(bot, message, err, false, false);
                     }
 
                 }

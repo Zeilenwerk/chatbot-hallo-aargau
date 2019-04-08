@@ -1,9 +1,30 @@
 module.exports = {
 
-    kursSuchen : function(convo, message, bot) {
+    kursSuchen: function (convo, message, bot) {
 
-        const { t } = require('../../node_modules/localizify');
-        const logHelper = require("../../util/logHelper");
+        //*********************************
+        // THIS WILL THROW AN UNCAUGHT ERROR
+        //*********************************
+
+        // try {
+        //     var fs = require('fs');
+        //
+        //     fs.readFile('somefile.txt', function (err, data) {
+        //         if (err) throw err;
+        //         console.log(data);
+        //     });
+        // } catch (err) {
+        //     require("../../util/errorUtil").displayErrorMessage(bot, message, convo, err, false, false);
+        // }
+
+
+        //*********************************
+        // THIS WILL THROW AN UNCAUGHT ERROR
+        //*********************************
+
+
+        const {t} = require('../../node_modules/localizify');
+        const logUtil = require("../../util/logUtil");
 
         convo.addMessage(t('kurs.kursSuchen'));
 
@@ -11,7 +32,8 @@ module.exports = {
         // Helpers
         //********************************
         // Import Helper Class to get Entites from LUIS Response
-        const luisHelper = require("../../util/luisHelper");
+        const luisUtil = require("../../util/luisUtil");
+        const errorUtil = require("../../util/errorUtil");
 
         //********************************
         // Required Threads
@@ -32,46 +54,58 @@ module.exports = {
         // Initialize Conversation
         //********************************
 
-        kursIntensitaet.convoKursIntensitaet(convo, luisHelper, "kursNotwendigeInfosMenu");
-        kursAdressatengruppe.convoKursAdressatengruppe(convo, luisHelper, "kursNotwendigeInfosMenu");
-        kursOrt.convoKursOrt(convo, luisHelper, "kursNotwendigeInfosMenu");
-        kursZweck.convoKursZweck(convo, luisHelper, "kursNotwendigeInfosMenu");
-        kursNiveau.convoKursNiveau(convo, luisHelper, "kursNotwendigeInfosMenu");
-        kursAnbieter.convoKursAnbieter(convo, luisHelper, "zusatzInfo");
-        kursKosten.convoKursKosten(convo, luisHelper, "zusatzInfo");
-        kursTag.convoKursTag(convo, luisHelper, "zusatzInfo");
-        kursZeit.convoKursZeit(convo, luisHelper, "zusatzInfo");
+        kursIntensitaet.convoKursIntensitaet(bot, message, convo, luisUtil, "kursNotwendigeInfosMenu");
+        kursAdressatengruppe.convoKursAdressatengruppe(bot, message, convo, luisUtil, "kursNotwendigeInfosMenu");
+        kursOrt.convoKursOrt(bot, message, convo, luisUtil, "kursNotwendigeInfosMenu");
+        kursZweck.convoKursZweck(bot, message, convo, luisUtil, "kursNotwendigeInfosMenu");
+        kursNiveau.convoKursNiveau(bot, message, convo, luisUtil, "kursNotwendigeInfosMenu");
+        kursAnbieter.convoKursAnbieter(bot, message, convo, luisUtil, "zusatzInfo");
+        kursKosten.convoKursKosten(bot, message, convo, luisUtil, "zusatzInfo");
+        kursTag.convoKursTag(bot, message, convo, luisUtil, "zusatzInfo");
+        kursZeit.convoKursZeit(bot, message, convo, luisUtil, "zusatzInfo");
 
 
-        //Variablen zur Suche eines Deutschkurses die in der Conversation ausfindig gemacht werden müssen
-        let aVars = ["kursOrt", "kursBezirk", "kursZeit", "kursTag", "kursTagUndZeit", "kursDatum", "kursIntensitaet", "kursAnbieter", "kursNiveau", "kursSprache", "kursAdressatengruppe", "kursKosten", "kursZweck"];
+        try {
+            //Variablen zur Suche eines Deutschkurses die in der Conversation ausfindig gemacht werden müssen
+            let aVars = ["kursOrt", "kursBezirk", "kursZeit", "kursTag", "kursTagUndZeit", "kursDatum", "kursIntensitaet", "kursAnbieter", "kursNiveau", "kursSprache", "kursAdressatengruppe", "kursKosten", "kursZweck"];
 
-        for (var x = 0; x < aVars.length; x++) {
+            for (var x = 0; x < aVars.length; x++) {
 
-            let aEntity = luisHelper.getEntityFromLuisResponse(aVars[x], message);
+                let aEntity = luisUtil.getEntityFromLuisResponse(aVars[x], message);
 
-            if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
-                logHelper.debug("Initialize var " + aVars[x] + " with value to 'None'");
-                convo.setVar(aVars[x], "None");
-            } else {
-                if (aEntity[1]) {
-                    convo.setVar(aVars[x], aEntity[1]);
-                    logHelper.debug(aVars[x] + " = " + aEntity[1]);
+                if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
+                    logUtil.debug("Initialize var " + aVars[x] + " with value to 'None'");
+                    convo.setVar(aVars[x], "None");
                 } else {
-                    convo.setVar(aVars[x], aEntity[0]);
-                    logHelper.debug(aVars[x] + " = " + aEntity[0]);
+                    if (aEntity[1]) {
+                        convo.setVar(aVars[x], aEntity[1]);
+                        logUtil.debug(aVars[x] + " = " + aEntity[1]);
+                    } else {
+                        convo.setVar(aVars[x], aEntity[0]);
+                        logUtil.debug(aVars[x] + " = " + aEntity[0]);
+                    }
                 }
             }
+
+            convo.setVar("maxKurse", 1);
+            convo.setVar("offsetKurse", 0);
+
+        } catch (err) {
+            errorUtil.displayErrorMessage(bot, message, err, false, false);
         }
 
-        convo.setVar("maxKurse", 1);
-        convo.setVar("offsetKurse", 0);
 
         //********************************
         //Conversation Threads
         //********************************
 
-        convo.addMessage(t('kurs.kursNotwendigeInfosMenu_Message', {kursIntensitaet: "{{vars.kursIntensitaet}}", kursAdressatengruppe: "{{vars.kursAdressatengruppe}}", kursOrt: "{{vars.kursOrt}}", kursZweck: "{{vars.kursZweck}}", kursNiveau: "{{vars.kursNiveau}}"}), 'kursNotwendigeInfosMenu');
+        convo.addMessage(t('kurs.kursNotwendigeInfosMenu_Message', {
+            kursIntensitaet: "{{vars.kursIntensitaet}}",
+            kursAdressatengruppe: "{{vars.kursAdressatengruppe}}",
+            kursOrt: "{{vars.kursOrt}}",
+            kursZweck: "{{vars.kursZweck}}",
+            kursNiveau: "{{vars.kursNiveau}}"
+        }), 'kursNotwendigeInfosMenu');
 
         convo.addQuestion({
             text: t('kurs.kursNotwendigeInfosMenu_Question'),
@@ -90,21 +124,26 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    switch (res.text) {
+                    try {
+                        switch (res.text) {
 
-                        case t('ja'):
-                            convo.gotoThread("zusatzInfo");
-                            convo.next();
-                            break;
-                        case t('nein'):
-                            convo.gotoThread("correctNeccessaryInfromation");
-                            convo.next();
-                            break;
-                        default:
-                            convo.addMessage(t('nicht_verstanden'));
-                            convo.repeat();
-                            break;
+                            case t('ja'):
+                                convo.gotoThread("zusatzInfo");
+                                convo.next();
+                                break;
+                            case t('nein'):
+                                convo.gotoThread("correctNeccessaryInfromation");
+                                convo.next();
+                                break;
+                            default:
+                                convo.addMessage(t('nicht_verstanden'));
+                                convo.repeat();
+                                break;
+                        }
+                    } catch (err) {
+                        errorUtil.displayErrorMessage(bot, message, err, false, false);
                     }
+
                 }
             }
         ], {}, "kursNotwendigeInfosMenu");
@@ -138,29 +177,34 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    switch (res.text) {
+                    try {
+                        switch (res.text) {
 
-                        case t('kurs.Adressatengruppe'):
-                            convo.gotoThread("askKursAdressatengruppe");
-                            break;
-                        case t('kurs.Intensitaet'):
-                            convo.gotoThread("askKursIntensitaet");
-                            break;
-                        case t('kurs.kurs_Ort'):
-                            convo.gotoThread("askKursOrt");
-                            break;
-                        case t('kurs.kurs_Niveau'):
-                            convo.gotoThread("askKursNiveau");
-                            break;
-                        case t('kurs.keine_Aenderung'):
-                            convo.say(t('kurs.zusatzInfo_Say'));
-                            convo.gotoThread("zusatzInfo");
-                            break;
-                        default:
-                            convo.addMessage(t('nicht_verstanden'));
-                            convo.repeat();
-                            break;
+                            case t('kurs.Adressatengruppe'):
+                                convo.gotoThread("askKursAdressatengruppe");
+                                break;
+                            case t('kurs.Intensitaet'):
+                                convo.gotoThread("askKursIntensitaet");
+                                break;
+                            case t('kurs.kurs_Ort'):
+                                convo.gotoThread("askKursOrt");
+                                break;
+                            case t('kurs.kurs_Niveau'):
+                                convo.gotoThread("askKursNiveau");
+                                break;
+                            case t('kurs.keine_Aenderung'):
+                                convo.say(t('kurs.zusatzInfo_Say'));
+                                convo.gotoThread("zusatzInfo");
+                                break;
+                            default:
+                                convo.addMessage(t('nicht_verstanden'));
+                                convo.repeat();
+                                break;
+                        }
+                    } catch (err) {
+                        errorUtil.displayErrorMessage(bot, message, err, false, false);
                     }
+
                 }
             }
         ], {}, "correctNeccessaryInfromation");
@@ -195,30 +239,35 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    switch (res.text) {
+                    try {
+                        switch (res.text) {
 
-                        case t('kurs.kurs_Tag'):
-                            convo.gotoThread("askKursTag");
-                            break;
-                        case t('kurs.kurs_Zeit'):
-                            convo.gotoThread("askKursZeit");
-                            break;
-                        case t('kurs.Anbieter'):
-                            convo.gotoThread("askKursAnbieter");
-                            break;
-                        case t('kurs.Kosten'):
-                            convo.gotoThread("askKursKosten");
-                            break;
-                        case t('kurs.keine_weiteren_Angaben'):
-                            kursGefundeneKurse.displayGefundeneKurse(function (m) {
-                                bot.replyWithTyping(message, m);
-                            }, convo, convo.vars.maxKurse, convo.vars.offsetKurse);
-                            break;
-                        default:
-                            convo.addMessage(t('nicht_verstanden'));
-                            convo.repeat();
-                            break;
+                            case t('kurs.kurs_Tag'):
+                                convo.gotoThread("askKursTag");
+                                break;
+                            case t('kurs.kurs_Zeit'):
+                                convo.gotoThread("askKursZeit");
+                                break;
+                            case t('kurs.Anbieter'):
+                                convo.gotoThread("askKursAnbieter");
+                                break;
+                            case t('kurs.Kosten'):
+                                convo.gotoThread("askKursKosten");
+                                break;
+                            case t('kurs.keine_weiteren_Angaben'):
+                                kursGefundeneKurse.displayGefundeneKurse(bot, message, function (m) {
+                                    bot.reply(message, m);
+                                }, convo, convo.vars.maxKurse, convo.vars.offsetKurse);
+                                break;
+                            default:
+                                convo.addMessage(t('nicht_verstanden'));
+                                convo.repeat();
+                                break;
+                        }
+                    } catch (err) {
+                        errorUtil.displayErrorMessage(bot, message, err, false, false);
                     }
+
                 }
             },
         ], {}, "zusatzInfo");
@@ -245,30 +294,35 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    switch (res.text) {
+                    try {
+                        switch (res.text) {
 
-                        case t('kurs.gefundeneKurse_Question_QR_Ja'):
-                            kursGefundeneKurse.displayKursInfromationen(function (m) {
-                                bot.replyWithTyping(message, m);
-                            }, convo, convo.vars.maxKurse, convo.vars.offsetKurse);
-                            break;
-                        case t('kurs.gefundeneKurse_Question_QR_Nein'):
+                            case t('kurs.gefundeneKurse_Question_QR_Ja'):
+                                kursGefundeneKurse.displayKursInfromationen(bot, message, function (m) {
+                                    bot.reply(message, m);
+                                }, convo, convo.vars.maxKurse, convo.vars.offsetKurse);
+                                break;
+                            case t('kurs.gefundeneKurse_Question_QR_Nein'):
 
-                            //Add +1 to offset
-                            convo.setVar("offsetKurse", convo.vars.offsetKurse + 1);
+                                //Add +1 to offset
+                                convo.setVar("offsetKurse", convo.vars.offsetKurse + 1);
 
-                            kursGefundeneKurse.displayGefundeneKurse(function (m) {
-                                bot.replyWithTyping(message, m);
-                            }, convo, convo.vars.maxKurse, convo.vars.offsetKurse);
-                            break;
-                        case t('kurs.gefundeneKurse_Question_QR_Infromationen_aendern'):
-                            convo.gotoThread("correctNeccessaryInfromation");
-                            break;
-                        default:
-                            convo.addMessage(t('nicht_verstanden'));
-                            convo.repeat();
-                            break;
+                                kursGefundeneKurse.displayGefundeneKurse(bot, message, function (m) {
+                                    bot.reply(message, m);
+                                }, convo, convo.vars.maxKurse, convo.vars.offsetKurse);
+                                break;
+                            case t('kurs.gefundeneKurse_Question_QR_Infromationen_aendern'):
+                                convo.gotoThread("correctNeccessaryInfromation");
+                                break;
+                            default:
+                                convo.addMessage(t('nicht_verstanden'));
+                                convo.repeat();
+                                break;
+                        }
+                    } catch (err) {
+                        errorUtil.displayErrorMessage(bot, message, err, false, false);
                     }
+
                 }
             },
         ], {}, "gefundeneKurse");
@@ -276,50 +330,53 @@ module.exports = {
         //********************************
         //Check Notwendige Informationen
         //********************************
-        logHelper.debug("Check Notwendige Informationen");
+        logUtil.debug("Check Notwendige Informationen");
 
         if (convo.vars.kursOrt !== "None" && convo.vars.kursAdressatengruppe !== "None" && convo.vars.kursZweck !== "None" && convo.vars.kursNiveau !== "None" && convo.vars.kursIntensitaet !== "None") {
-            logHelper.info("Alle Notwendigen Infos vorhanden");
-            logHelper.debug("gotoThread kursNotwendigeInfosMenu");
+            logUtil.info("Alle Notwendigen Infos vorhanden");
+            logUtil.debug("gotoThread kursNotwendigeInfosMenu");
             convo.gotoThread("kursNotwendigeInfosMenu");
         } else {
 
             //Informationen vom benutzer beantragen, damit ein Deutschkurs gesucht werden kann
             if (convo.vars.kursIntensitaet === "None") {
-                logHelper.debug("askKursIntensitaet");
-                kursIntensitaet.askKursIntensitaet(convo, luisHelper);
+                logUtil.debug("askKursIntensitaet");
+                kursIntensitaet.askKursIntensitaet(bot, message, convo, luisUtil);
             } else {
                 convo.say(t('kurs.check_Notwendige_Informationen_Intensitaet', {kursIntensitaet: "{{vars.kursIntensitaet}}"}));
             }
 
             if (convo.vars.kursAdressatengruppe === "None") {
-                logHelper.debug("askKursAdressatengruppe");
-                kursAdressatengruppe.askKursAdressatengruppe(convo, luisHelper);
+                logUtil.debug("askKursAdressatengruppe");
+                kursAdressatengruppe.askKursAdressatengruppe(bot, message, convo, luisUtil);
             } else {
                 convo.say(t('kurs.check_Notwendige_Informationen_Adressatengruppe', {kursAdressatengruppe: "{{vars.kursAdressatengruppe}}"}));
             }
 
             if (convo.vars.kursOrt === "None") {
-                logHelper.debug("askKursOrt");
-                kursOrt.askKursOrt(convo, luisHelper);
+                logUtil.debug("askKursOrt");
+                kursOrt.askKursOrt(bot, message, convo, luisUtil);
             } else {
                 if (convo.vars.kursBezirk !== "None") {
-                    convo.say(t('kurs.check_Notwendige_Informationen_Ort', {kursOrt: "{{vars.kursOrt}}", kursBezirk : "{{vars.kursBezirk}}"}))
+                    convo.say(t('kurs.check_Notwendige_Informationen_Ort', {
+                        kursOrt: "{{vars.kursOrt}}",
+                        kursBezirk: "{{vars.kursBezirk}}"
+                    }))
                 } else {
                     convo.say(t('kurs.check_Notwendige_Informationen_Ort_Bezirk', {kursOrt: "{{vars.kursOrt}}"}))
                 }
             }
 
             if (convo.vars.kursZweck === "None") {
-                logHelper.debug("askKursZweck");
-                kursZweck.askKursZweck(convo, luisHelper);
+                logUtil.debug("askKursZweck");
+                kursZweck.askKursZweck(bot, message, convo, luisUtil);
             } else {
                 convo.say(t('kurs.check_Notwendige_Informationen_Zweck', {kursZweck: "{{vars.kursZweck}}"}));
             }
 
             if (convo.vars.kursNiveau === "None") {
-                logHelper.debug("askKursNiveau");
-                kursNiveau.askKursNiveau(convo, luisHelper, "kursNotwendigeInfosMenu");
+                logUtil.debug("askKursNiveau");
+                kursNiveau.askKursNiveau(bot, message, convo, luisUtil, "kursNotwendigeInfosMenu");
             } else {
                 convo.say(t('kurs.check_Notwendige_Informationen_Niveau', {kursNiveau: "{{vars.kursNiveau}}"}));
             }

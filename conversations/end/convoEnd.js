@@ -3,9 +3,9 @@ module.exports = {
     convoEnd: function (convo, message, bot) {
 
         const { t } = require('../../node_modules/localizify');
-        const logHelper = require("../../util/logHelper");
+        const logUtil = require("../../util/logUtil");
 
-        logHelper.debug("Start convoEnd");
+        logUtil.debug("Start convoEnd");
 
         convo.addQuestion({
             text: t('end.convoEnd_Question'),
@@ -33,7 +33,7 @@ module.exports = {
                         case t('end.convoEnd_Question_Qr_Nein_Payload'):
                             bot.findConversation(message, function (convo) {
                                 if (convo) {
-                                    bot.replyWithTyping(message, t('end.convoQuit_Message'));
+                                    bot.reply(message, t('end.convoQuit_Message'));
                                     // stop the conversation and swallow this message
                                     convo.stop('quit');
                                 } else {
@@ -56,13 +56,13 @@ module.exports = {
     convoQuit: function (convo, message, bot) {
 
         const { t } = require('../../node_modules/localizify');
-        const logHelper = require("../../util/logHelper");
+        const logUtil = require("../../util/logUtil");
 
-        logHelper.debug("Start convoQuit");
+        logUtil.debug("Start convoQuit");
 
         bot.findConversation(message, function (convo) {
             if (convo) {
-                bot.replyWithTyping(message, t('end.convoQuit_Message'));
+                bot.reply(message, t('end.convoQuit_Message'));
                 // stop the conversation and swallow this message
                 convo.stop('quit');
             } else {

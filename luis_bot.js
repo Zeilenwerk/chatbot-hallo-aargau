@@ -48,7 +48,7 @@ var env = require('node-env-file');
 env(__dirname + '/.env');
 
 //Log Helper
-const logHelper = require("./util/logHelper");
+const logUtil = require("./util/logUtil");
 
 var Botkit = require('botkit');
 var debug = require('debug')('botkit:main');
@@ -56,7 +56,7 @@ var debug = require('debug')('botkit:main');
 var botkitStoragePostgres = require('./node_modules/botkit-storage-postgres');
 
 var bot_options = {
-    replyWithTyping: false,
+    reply: false,
     storage: botkitStoragePostgres({
         host: process.env.BOTKIT_STORAGE_POSTGRES_HOST,
         port: process.env.BOTKIT_STORAGE_POSTGRES_PORT,
@@ -79,7 +79,7 @@ localizify
 var luis = require('./node_modules/botkit-middleware-luis/src/luis-middleware');
 
 if (!process.env.serviceUri) {
-    logHelper.error('Error: Specify Luis service uri');
+    logUtil.error('Error: Specify Luis service uri');
     process.exit(1);
 }
 
@@ -105,4 +105,4 @@ require("fs").readdirSync(normalizedPath).forEach(function(file) {
     require("./skills/" + file)(controller);
 });
 
-logHelper.info('I AM ONLINE! COME TALK TO ME: http://localhost:' + (process.env.PORT || 3000));
+logUtil.info('I AM ONLINE! COME TALK TO ME: http://localhost:' + (process.env.PORT || 3000));

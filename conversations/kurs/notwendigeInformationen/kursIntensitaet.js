@@ -10,10 +10,11 @@
 *
 * */
 module.exports = {
-    askKursIntensitaet: function (convo, luisHelper, nextThread = "None") {
+    askKursIntensitaet: function (bot, message, convo, luisUtil, nextThread = "None") {
 
         const { t } = require('localizify');
-        const logHelper = require("../../../util/logHelper");
+        const logUtil = require("../../../util/logUtil");
+        const errorUtil = require("../../../util/errorUtil");
 
         console.log("Start askKursIntensitaet");
 
@@ -33,23 +34,26 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    let aEntity = luisHelper. getEntityFromLuisResponse("kursIntensitaet", res);
+                    try{
+                        let aEntity = luisUtil. getEntityFromLuisResponse("kursIntensitaet", res);
 
-                    if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
-                        // array empty or does not exist
-                        convo.addMessage(t('nicht_verstanden'));
-                        convo.repeat();
-                    } else {
-                        convo.setVar("kursIntensitaet", aEntity[0]);
-                        logHelper.debug("kursIntensitaet = " + convo.vars.kursIntensitaet);
+                        if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
+                            // array empty or does not exist
+                            convo.addMessage(t('nicht_verstanden'));
+                            convo.repeat();
+                        } else {
+                            convo.setVar("kursIntensitaet", aEntity[0]);
+                            logUtil.debug("kursIntensitaet = " + convo.vars.kursIntensitaet);
+                        }
+
+                        if (nextThread !== "None") {
+                            convo.gotoThread(nextThread);
+                        }else{
+                            convo.next();
+                        }
+                    }catch(err){
+                        errorUtil.displayErrorMessage(bot, message, err, false, false);
                     }
-
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }else{
-                        convo.next();
-                    }
-
 
                 }
             }
@@ -57,10 +61,11 @@ module.exports = {
 
     },
 
-    convoKursIntensitaet: function (convo, luisHelper, nextThread = "None") {
+    convoKursIntensitaet: function (bot, message, convo, luisUtil, nextThread = "None") {
 
         const { t } = require('localizify');
-        const logHelper = require("../../../util/logHelper");
+        const logUtil = require("../../../util/logUtil");
+        const errorUtil = require("../../../util/errorUtil");
 
         console.log("Start askKursIntensitaet");
 
@@ -80,22 +85,28 @@ module.exports = {
                 default: true,
                 callback: function (res, convo) {
 
-                    let aEntity = luisHelper. getEntityFromLuisResponse("kursIntensitaet", res);
+                    try{
+                        let aEntity = luisUtil. getEntityFromLuisResponse("kursIntensitaet", res);
 
-                    if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
-                        // array empty or does not exist
-                        convo.addMessage(t('nicht_verstanden'));
-                        convo.repeat();
-                    } else {
-                        convo.setVar("kursIntensitaet", aEntity[0]);
-                        logHelper.debug("kursIntensitaet = " + convo.vars.kursIntensitaet);
+                        if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
+                            // array empty or does not exist
+                            convo.addMessage(t('nicht_verstanden'));
+                            convo.repeat();
+                        } else {
+                            convo.setVar("kursIntensitaet", aEntity[0]);
+                            logUtil.debug("kursIntensitaet = " + convo.vars.kursIntensitaet);
+                        }
+
+                        if (nextThread !== "None") {
+                            convo.gotoThread(nextThread);
+                        }else{
+                            convo.next();
+                        }
+                    }catch(err){
+                        errorUtil.displayErrorMessage(bot, message, err, false, false);
                     }
 
-                    if (nextThread !== "None") {
-                        convo.gotoThread(nextThread);
-                    }else{
-                        convo.next();
-                    }
+
 
 
                 }

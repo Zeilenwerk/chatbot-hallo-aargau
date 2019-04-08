@@ -2,9 +2,8 @@
 
 module.exports = function (controller) {
 
-    const logHelper = require("../util/logHelper");
-    const timeUtil = require("../util/timeUtil");
-    const { t } = require('../node_modules/localizify');
+    const logUtil = require("../util/logUtil");
+    const errorUtil = require("../util/errorUtil");
 
     //*********************************
     // On Bot Start / Resume
@@ -19,22 +18,38 @@ module.exports = function (controller) {
     //*********************************
     controller.on('ingest_error', function (err, bot, message) {
         //An error happend while processing the message in an ingest middleware.
-        bot.replyWithTyping(message, `There was an error processing your request. Please try again later. Error: ${err.toString()}`);
+        logUtil.error(`[ingest_error] There was an error processing your request. Please try again later. Error: ${err.toString()}`);
+        logUtil.error(message);
+
+        // bot.reply(message, `There was an error processing your request. Please try again later. Error: ${err.toString()}`);
+        errorUtil.displayErrorMessage(bot, message, err, false, false);
     });
 
     controller.on('normalize_error', function (err, bot, message) {
         //An error happend while processing the message in a normalize middleware.
-        bot.replyWithTyping(message, `There was an error processing your request. Please try again later. Error: ${err.toString()}`);
+        logUtil.error(`[normalize_error] There was an error processing your request. Please try again later. Error: ${err.toString()}`);
+        logUtil.error(message);
+
+        // bot.reply(message, `There was an error processing your request. Please try again later. Error: ${err.toString()}`);
+        errorUtil.displayErrorMessage(bot, message, err, false, false);
     });
 
     controller.on('categorize_error', function (err, bot, message) {
         //An error happend while processing the message in a categorize middleware.
-        bot.replyWithTyping(message, `There was an error processing your request. Please try again later. Error: ${err.toString()}`);
+        logUtil.error(`[categorize_error] There was an error processing your request. Please try again later. Error: ${err.toString()}`);
+        logUtil.error(message);
+
+        // bot.reply(message, `There was an error processing your request. Please try again later. Error: ${err.toString()}`);
+        errorUtil.displayErrorMessage(bot, message, err, false, false);
     });
 
-    controller.on('receive_error', function (err, bot, message) {
+    controller.on('receive_error', function (err, bot, message, pipeline_stage) {
         //An error happend while processing the message in a receive middleware.
-        bot.replyWithTyping(message, `There was an error processing your request. Please try again later. Error: ${err.toString()}`);
+        logUtil.error(`[receive_error] There was an error processing your request. Please try again later. Error: ${err.toString()}`);
+        logUtil.error(message);
+
+        // bot.reply(message, `There was an error processing your request. Please try again later. Error: ${err.toString()}`);
+        errorUtil.displayErrorMessage(bot, message, err, false, false);
     });
 
     //*********************************
@@ -43,22 +58,24 @@ module.exports = function (controller) {
     //*********************************
     controller.on('conversationStarted', function (bot, convo) {
         //A conversation has started. handler should be in the form of function(bot, convo)
-        logHelper.info('A conversation started with ' + convo.context.user);
+        logUtil.info('A conversation started with ' + convo.context.user);
 
         //Insert new User to  on cinversation start
-        logHelper.addNewUser(convo.context.user, new Date());
+        logUtil.addNewUser(convo.context.user, new Date());
 
 
     });
 
     controller.on('conversationEnded', function (bot, convo) {
         //A conversation has ended. handler should be in the form of function(bot, convo)
-        logHelper.info('A conversation ended with ' + convo.context.user);
+        logUtil.info('A conversation ended with ' + convo.context.user);
     });
 
     controller.on('heard-trigger', function (bot, triggers, message) {
         //A trigger defined with controller.hears() was fired. handler should be in the form of function(bot, triggers, message)
-        console.log('A trigger defined with controller.hears() was fired: ', triggers , message);
+        logUtil.info('A trigger defined with controller.hears() was fired: ');
+        logUtil.info('Triggers:' + triggers);
+        logUtil.info("Message: " + message);
     });
 
     // controller.on('tick', function () {
@@ -67,19 +84,38 @@ module.exports = function (controller) {
     // });
 
     //*********************************
-    // Errro Handling
+    // Error Handling
     //*********************************
 
     // catch the uncaught errors that weren't wrapped in a domain or try catch statement
     // do not use this in modules, but only in applications, as otherwise we could have multiple of these bound
-    process.on('uncaughtException', handleUncaughtExcpetion);
+    process
+        .on('unhandledRejection', (reason, p) => {
+            const logUtil = require("../util/logUtil");
+
+            logUtil.error(reason);
+            logUtil.error('Unhandled Rejection at Promise');
+            logUtil.error(p);
+
+            //Does not work yet
+            //restartNodeApp(logUtil, "unhandledRejection");
+        })
+        .on('uncaughtException', err => {
+            const logUtil = require("../util/logUtil");
+
+            logUtil.error(err);
+            logUtil.error('Uncaught Exception thrown');
+
+            //Does not work yet
+            //restartNodeApp(logUtil, "uncaughtException");
+        });
 
     //*********************************
     // Custom Triggers
     //*********************************
     function conductOnboarding(bot, message) {
 
-        const { t } = require('../node_modules/localizify');
+        const {t} = require('../node_modules/localizify');
 
         bot.startConversation(message, function (err, convo) {
 
@@ -108,7 +144,7 @@ module.exports = function (controller) {
 
     function conductOnReconnect(bot, message) {
 
-        const { t } = require('../node_modules/localizify');
+        const {t} = require('../node_modules/localizify');
 
         bot.startConversation(message, function (err, convo) {
 
@@ -135,10 +171,25 @@ module.exports = function (controller) {
 
     }
 
-    function handleUncaughtExcpetion(err) {
+    //Source: https://stackoverflow.com/questions/10265798/determine-project-root-from-a-running-node-js-application
+    function restartNodeApp(logUtil, reason) {
+        const exec = require('child_process').exec;
+        const path = require('path');
 
-        console.log("handleUncaughtExcpetion: "+err.stack);
-        //require("../util/errorHelper").uncaughtExceptionHandling(bot, err.stack);
+        logUtil.error('Trying to restart app after ' + reason);
+
+        var appDir = path.dirname(require.main.filename);
+
+        // First I create an exec command which is executed before current process is killed
+        var cmd = "node " + appDir + '\\luis_bot.js';
+
+        logUtil.info("Restarting App with command '" + cmd + "'");
+
+        // Then I excute the command and kill the app if starting was successful
+        exec(cmd, function () {
+            logUtil.info('APPLICATION RESTARTED AFTER ' + reason.toUpperCase());
+            process.exit();
+        });
 
     }
 
