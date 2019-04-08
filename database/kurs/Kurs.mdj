@@ -370,7 +370,7 @@
 									"font": "Arial;13;1",
 									"left": 952,
 									"top": 941,
-									"width": 251.5458984375,
+									"width": 263.81591796875,
 									"height": 13,
 									"text": "Anbieter"
 								},
@@ -396,7 +396,22 @@
 											"font": "Arial;13;0",
 											"left": 957,
 											"top": 964,
-											"width": 241.5458984375,
+											"width": 253.81591796875,
+											"height": 13
+										},
+										{
+											"_type": "ERDColumnView",
+											"_id": "AAAAAAFp/tT0e5tTgv4=",
+											"_parent": {
+												"$ref": "AAAAAAFpfUy6ZIOOGrI="
+											},
+											"model": {
+												"$ref": "AAAAAAFp/tT0S5tQzO0="
+											},
+											"font": "Arial;13;0",
+											"left": 957,
+											"top": 979,
+											"width": 253.81591796875,
 											"height": 13
 										},
 										{
@@ -410,8 +425,8 @@
 											},
 											"font": "Arial;13;0",
 											"left": 957,
-											"top": 979,
-											"width": 241.5458984375,
+											"top": 994,
+											"width": 253.81591796875,
 											"height": 13
 										},
 										{
@@ -425,8 +440,8 @@
 											},
 											"font": "Arial;13;0",
 											"left": 957,
-											"top": 994,
-											"width": 241.5458984375,
+											"top": 1009,
+											"width": 253.81591796875,
 											"height": 13
 										},
 										{
@@ -440,8 +455,8 @@
 											},
 											"font": "Arial;13;0",
 											"left": 957,
-											"top": 1009,
-											"width": 241.5458984375,
+											"top": 1024,
+											"width": 253.81591796875,
 											"height": 13
 										},
 										{
@@ -455,8 +470,8 @@
 											},
 											"font": "Arial;13;0",
 											"left": 957,
-											"top": 1024,
-											"width": 241.5458984375,
+											"top": 1039,
+											"width": 253.81591796875,
 											"height": 13
 										},
 										{
@@ -470,8 +485,8 @@
 											},
 											"font": "Arial;13;0",
 											"left": 957,
-											"top": 1039,
-											"width": 241.5458984375,
+											"top": 1054,
+											"width": 253.81591796875,
 											"height": 13
 										},
 										{
@@ -485,8 +500,8 @@
 											},
 											"font": "Arial;13;0",
 											"left": 957,
-											"top": 1054,
-											"width": 241.5458984375,
+											"top": 1069,
+											"width": 253.81591796875,
 											"height": 13
 										},
 										{
@@ -500,8 +515,8 @@
 											},
 											"font": "Arial;13;0",
 											"left": 957,
-											"top": 1069,
-											"width": 241.5458984375,
+											"top": 1084,
+											"width": 253.81591796875,
 											"height": 13
 										},
 										{
@@ -515,22 +530,22 @@
 											},
 											"font": "Arial;13;0",
 											"left": 957,
-											"top": 1084,
-											"width": 241.5458984375,
+											"top": 1099,
+											"width": 253.81591796875,
 											"height": 13
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 952,
 									"top": 959,
-									"width": 251.5458984375,
-									"height": 143
+									"width": 263.81591796875,
+									"height": 158
 								}
 							],
 							"font": "Arial;13;0",
 							"left": 952,
 							"top": 936,
-							"width": 251.5458984375,
+							"width": 263.81591796875,
 							"height": 196,
 							"nameLabel": {
 								"$ref": "AAAAAAFpfUy6ZIONw5o="
@@ -1509,13 +1524,28 @@
 											"top": 754,
 											"width": 242.4853515625,
 											"height": 13
+										},
+										{
+											"_type": "ERDColumnView",
+											"_id": "AAAAAAFp/o+N5JtFbzU=",
+											"_parent": {
+												"$ref": "AAAAAAFpxfXLnM9CyW4="
+											},
+											"model": {
+												"$ref": "AAAAAAFp/o+NxptCzl0="
+											},
+											"font": "Arial;13;0",
+											"left": 205,
+											"top": 769,
+											"width": 242.4853515625,
+											"height": 13
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 200,
 									"top": 599,
 									"width": 252.4853515625,
-									"height": 173
+									"height": 188
 								}
 							],
 							"font": "Arial;13;0",
@@ -1548,7 +1578,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1289,
+									"left": 1295,
 									"top": 1015,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -1565,7 +1595,7 @@
 										"$ref": "AAAAAAFpxgnkC9AOZU8="
 									},
 									"font": "Arial;13;0",
-									"left": 1228,
+									"left": 1240,
 									"top": 1015,
 									"height": 13,
 									"alpha": 0.5235987755982988,
@@ -1600,7 +1630,7 @@
 								"$ref": "AAAAAAFpfUy6ZIOMZvg="
 							},
 							"lineStyle": 2,
-							"points": "1203:1036;1376:1036",
+							"points": "1215:1036;1376:1036",
 							"nameLabel": {
 								"$ref": "AAAAAAFpxgnkC9APSgE="
 							},
@@ -4153,13 +4183,26 @@
 						},
 						{
 							"_type": "ERDColumn",
+							"_id": "AAAAAAFp/tT0S5tQzO0=",
+							"_parent": {
+								"$ref": "AAAAAAFpfUy6ZIOKY4A="
+							},
+							"name": "FK_Kurs",
+							"type": "INTEGER",
+							"length": 0,
+							"foreignKey": true,
+							"nullable": true
+						},
+						{
+							"_type": "ERDColumn",
 							"_id": "AAAAAAFpucdl0I8b6t0=",
 							"_parent": {
 								"$ref": "AAAAAAFpfUy6ZIOKY4A="
 							},
 							"name": "Offizieller_Name",
 							"type": "VARCHAR",
-							"length": "50"
+							"length": "50",
+							"unique": true
 						},
 						{
 							"_type": "ERDColumn",
@@ -5212,7 +5255,8 @@
 							},
 							"name": "Einstufungstest",
 							"type": "BOOLEAN",
-							"length": 0
+							"length": 0,
+							"nullable": true
 						},
 						{
 							"_type": "ERDColumn",
@@ -5222,7 +5266,8 @@
 							},
 							"name": "Einzelunterricht",
 							"type": "BOOLEAN",
-							"length": 0
+							"length": 0,
+							"nullable": true
 						},
 						{
 							"_type": "ERDColumn",
@@ -5232,7 +5277,19 @@
 							},
 							"name": "Subventioniert",
 							"type": "BOOLEAN",
-							"length": 0
+							"length": 0,
+							"nullable": true
+						},
+						{
+							"_type": "ERDColumn",
+							"_id": "AAAAAAFp/o+NxptCzl0=",
+							"_parent": {
+								"$ref": "AAAAAAFpxfXLm88+TSM="
+							},
+							"name": "Kinderhuetedienst",
+							"type": "BOOLEAN",
+							"length": 0,
+							"nullable": true
 						}
 					]
 				},
