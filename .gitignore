@@ -3,3 +3,5 @@ components/routes/_*
 .DS_Store
 .idea
 node_modules/
+log/log_entries/
+log/messages/
