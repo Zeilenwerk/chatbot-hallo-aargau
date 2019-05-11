@@ -13,9 +13,9 @@
 module.exports = {
     convoKursAnbieter: function (bot, message, convo, luisUtil, nextThread = "None") {
 
-        const { t } = require('../../../node_modules/localizify');
-        const logUtil = require("../../../util/logUtil");
-        const errorUtil = require("../../../util/errorUtil");
+        const { t } = require('localizify');
+        const logUtil = require("../../../../util/logUtil");
+        const errorUtil = require("../../../../util/errorUtil");
 
         logUtil.debug("Start askKursAnbieter");
 
@@ -28,7 +28,7 @@ module.exports = {
         }
 
         convo.addQuestion({
-            text: t('kurs.zusaetzlicheInformationen.kursAnbieter.convoKursAnbieter'),
+            text: t('kurs.kursInformationen.kursAnbieter.convoKursAnbieter'),
             quick_replies: qr
         }, [
             {

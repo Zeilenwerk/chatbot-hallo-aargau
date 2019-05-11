@@ -19,7 +19,7 @@ module.exports = {
     convoKursTag: function (bot, message, convo, luisUtil, nextThread = "None") {
 
         const { t } = require('localizify');
-        const logUtil = require("../../../util/logUtil");
+        const logUtil = require("../../../../util/logUtil");
 
         logUtil.debug("Start askKursTag");
 
@@ -32,7 +32,7 @@ module.exports = {
         }
 
         convo.addQuestion({
-            text: t('kurs.zusaetzlicheInformationen.kursTag.askKursTag'),
+            text: t('kurs.kursInformationen.kursTag.askKursTag'),
             quick_replies: qr
         }, [
             {

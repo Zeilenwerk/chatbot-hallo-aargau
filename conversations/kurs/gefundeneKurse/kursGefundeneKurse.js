@@ -160,10 +160,10 @@ module.exports = {
 
         const logUtil = require("../../../util/logUtil");
         const timeUtil = require("../../../util/timeUtil");
-        const niveauHelper = require("../../../util/helper/niveauHelper");
-        const adressatengruppenHelper = require("../../../util/helper/adressatengruppenHelper");
-        const intensitaetHelper = require("../../../util/helper/intensitaetHelper");
-        const zweckHelper = require("../../../util/helper/zweckHelper");
+        const niveauHelper = require("../../../util/helper/_arch/niveauHelper");
+        const adressatengruppenHelper = require("../../../util/helper/_arch/adressatengruppenHelper");
+        const intensitaetHelper = require("../../../util/helper/_arch/intensitaetHelper");
+        const zweckHelper = require("../../../util/helper/_arch/zweckHelper");
 
         //Notwendige Informationen
         /////////////////////////////

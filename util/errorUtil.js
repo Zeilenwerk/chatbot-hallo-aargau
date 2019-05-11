@@ -14,7 +14,8 @@ module.exports = {
         }
 
         if (error) {
-            logMessage += JSON.stringify(error);
+            logMessage += " Error: " + JSON.stringify(error);
+            logMessage += " Stack: " + JSON.stringify(error.stack);
         } else {
             logMessage += t('error.default_error_message');
         }

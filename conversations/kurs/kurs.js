@@ -23,15 +23,12 @@ module.exports = {
         //*********************************
 
 
-        const {t} = require('../../node_modules/localizify');
-        const logUtil = require("../../util/logUtil");
-
-        convo.addMessage(t('kurs.kursSuchen'));
-
         //********************************
         // Helpers
         //********************************
-        // Import Helper Class to get Entites from LUIS Response
+
+        const {t} = require('../../node_modules/localizify');
+        const logUtil = require("../../util/logUtil");
         const luisUtil = require("../../util/luisUtil");
         const errorUtil = require("../../util/errorUtil");
 
@@ -39,43 +36,97 @@ module.exports = {
         // Required Threads
         //********************************
 
-        const kursIntensitaet = require("./notwendigeInformationen/kursIntensitaet");
-        const kursAdressatengruppe = require("./notwendigeInformationen/kursAdressatengruppe");
-        const kursOrt = require("./notwendigeInformationen/kursOrt");
-        const kursZweck = require("./notwendigeInformationen/kursZweck");
-        const kursNiveau = require("./notwendigeInformationen/kursNiveau");
-        const kursAnbieter = require("./zusaetzlicheInformationen/kursAnbieter");
-        const kursKosten = require("./zusaetzlicheInformationen/kursKosten");
-        const kursTag = require("./zusaetzlicheInformationen/kursTag");
-        const kursZeit = require("./zusaetzlicheInformationen/kursZeit");
-        const kursGefundeneKurse = require("./gefundeneKurse/kursGefundeneKurse");
+        //Person
+        const personSprache = require("./personInformationen/personSprache");
+        const personGeschlecht = require("./personInformationen/personGeschlecht");
+        const personAltersgruppe = require("./personInformationen/personAltersgruppe");
+        const personKind = require("./personInformationen/personKind");
+
+        //Kurs
+        const kursIntensitaet = require("./kursInformationen/kursIntensitaet");
+        const kursNiveau = require("./kursInformationen/kursNiveau");
+        const kursAltersgruppe = require("./kursInformationen/kursAltersgruppe");
+        const kursGeschlecht = require("./kursInformationen/kursGeschlecht");
+        const kursKonversation = require("./kursInformationen/kursKonversation");
+        const kursKosten = require("./kursInformationen/kursKosten");
+        const kursOrt = require("./kursInformationen/kursOrt");
+        const kursTag = require("./kursInformationen/kursTag");
+        const kursZeit = require("./kursInformationen/kursZeit");
+        const kursZiel = require("./kursInformationen/kursZiel");
+        const kursAnbieter = require("./kursInformationen/kursAnbieter");
 
         //********************************
         // Initialize Conversation
         //********************************
 
-        kursIntensitaet.convoKursIntensitaet(bot, message, convo, luisUtil, "kursNotwendigeInfosMenu");
-        kursAdressatengruppe.convoKursAdressatengruppe(bot, message, convo, luisUtil, "kursNotwendigeInfosMenu");
-        kursOrt.convoKursOrt(bot, message, convo, luisUtil, "kursNotwendigeInfosMenu");
-        kursZweck.convoKursZweck(bot, message, convo, luisUtil, "kursNotwendigeInfosMenu");
-        kursNiveau.convoKursNiveau(bot, message, convo, luisUtil, "kursNotwendigeInfosMenu");
-        kursAnbieter.convoKursAnbieter(bot, message, convo, luisUtil, "zusatzInfo");
-        kursKosten.convoKursKosten(bot, message, convo, luisUtil, "zusatzInfo");
-        kursTag.convoKursTag(bot, message, convo, luisUtil, "zusatzInfo");
-        kursZeit.convoKursZeit(bot, message, convo, luisUtil, "zusatzInfo");
+        //Person - Initial
+        personSprache.askPersonSprache(bot, message, convo, luisUtil, "askPersonInitialSprache", "askPersonInitialGeschlecht0");
+        personGeschlecht.askPersonGeschlecht(bot, message, convo, luisUtil, "askPersonInitialGeschlecht", "askPersonInitialAltersgruppe0");
+        personAltersgruppe.askPersonAltersgruppe(bot, message, convo, luisUtil, "askPersonInitialAltersgruppe", "askPersonInitialKind0");
+        personKind.askPersonKind(bot, message, convo, luisUtil, "askPersonInitialKind", "askKursInitialIntensitaet0");
 
+        //Person - Correct
+        personSprache.askPersonSprache(bot, message, convo, luisUtil, "correctPersonSprache", "kursSuchen_Menu");
+        personGeschlecht.askPersonGeschlecht(bot, message, convo, luisUtil, "correctPersonGeschlecht", "kursSuchen_Menu");
+        personAltersgruppe.askPersonAltersgruppe(bot, message, convo, luisUtil, "correctPersonAltersgruppe", "kursSuchen_Menu");
+        personKind.askPersonKind(bot, message, convo, luisUtil, "correctPersonKind", "kursSuchen_Menu");
+
+        //Kurs - Initial
+        kursIntensitaet.askKursIntensitaet(bot, message, convo, luisUtil, "askKursInitialIntensitaet", "askKursInitialNiveau0");
+        kursNiveau.askKursNiveau(bot, message, convo, luisUtil, "askKursInitialNiveau", "askKursInitialAltersgruppe0");
+        kursAltersgruppe.askKursAltersgruppe(bot, message, convo, luisUtil, "askKursInitialAltersgruppe", "askKursInitialGeschlecht0");
+        kursGeschlecht.askKursGeschlecht(bot, message, convo, luisUtil, "askKursInitialGeschlecht", "askKursInitialKonversation0");
+        kursKonversation.askKursKonversation(bot, message, convo, luisUtil, "askKursInitialKonversation", "askKursInitialKosten0");
+        kursKosten.askKursKosten(bot, message, convo, luisUtil, "askKursInitialKosten", "askKursInitialOrt0");
+        kursOrt.askKursOrt(bot, message, convo, luisUtil, "askKursInitialOrt", "askKursInitialTag0");
+        kursTag.askKursTag(bot, message, convo, luisUtil, "askKursInitialTag", "askKursInitialZeit0");
+        kursZeit.askKursZeit(bot, message, convo, luisUtil, "askKursInitialZeit", "askKursInitialZiel0");
+        kursZiel.askKursZiel(bot, message, convo, luisUtil, "askKursInitialZiel", "askKursInitialAnbieter0");
+        kursAnbieter.askKursAnbieter(bot, message, convo, luisUtil, "askKursInitialAnbieter", "kursSucInitialhen_Menu");
+
+        //Kurs - Correct
+        kursIntensitaet.askKursIntensitaet(bot, message, convo, luisUtil, "correctKursIntensitaet", "kursSuchen_Menu");
+        kursNiveau.askKursNiveau(bot, message, convo, luisUtil, "correctKursNiveau", "kursSuchen_Menu");
+        kursAltersgruppe.askKursAltersgruppe(bot, message, convo, luisUtil, "correctKursAltersgruppe", "kursSuchen_Menu");
+        kursGeschlecht.askKursGeschlecht(bot, message, convo, luisUtil, "correctKursGeschlecht", "kursSuchen_Menu");
+        kursKonversation.askKursKonversation(bot, message, convo, luisUtil, "correctKursKonversation", "kursSuchen_Menu");
+        kursKosten.askKursKosten(bot, message, convo, luisUtil, "correctKursKosten", "kursSuchen_Menu");
+        kursOrt.askKursOrt(bot, message, convo, luisUtil, "correctKursOrt", "kursSuchen_Menu");
+        kursTag.askKursTag(bot, message, convo, luisUtil, "correctKursTag", "kursSuchen_Menu");
+        kursZeit.askKursZeit(bot, message, convo, luisUtil, "correctKursZeit", "kursSuchen_Menu");
+        kursZiel.askKursZiel(bot, message, convo, luisUtil, "correctKursZiel", "kursSuchen_Menu");
+        kursAnbieter.askKursAnbieter(bot, message, convo, luisUtil, "correctKursAnbieter", "kursSuchen_Menu");
+
+
+        //********************************
+        // Initialize Conversation Variables
+        //********************************
 
         try {
             //Variablen zur Suche eines Deutschkurses die in der Conversation ausfindig gemacht werden müssen
-            let aVars = ["kursOrt", "kursBezirk", "kursZeit", "kursTag", "kursTagUndZeit", "kursDatum", "kursIntensitaet", "kursAnbieter", "kursNiveau", "kursSprache", "kursAdressatengruppe", "kursKosten", "kursZweck"];
+            let aVars = ["kursInformationenAltersgruppe",
+                "kursInformationenAnbieter",
+                "kursInformationenGeschlecht",
+                "kursInformationenIntensitaet",
+                "kursInformationenKonversation",
+                "kursInformationenKosten",
+                "kursInformationenNiveau",
+                "kursInformationenOrt",
+                "kursInformationenTag",
+                "kursInformationenZeit",
+                "kursInformationenZiel",
+                "personAltersgruppe",
+                "personGeschlecht",
+                "personKind",
+                "personSprache"];
 
             for (var x = 0; x < aVars.length; x++) {
 
                 let aEntity = luisUtil.getEntityFromLuisResponse(aVars[x], message);
 
                 if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
-                    logUtil.debug("Initialize var " + aVars[x] + " with value to 'None'");
-                    convo.setVar(aVars[x], "None");
+                    logUtil.debug("Initialize var " + aVars[x] + " with value to '" + t("keine_Angabe") + "'");
+                    convo.setVar(aVars[x], t("keine_Angabe"));
                 } else {
                     if (aEntity[1]) {
                         convo.setVar(aVars[x], aEntity[1]);
@@ -87,36 +138,104 @@ module.exports = {
                 }
             }
 
-            convo.setVar("maxKurse", 1);
-            convo.setVar("offsetKurse", 0);
+            convo.setVar("limitKursAltersgruppe", 5);
+            convo.setVar("limitKursAnbieter", 5);
+            convo.setVar("limitKursGeschlecht", 5);
+            convo.setVar("limitKursIntensitaet", 5);
+            convo.setVar("limitKursKonversation", 5);
+            convo.setVar("limitKursKosten", 5);
+            convo.setVar("limitKursNiveau", 5);
+            convo.setVar("limitKursOrt", 5);
+            convo.setVar("limitKursTag", 5);
+            convo.setVar("limitKursZeit", 5);
+            convo.setVar("limitKursZiel", 5);
+            convo.setVar("limitPersonAltersgruppe", 5);
+            convo.setVar("limitPersonGeschlecht", 5);
+            convo.setVar("limitPersonKind", 5);
+            convo.setVar("limitPersonSprache", 5);
 
         } catch (err) {
             errorUtil.displayErrorMessage(bot, message, err, false, false);
         }
 
-
         //********************************
-        //Conversation Threads
+        // Start Conversation Flow
         //********************************
 
-        convo.addMessage(t('kurs.kursNotwendigeInfosMenu_Message', {
-            kursIntensitaet: "{{vars.kursIntensitaet}}",
-            kursAdressatengruppe: "{{vars.kursAdressatengruppe}}",
-            kursOrt: "{{vars.kursOrt}}",
-            kursZweck: "{{vars.kursZweck}}",
-            kursNiveau: "{{vars.kursNiveau}}"
-        }), 'kursNotwendigeInfosMenu');
+        //Initial Message
+        //////////////////////////////////
+        convo.addMessage(t('kurs.kursSuchen'), "initialMessage");
+        convo.addQuestion({
+            text: t('kurs.kursSuchen_Personen_Daten'),
+            quick_replies: [
+                {
+                    title: t('kurs.kursSuchen_Personen_Daten_Ja'),
+                    payload: t('kurs.kursSuchen_Personen_Daten_Ja'),
+                },
+                {
+                    title: t('kurs.kursSuchen_Personen_Daten_Nein'),
+                    payload: t('kurs.kursSuchen_Personen_Daten_Nein'),
+                },
+            ]
+        }, [
+            {
+                default: true,
+                callback: function (res, convo) {
+
+                    try {
+                        switch (res.text) {
+
+                            case t('kurs.kursSuchen_Personen_Daten_Ja'):
+                                convo.gotoThread("askPersonInitialSprache0");
+                                convo.next();
+                                break;
+                            case t('kurs.kursSuchen_Personen_Daten_Nein'):
+                                convo.gotoThread("askKursInitialIntensitaet0");
+                                convo.next();
+                                break;
+                            default:
+                                convo.say(t('nicht_verstanden'));
+                                convo.repeat();
+                                break;
+                        }
+                    } catch (err) {
+                        errorUtil.displayErrorMessage(bot, message, err, false, false);
+                    }
+
+                }
+            }
+        ], {}, "initialMessage");
+
+        //Kurs Suche Menu
+        //////////////////////////////////
+        convo.addMessage(t('kurs.kursSuchen_Menu', {
+            kursInformationenAltersgruppe: "{{vars.kursInformationenAltersgruppe}}",
+            kursInformationenAnbieter: "{{vars.kursInformationenAnbieter}}",
+            kursInformationenGeschlecht: "{{vars.kursInformationenGeschlecht}}",
+            kursInformationenIntensitaet: "{{vars.kursInformationenIntensitaet}}",
+            kursInformationenKonversation: "{{vars.kursInformationenKonversation}}",
+            kursInformationenKosten: "{{vars.kursInformationenKosten}}",
+            kursInformationenNiveau: "{{vars.kursInformationenNiveau}}",
+            kursInformationenOrt: "{{vars.kursInformationenOrt}}",
+            kursInformationenTag: "{{vars.kursInformationenTag}}",
+            kursInformationenZeit: "{{vars.kursInformationenZeit}}",
+            kursInformationenZiel: "{{vars.kursInformationenZiel}}",
+            personAltersgruppe: "{{vars.personAltersgruppe}}",
+            personGeschlecht: "{{vars.personGeschlecht}}",
+            personKind: "{{vars.personKind}}",
+            personSprache: "{{vars.personSprache}}"
+        }), 'kursSuchen_Menu');
 
         convo.addQuestion({
-            text: t('kurs.kursNotwendigeInfosMenu_Question'),
+            text: t('kurs.kursSuchen_Menu_Question'),
             quick_replies: [
                 {
                     title: t('ja'),
                     payload: t('ja'),
                 },
                 {
-                    title: t('kurs.kursNotwendigeInfosMenu_Question_Qr_Nein'),
-                    payload: t('nein'),
+                    title: t('kurs.kursSuchen_Menu_Question_Question_Qr_Nein'),
+                    payload: t('kurs.kursSuchen_Menu_Question_Question_Qr_Nein'),
                 },
             ]
         }, [
@@ -131,8 +250,8 @@ module.exports = {
                                 convo.gotoThread("zusatzInfo");
                                 convo.next();
                                 break;
-                            case t('nein'):
-                                convo.gotoThread("correctNeccessaryInfromation");
+                            case t('kurs.kursSuchen_Menu_Question_Question_Qr_Nein'):
+                                convo.gotoThread("correctInfromation");
                                 convo.next();
                                 break;
                             default:
@@ -146,30 +265,21 @@ module.exports = {
 
                 }
             }
-        ], {}, "kursNotwendigeInfosMenu");
+        ], {}, "kursSuchen_Menu");
 
+
+        // Correct Information
+        //////////////////////////////////
         convo.addQuestion({
-            text: t('kurs.correctNeccessaryInfromation_Question'),
+            text: t('informationen_korrigieren'),
             quick_replies: [
                 {
-                    title: t('kurs.kurs_Ort'),
-                    payload: t('kurs.kurs_Ort'),
+                    title: t('informationen_korrigieren_person'),
+                    payload: t('informationen_korrigieren_person'),
                 },
                 {
-                    title: t('kurs.kurs_Adressatengruppe'),
-                    payload: t('kurs.Adressatengruppe'),
-                },
-                {
-                    title: t('kurs.kurs_Intensitaet'),
-                    payload: t('kurs.Intensitaet'),
-                },
-                {
-                    title: t('kurs.kurs_Niveau'),
-                    payload: t('kurs.kurs_Niveau'),
-                },
-                {
-                    title: t('kurs.keine_Aenderung'),
-                    payload: t('kurs.keine_Aenderung'),
+                    title: t('informationen_korrigieren_kurs'),
+                    payload: t('informationen_korrigieren_kurs'),
                 },
             ]
         }, [
@@ -180,21 +290,61 @@ module.exports = {
                     try {
                         switch (res.text) {
 
-                            case t('kurs.Adressatengruppe'):
-                                convo.gotoThread("askKursAdressatengruppe");
+                            case t('informationen_korrigieren_person'):
+                                convo.gotoThread("correctInfromation_person");
+                                convo.next();
                                 break;
-                            case t('kurs.Intensitaet'):
-                                convo.gotoThread("askKursIntensitaet");
+                            case t('informationen_korrigieren_kurs'):
+                                convo.gotoThread("correctInfromation_kurs");
+                                convo.next();
                                 break;
-                            case t('kurs.kurs_Ort'):
-                                convo.gotoThread("askKursOrt");
+                            default:
+                                convo.say(t('nicht_verstanden'));
+                                convo.repeat();
                                 break;
-                            case t('kurs.kurs_Niveau'):
-                                convo.gotoThread("askKursNiveau");
+                        }
+                    } catch (err) {
+                        errorUtil.displayErrorMessage(bot, message, err, false, false);
+                    }
+
+                }
+            }
+        ], {}, "correctInfromation");
+
+        // Correct Information - Person
+        //////////////////////////////////
+        let qr_correct_person = [];
+        qr_correct_person.push({title: t("person.personSprache"), payload: t("person.personSprache")});
+        qr_correct_person.push({title: t("person.personGeschlecht"), payload: t("person.personGeschlecht")});
+        qr_correct_person.push({title: t("person.personAltersgruppe"), payload: t("person.personAltersgruppe")});
+        qr_correct_person.push({title: t("person.personKinder"), payload: t("person.personKinder")});
+        qr_correct_person.push({title: t("person.keine_Aenderung"), payload: t("person.keine_Aenderung")});
+
+        convo.addQuestion({
+            text: t('kurs.correctNeccessaryInfromation_Question'),
+            quick_replies: qr_correct_person
+        }, [
+            {
+                default: true,
+                callback: function (res, convo) {
+
+                    try {
+                        switch (res.text) {
+
+                            case t('person.personSprache'):
+                                convo.gotoThread("correctPersonSprache0");
                                 break;
-                            case t('kurs.keine_Aenderung'):
-                                convo.say(t('kurs.zusatzInfo_Say'));
-                                convo.gotoThread("zusatzInfo");
+                            case t('person.personGeschlecht'):
+                                convo.gotoThread("correctPersonGeschlecht0");
+                                break;
+                            case t('person.personAltersgruppe'):
+                                convo.gotoThread("correctPersonAltersgruppe0");
+                                break;
+                            case t('person.personKinder'):
+                                convo.gotoThread("correctPersonKinder0");
+                                break;
+                            case t('person.keine_Aenderung'):
+                                convo.gotoThread("kursSuchen_Menu");
                                 break;
                             default:
                                 convo.addMessage(t('nicht_verstanden'));
@@ -207,33 +357,42 @@ module.exports = {
 
                 }
             }
-        ], {}, "correctNeccessaryInfromation");
+        ], {}, "correctInfromation_person");
 
+        // Correct Information - Kurs
+        //////////////////////////////////
+        let qr_correct_kurs = [];
+        qr_correct_kurs.push({
+            title: t("kurs.kursInformationenAltersgruppe"),
+            payload: t("kurs.kursInformationenAltersgruppe")
+        });
+        qr_correct_kurs.push({
+            title: t("kurs.kursInformationenAnbieter"),
+            payload: t("kurs.kursInformationenAnbieter")
+        });
+        qr_correct_kurs.push({
+            title: t("kurs.kursInformationenGeschlecht"),
+            payload: t("kurs.kursInformationenGeschlecht")
+        });
+        qr_correct_kurs.push({
+            title: t("kurs.kursInformationenIntensitaet"),
+            payload: t("kurs.kursInformationenIntensitaet")
+        });
+        qr_correct_kurs.push({
+            title: t("kurs.kursInformationenKonversation"),
+            payload: t("kurs.kursInformationenKonversation")
+        });
+        qr_correct_kurs.push({title: t("kurs.kursInformationenKosten"), payload: t("kurs.kursInformationenKosten")});
+        qr_correct_kurs.push({title: t("kurs.kursInformationenNiveau"), payload: t("kurs.kursInformationenNiveau")});
+        qr_correct_kurs.push({title: t("kurs.kursInformationenOrt"), payload: t("kurs.kursInformationenOrt")});
+        qr_correct_kurs.push({title: t("kurs.kursInformationenTag"), payload: t("kurs.kursInformationenTag")});
+        qr_correct_kurs.push({title: t("kurs.kursInformationenZeit"), payload: t("kurs.kursInformationenZeit")});
+        qr_correct_kurs.push({title: t("kurs.kursInformationenZiel"), payload: t("kurs.kursInformationenZiel")});
+        qr_correct_kurs.push({title: t("kurs.keine_Aenderung"), payload: t("kurs.keine_Aenderung")});
 
         convo.addQuestion({
-            text: 'Möchten sie mir noch eine oder mehrere der folgenden Zusatzinformationen geben?',
-            quick_replies: [
-                {
-                    title: t('kurs.kurs_Tag'),
-                    payload: t('kurs.kurs_Tag'),
-                },
-                {
-                    title: t('kurs.kurs_Zeit'),
-                    payload: t('kurs.kurs_Zeit'),
-                },
-                {
-                    title: t('kurs.kurs_Anbieter'),
-                    payload: t('kurs.Anbieter'),
-                },
-                {
-                    title: t('kurs.kurs_Kosten'),
-                    payload: t('kurs.Kosten'),
-                },
-                {
-                    title: t('kurs.keine_weiteren_Angaben'),
-                    payload: t('kurs.keine_weiteren_Angaben'),
-                },
-            ]
+            text: t('kurs.correctNeccessaryInfromation_Question'),
+            quick_replies: qr_correct_kurs
         }, [
             {
                 default: true,
@@ -242,22 +401,41 @@ module.exports = {
                     try {
                         switch (res.text) {
 
-                            case t('kurs.kurs_Tag'):
-                                convo.gotoThread("askKursTag");
+                            case t('kurs.kursInformationenAltersgruppe'):
+                                convo.gotoThread("correctKursAltersgruppe0");
                                 break;
-                            case t('kurs.kurs_Zeit'):
-                                convo.gotoThread("askKursZeit");
+                            case t('kurs.kursInformationenAnbieter'):
+                                convo.gotoThread("correctKursAnbieter0");
                                 break;
-                            case t('kurs.Anbieter'):
-                                convo.gotoThread("askKursAnbieter");
+                            case t('kurs.kursInformationenGeschlecht'):
+                                convo.gotoThread("correctKursGeschlecht0");
                                 break;
-                            case t('kurs.Kosten'):
-                                convo.gotoThread("askKursKosten");
+                            case t('kurs.kursInformationenIntensitaet'):
+                                convo.gotoThread("correctKursIntensitaet0");
                                 break;
-                            case t('kurs.keine_weiteren_Angaben'):
-                                kursGefundeneKurse.displayGefundeneKurse(bot, message, function (m) {
-                                    bot.reply(message, m);
-                                }, convo, convo.vars.maxKurse, convo.vars.offsetKurse);
+                            case t('kurs.kursInformationenKonversation'):
+                                convo.gotoThread("correctKursKonversation0");
+                                break;
+                            case t('kurs.kursInformationenKosten'):
+                                convo.gotoThread("correctKursKosten0");
+                                break;
+                            case t('kurs.kursInformationenNiveau'):
+                                convo.gotoThread("correctKursNiveau0");
+                                break;
+                            case t('kurs.kursInformationenOrt'):
+                                convo.gotoThread("correctKursOrt0");
+                                break;
+                            case t('kurs.kursInformationenTag'):
+                                convo.gotoThread("correctKursTag0");
+                                break;
+                            case t('kurs.kursInformationenZeit'):
+                                convo.gotoThread("correctKursZeit0");
+                                break;
+                            case t('kurs.kursInformationenZiel'):
+                                convo.gotoThread("correctKursZiel0");
+                                break;
+                            case t('kurs.keine_Aenderung'):
+                                convo.gotoThread("kursSuchen_Menu");
                                 break;
                             default:
                                 convo.addMessage(t('nicht_verstanden'));
@@ -269,10 +447,12 @@ module.exports = {
                     }
 
                 }
-            },
-        ], {}, "zusatzInfo");
+            }
+        ], {}, "correctInfromation_kurs");
 
 
+        // Gefundene Kurse
+        //////////////////////////////////
         convo.addQuestion({
             text: t('kurs.gefundeneKurse_Question'),
             quick_replies: [
@@ -312,7 +492,7 @@ module.exports = {
                                 }, convo, convo.vars.maxKurse, convo.vars.offsetKurse);
                                 break;
                             case t('kurs.gefundeneKurse_Question_QR_Infromationen_aendern'):
-                                convo.gotoThread("correctNeccessaryInfromation");
+                                convo.gotoThread("correctKursInfromation");
                                 break;
                             default:
                                 convo.addMessage(t('nicht_verstanden'));
@@ -327,63 +507,7 @@ module.exports = {
             },
         ], {}, "gefundeneKurse");
 
-        //********************************
-        //Check Notwendige Informationen
-        //********************************
-        logUtil.debug("Check Notwendige Informationen");
-
-        if (convo.vars.kursOrt !== "None" && convo.vars.kursAdressatengruppe !== "None" && convo.vars.kursZweck !== "None" && convo.vars.kursNiveau !== "None" && convo.vars.kursIntensitaet !== "None") {
-            logUtil.info("Alle Notwendigen Infos vorhanden");
-            logUtil.debug("gotoThread kursNotwendigeInfosMenu");
-            convo.gotoThread("kursNotwendigeInfosMenu");
-        } else {
-
-            //Informationen vom benutzer beantragen, damit ein Deutschkurs gesucht werden kann
-            if (convo.vars.kursIntensitaet === "None") {
-                logUtil.debug("askKursIntensitaet");
-                kursIntensitaet.askKursIntensitaet(bot, message, convo, luisUtil);
-            } else {
-                convo.say(t('kurs.check_Notwendige_Informationen_Intensitaet', {kursIntensitaet: "{{vars.kursIntensitaet}}"}));
-            }
-
-            if (convo.vars.kursAdressatengruppe === "None") {
-                logUtil.debug("askKursAdressatengruppe");
-                kursAdressatengruppe.askKursAdressatengruppe(bot, message, convo, luisUtil);
-            } else {
-                convo.say(t('kurs.check_Notwendige_Informationen_Adressatengruppe', {kursAdressatengruppe: "{{vars.kursAdressatengruppe}}"}));
-            }
-
-            if (convo.vars.kursOrt === "None") {
-                logUtil.debug("askKursOrt");
-                kursOrt.askKursOrt(bot, message, convo, luisUtil);
-            } else {
-                if (convo.vars.kursBezirk !== "None") {
-                    convo.say(t('kurs.check_Notwendige_Informationen_Ort', {
-                        kursOrt: "{{vars.kursOrt}}",
-                        kursBezirk: "{{vars.kursBezirk}}"
-                    }))
-                } else {
-                    convo.say(t('kurs.check_Notwendige_Informationen_Ort_Bezirk', {kursOrt: "{{vars.kursOrt}}"}))
-                }
-            }
-
-            if (convo.vars.kursZweck === "None") {
-                logUtil.debug("askKursZweck");
-                kursZweck.askKursZweck(bot, message, convo, luisUtil);
-            } else {
-                convo.say(t('kurs.check_Notwendige_Informationen_Zweck', {kursZweck: "{{vars.kursZweck}}"}));
-            }
-
-            if (convo.vars.kursNiveau === "None") {
-                logUtil.debug("askKursNiveau");
-                kursNiveau.askKursNiveau(bot, message, convo, luisUtil, "kursNotwendigeInfosMenu");
-            } else {
-                convo.say(t('kurs.check_Notwendige_Informationen_Niveau', {kursNiveau: "{{vars.kursNiveau}}"}));
-            }
-
-
-        }
-
+        convo.gotoThread("initialMessage");
 
     }
 

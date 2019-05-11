@@ -8,9 +8,9 @@
 module.exports = {
     askKursOrt: function (bot, message, convo, luisUtil, nextThread = "None") {
 
-        const { t } = require('../../../node_modules/localizify');
-        const logUtil = require("../../../util/logUtil");
-        const errorUtil = require("../../../util/errorUtil");
+        const { t } = require('localizify');
+        const logUtil = require("../../../../util/logUtil");
+        const errorUtil = require("../../../../util/errorUtil");
 
         //Get All Orte from Config and add as Quick Replies
         var orte = process.env.KURS_ORTE.split(",");
@@ -24,7 +24,7 @@ module.exports = {
 
         // set up a menu thread which other threads can point at.
         convo.ask({
-            text:  t('kurs.notwendigeInformationen.kursOrt.askKursOrt'),
+            text:  t('kurs.kursInformationen.kursOrt.askKursOrt'),
             quick_replies: qr
         }, [
             {
@@ -62,9 +62,9 @@ module.exports = {
 
     convoKursOrt: function (bot, message, convo, luisUtil, nextThread = "None") {
 
-        const { t } = require('../../../node_modules/localizify');
-        const logUtil = require("../../../util/logUtil");
-        const errorUtil = require("../../../util/errorUtil");
+        const { t } = require('localizify');
+        const logUtil = require("../../../../util/logUtil");
+        const errorUtil = require("../../../../util/errorUtil");
 
         logUtil.debug("Start askKursOrt");
 
@@ -78,7 +78,7 @@ module.exports = {
 
         // set up a menu thread which other threads can point at.
         convo.addQuestion({
-            text:  t('kurs.notwendigeInformationen.kursOrt.askKursOrt'),
+            text:  t('kurs.kursInformationen.kursOrt.askKursOrt'),
             quick_replies: qr
         }, [
             {

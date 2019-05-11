@@ -12,9 +12,13 @@
 module.exports = {
     askKursIntensitaet: function (bot, message, convo, luisUtil, nextThread = "None") {
 
+        const pgUtil = require("../../../../util/pgUtil");
+
+        pgUtil.getDB();
+
         const { t } = require('localizify');
-        const logUtil = require("../../../util/logUtil");
-        const errorUtil = require("../../../util/errorUtil");
+        const logUtil = require("../../../../util/logUtil");
+        const errorUtil = require("../../../../util/errorUtil");
 
         console.log("Start askKursIntensitaet");
 
@@ -27,7 +31,7 @@ module.exports = {
         }
 
         convo.ask({
-            text: t('kurs.notwendigeInformationen.kursIntensitaet.convoKursIntensitaet'),
+            text: t('kurs.kursInformationen.kursIntensitaet.convoKursIntensitaet'),
             quick_replies: qr
         }, [
             {
@@ -64,8 +68,8 @@ module.exports = {
     convoKursIntensitaet: function (bot, message, convo, luisUtil, nextThread = "None") {
 
         const { t } = require('localizify');
-        const logUtil = require("../../../util/logUtil");
-        const errorUtil = require("../../../util/errorUtil");
+        const logUtil = require("../../../../util/logUtil");
+        const errorUtil = require("../../../../util/errorUtil");
 
         console.log("Start askKursIntensitaet");
 
@@ -78,7 +82,7 @@ module.exports = {
         }
 
         convo.addQuestion({
-            text: t('kurs.notwendigeInformationen.kursIntensitaet.convoKursIntensitaet'),
+            text: t('kurs.kursInformationen.kursIntensitaet.convoKursIntensitaet'),
             quick_replies: qr
         }, [
             {

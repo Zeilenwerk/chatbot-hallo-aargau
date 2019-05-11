@@ -13,32 +13,32 @@ module.exports = {
     convoKursZeit: function (bot, message, convo, luisUtil, nextThread = "None") {
 
         const { t } = require('localizify');
-        const logUtil = require("../../../util/logUtil");
+        const logUtil = require("../../../../util/logUtil");
 
         logUtil.debug("Start askKursZeit");
 
         convo.addQuestion({
-            text: t('kurs.zusaetzlicheInformationen.kursZeit.askKursZeit', {kursTag : "{{vars.kursTag}}"}),
+            text: t('kurs.kursInformationen.kursZeit.askKursZeit', {kursTag : "{{vars.kursTag}}"}),
             quick_replies: [
                 {
-                    title:  t('kurs.zusaetzlicheInformationen.kursZeit.askKursZeit_Morgens'),
-                    payload:  t('kurs.zusaetzlicheInformationen.kursZeit.askKursZeit_Morgens_Payload'),
+                    title:  t('kurs.kursInformationen.kursZeit.askKursZeit_Morgens'),
+                    payload:  t('kurs.kursInformationen.kursZeit.askKursZeit_Morgens_Payload'),
                 },
                 {
-                    title:  t('kurs.zusaetzlicheInformationen.kursZeit.askKursZeit_Mittags'),
-                    payload:  t('kurs.zusaetzlicheInformationen.kursZeit.askKursZeit_Mittags_Payload'),
+                    title:  t('kurs.kursInformationen.kursZeit.askKursZeit_Mittags'),
+                    payload:  t('kurs.kursInformationen.kursZeit.askKursZeit_Mittags_Payload'),
                 },
                 {
-                    title:  t('kurs.zusaetzlicheInformationen.kursZeit.askKursZeit_Nachmittags'),
-                    payload:  t('kurs.zusaetzlicheInformationen.kursZeit.askKursZeit_Nachmittags_Payload'),
+                    title:  t('kurs.kursInformationen.kursZeit.askKursZeit_Nachmittags'),
+                    payload:  t('kurs.kursInformationen.kursZeit.askKursZeit_Nachmittags_Payload'),
                 },
                 {
-                    title:  t('kurs.zusaetzlicheInformationen.kursZeit.askKursZeit_Abends'),
-                    payload:  t('kurs.zusaetzlicheInformationen.kursZeit.askKursZeit_Abends_Payload'),
+                    title:  t('kurs.kursInformationen.kursZeit.askKursZeit_Abends'),
+                    payload:  t('kurs.kursInformationen.kursZeit.askKursZeit_Abends_Payload'),
                 },
                 {
-                    title:  t('kurs.zusaetzlicheInformationen.kursZeit.askKursZeit_Nachts'),
-                    payload:  t('kurs.zusaetzlicheInformationen.kursZeit.askKursZeit_Nachts_Payload'),
+                    title:  t('kurs.kursInformationen.kursZeit.askKursZeit_Nachts'),
+                    payload:  t('kurs.kursInformationen.kursZeit.askKursZeit_Nachts_Payload'),
                 },
             ]
         }, [

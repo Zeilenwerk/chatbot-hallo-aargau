@@ -19,8 +19,8 @@ module.exports = {
     askKursAdressatengruppe: function (bot, message, convo, luisUtil, nextThread = "None") {
 
         const {t} = require('localizify');
-        const logUtil = require("../../../util/logUtil");
-        const errorUtil = require("../../../util/errorUtil");
+        const logUtil = require("../../../../util/logUtil");
+        const errorUtil = require("../../../../util/errorUtil");
 
         logUtil.debug("Start askKursAdressatengruppe");
 
@@ -33,7 +33,7 @@ module.exports = {
         }
 
         convo.ask({
-            text: t('kurs.notwendigeInformationen.kursAdressatengruppe.convoKursAdressatengruppe'),
+            text: t('kurs.kursInformationen.kursAdressatengruppe.convoKursAdressatengruppe'),
             quick_replies: qr
         }, [
             {
@@ -70,8 +70,8 @@ module.exports = {
     convoKursAdressatengruppe: function (bot, message, convo, luisUtil, nextThread = "None") {
 
         const {t} = require('localizify');
-        const logUtil = require("../../../util/logUtil");
-        const errorUtil = require("../../../util/errorUtil");
+        const logUtil = require("../../../../util/logUtil");
+        const errorUtil = require("../../../../util/errorUtil");
 
         logUtil.debug("Start askKursAdressatengruppe");
 
@@ -84,7 +84,7 @@ module.exports = {
         }
 
         convo.addQuestion({
-            text: t('kurs.notwendigeInformationen.kursAdressatengruppe.convoKursAdressatengruppe'),
+            text: t('kurs.kursInformationen.kursAdressatengruppe.convoKursAdressatengruppe'),
             quick_replies: qr
         }, [
             {

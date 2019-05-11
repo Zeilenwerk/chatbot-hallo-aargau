@@ -19,9 +19,9 @@
 module.exports = {
     askKursZweck: function (bot, message, convo, luisUtil, nextThread = "None") {
 
-        const { t } = require('../../../node_modules/localizify');
-        const logUtil = require("../../../util/logUtil");
-        const errorUtil = require("../../../util/errorUtil");
+        const { t } = require('localizify');
+        const logUtil = require("../../../../util/logUtil");
+        const errorUtil = require("../../../../util/errorUtil");
 
         logUtil.debug("Start askKursZweck");
 
@@ -34,7 +34,7 @@ module.exports = {
         }
 
         convo.ask({
-            text: t('kurs.notwendigeInformationen.kursZweck.askKursZweck'),
+            text: t('kurs.kursInformationen.kursZweck.askKursZweck'),
             quick_replies: qr
         }, [
             {
@@ -65,9 +65,9 @@ module.exports = {
 
     convoKursZweck: function (bot, message, convo, luisUtil, nextThread = "None") {
 
-        const { t } = require('../../../node_modules/localizify');
-        const logUtil = require("../../../util/logUtil");
-        const errorUtil = require("../../../util/errorUtil");
+        const { t } = require('localizify');
+        const logUtil = require("../../../../util/logUtil");
+        const errorUtil = require("../../../../util/errorUtil");
 
         logUtil.debug("Start askKursZweck");
 
@@ -80,7 +80,7 @@ module.exports = {
         }
 
         convo.addQuestion({
-            text: t('kurs.notwendigeInformationen.kursZweck.askKursZweck'),
+            text: t('kurs.kursInformationen.kursZweck.askKursZweck'),
             quick_replies: qr
         }, [
             {
