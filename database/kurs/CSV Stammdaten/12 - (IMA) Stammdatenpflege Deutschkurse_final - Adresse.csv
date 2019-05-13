@@ -1,0 +1,17 @@
+Id;FK_Ort;Adresse;Adresszusatz_1;Adresszusatz_2;Adresszusatz_3;Plz
+1;1;Entfelderstrasse 61;;;;5000
+2;1;Buchserstrasse 24;;;;5000
+3;1;Asylstrasse 1;;;;5000
+4;21;Alberich Zwyssigstrasse 76;;;;5430
+5;1;Tellistrasse 116;;;;5000
+6;2;Bahnhofstrasse 44;;;;5400
+7;2;Zürcherstrasse 1;;;;5400
+8;1;Rain 24;;;;5000
+9;16;Obere Dorfstrasse 1;;;;5034
+10;1;Laurenzvorstadt 87;;;;5000
+11;1;Mühlemattstrasse 40;;;;5000
+12;21;Primarschule Margeläcker  ;;;;5430
+13;21;Primarschule Altenburg;;;;5430
+14;23;Hauptstrasse 56;;;;5064
+15;22;Hauserstrasse 18;;;;5210
+16;1;Delfterstrasse 14;;;;5000

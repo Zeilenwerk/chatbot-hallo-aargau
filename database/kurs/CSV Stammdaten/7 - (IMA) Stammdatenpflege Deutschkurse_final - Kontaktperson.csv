@@ -1,0 +1,4 @@
+Id;FK_Anbieter;FK_Anrede;FK_Kontaktdaten;Name;Vorname;FK_Stellvertreter
+1;10;1;12; Vogt;Ligia;
+2;9;2;8;Neumaier;Rudi ;
+3;9;2;5;Ruch;Hansueli;

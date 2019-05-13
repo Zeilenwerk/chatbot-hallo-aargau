@@ -1,0 +1,6 @@
+Id;Code;FK_Altersgruppe;FK_Geschlecht;FK_Aufenthaltssttus;Mit_Kinder;Beschreibung
+1;1;;;1;;
+2;2;2;;1;;
+3;3;3;;;;
+4;4;;2;;;
+5;5;;2;;true;
