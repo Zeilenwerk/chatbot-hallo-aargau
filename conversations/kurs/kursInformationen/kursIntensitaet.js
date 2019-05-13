@@ -91,7 +91,7 @@ module.exports = {
 
                                         if (aEntity === null || aEntity === undefined || aEntity.length === 0 || aEntity === "") {
                                             // array empty or does not exist
-                                            conversation.transitionTo(threadName, t('nicht_verstanden'));
+                                            conversation.transitionTo(threadName+"0", t('nicht_verstanden'));
                                         } else {
 
                                             //Set var in convo --> used afterwards to get search results form db

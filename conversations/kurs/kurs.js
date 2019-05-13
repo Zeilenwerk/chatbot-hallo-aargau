@@ -82,7 +82,7 @@ module.exports = {
         kursTag.askKursTag(bot, message, convo, luisUtil, "askKursInitialTag", "askKursInitialZeit0");
         kursZeit.askKursZeit(bot, message, convo, luisUtil, "askKursInitialZeit", "askKursInitialZiel0");
         kursZiel.askKursZiel(bot, message, convo, luisUtil, "askKursInitialZiel", "askKursInitialAnbieter0");
-        kursAnbieter.askKursAnbieter(bot, message, convo, luisUtil, "askKursInitialAnbieter", "kursSucInitialhen_Menu");
+        kursAnbieter.askKursAnbieter(bot, message, convo, luisUtil, "askKursInitialAnbieter", "kursSuchen_Menu");
 
         //Kurs - Correct
         kursIntensitaet.askKursIntensitaet(bot, message, convo, luisUtil, "correctKursIntensitaet", "kursSuchen_Menu");

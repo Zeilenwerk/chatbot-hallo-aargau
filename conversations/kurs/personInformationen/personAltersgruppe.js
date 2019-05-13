@@ -11,8 +11,8 @@ module.exports = {
             logUtil.debug("All Altersgruppe to display in Convo: " + JSON.stringify(rows));
 
             if (rows.length === 0) {
-                conversation.addMessage(t("kurs.person.nicht_in_db_gefunden", {item: t("kurs.person.altersgruppe.item")}), threadName + "0");
-                // conversation.transitionTo(nextThread, t("kurs.person.nicht_in_db_gefunden", {item: t("kurs.person.altersgruppe.item")}));
+                conversation.addMessage(t("person.nicht_in_db_gefunden", {item: t("person.altersgruppe.item")}), threadName + "0");
+                // conversation.transitionTo(nextThread, t("person.nicht_in_db_gefunden", {item: t("person.altersgruppe.item")}));
             } else {
 
                 let maxQRToDisplay = convo.vars.limitPersonAltersgruppe;
@@ -24,7 +24,7 @@ module.exports = {
                     let qr = [];
                     let counter = 0;
 
-                    qr.push({title: t("kurs.person.keine_angabe"), payload: t("kurs.person.keine_angabe")});
+                    qr.push({title: t("person.keine_angabe"), payload: t("person.keine_angabe")});
 
                     //Add a max of "limitPersonAltersgruppe" QR to the Question
                     for (let i = offset; i < rows.length; i++) {
@@ -42,19 +42,19 @@ module.exports = {
 
                     //If navigated to display more, offer button to go back
                     if (c >= 1) {
-                        qr.push({title: t("kurs.person.zurück"), payload: t("kurs.person.zurück")})
+                        qr.push({title: t("person.zurück"), payload: t("person.zurück")})
                     }
 
                     //If there are more than "maxQRToDisplay" elements, offer to display more.
                     if (counter >= maxQRToDisplay) {
                         qr.push({
-                            title: t("kurs.person.mehr_elemente_anzeigen", {item: t("kurs.person.altersgruppe.item")}),
-                            payload: t("kurs.person.mehr_elemente_anzeigen", {item: t("kurs.person.altersgruppe.item")})
+                            title: t("person.mehr_elemente_anzeigen", {item: t("person.altersgruppe.item")}),
+                            payload: t("person.mehr_elemente_anzeigen", {item: t("person.altersgruppe.item")})
                         })
                     }
 
                     conversation.addQuestion({
-                        text: t("kurs.person.altersgruppe.altersgruppe_angeben"),
+                        text: t("person.altersgruppe.altersgruppe_angeben"),
                         quick_replies: qr
                     }, [
                         {
@@ -63,17 +63,17 @@ module.exports = {
 
                                 try {
 
-                                    if (res.text === t("kurs.person.mehr_elemente_anzeigen", {item: t("kurs.person.altersgruppe.item")})) {
+                                    if (res.text === t("person.mehr_elemente_anzeigen", {item: t("person.altersgruppe.item")})) {
 
                                         //Go to thread with next options
                                         conversation.gotoThread(threadName + (c + 1));
 
-                                    } else if (res.text === t("kurs.person.zurück")) {
+                                    } else if (res.text === t("person.zurück")) {
 
                                         //Go to thread with previous options
                                         conversation.gotoThread(threadName + (c - 1));
 
-                                    } else if (res.text === t("kurs.person.keine_angabe")) {
+                                    } else if (res.text === t("person.keine_angabe")) {
 
                                         //Set var in convo --> used afterwards to get search results form db
                                         conversation.setVar("personAltersgruppe", "None");
@@ -91,7 +91,7 @@ module.exports = {
 
                                         if (aEntity === null || aEntity === undefined || aEntity.length === 0 || aEntity === "") {
                                             // array empty or does not exist
-                                            conversation.transitionTo(threadName, t('nicht_verstanden'));
+                                            conversation.transitionTo(threadName+"0", t('nicht_verstanden'));
                                         } else {
 
                                             //Set var in convo --> used afterwards to get search results form db

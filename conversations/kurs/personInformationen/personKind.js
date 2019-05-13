@@ -7,12 +7,12 @@ module.exports = {
 
         let qr = [];
 
-        qr.push({title: t("kurs.person.keine_angabe"), payload: t("kurs.person.keine_angabe")});
-        qr.push({title: t("kurs.person.kinder.kinder_ja"), payload: t("kurs.person.kinder.kinder_ja")});
-        qr.push({title: t("kurs.person.kinder.kinder_nein"), payload: t("kurs.person.kinder.kinder_nein")});
+        qr.push({title: t("person.keine_angabe"), payload: t("person.keine_angabe")});
+        qr.push({title: t("person.kinder.kinder_ja"), payload: t("person.kinder.kinder_ja")});
+        qr.push({title: t("person.kinder.kinder_nein"), payload: t("person.kinder.kinder_nein")});
 
         convo.addQuestion({
-            text: t("kurs.person.kinder.kinder_angeben"),
+            text: t("person.kinder.kinder_angeben"),
             quick_replies: qr
         }, [
             {
@@ -24,17 +24,17 @@ module.exports = {
                         let ok = false;
 
                         switch(res.text){
-                            case t("kurs.person.keine_angabe"):
+                            case t("person.keine_angabe"):
                                 //Set var in convo --> used afterwards to get search results form db
                                 convo.setVar("personKind", "None");
                                 ok = true;
                                 break;
-                            case t("kurs.person.kinder.kinder_ja"):
+                            case t("person.kinder.kinder_ja"):
                                 //Set var in convo --> used afterwards to get search results form db
                                 convo.setVar("personKind", "true");
                                 ok = true;
                                 break;
-                            case t("kurs.person.kinder.kinder_nein"):
+                            case t("person.kinder.kinder_nein"):
                                 //Set var in convo --> used afterwards to get search results form db
                                 convo.setVar("personKind", "false");
                                 ok = true;

@@ -28,23 +28,23 @@ module.exports = {
 
                         switch(res.text){
                             case t("kurs.kursInformationen.zeit.morgens_Payload"):
-                                convo.setVar("kursInformationenZeit", t("kurs.kursInformationen.zeit.monzeit"));
+                                convo.setVar("kursInformationenZeit", t("kurs.kursInformationen.zeit.morgens_Payload"));
                                 ok = true;
                                 break;
                             case t("kurs.kursInformationen.zeit.mittags_Payload"):
-                                convo.setVar("kursInformationenZeit", t("kurs.kursInformationen.zeit.dienszeit"));
+                                convo.setVar("kursInformationenZeit", t("kurs.kursInformationen.zeit.mittags_Payload"));
                                 ok = true;
                                 break;
                             case t("kurs.kursInformationen.zeit.nachmittags_Payload"):
-                                convo.setVar("kursInformationenZeit", t("kurs.kursInformationen.zeit.mittwoch"));
+                                convo.setVar("kursInformationenZeit", t("kurs.kursInformationen.zeit.nachmittags_Payload"));
                                 ok = true;
                                 break;
                             case t("kurs.kursInformationen.zeit.abends_Payload"):
-                                convo.setVar("kursInformationenZeit", t("kurs.kursInformationen.zeit.donnerszeit"));
+                                convo.setVar("kursInformationenZeit", t("kurs.kursInformationen.zeit.abends_Payload"));
                                 ok = true;
                                 break;
                             case t("kurs.kursInformationen.zeit.nachts_Payload"):
-                                convo.setVar("kursInformationenZeit", t("kurs.kursInformationen.zeit.freizeit"));
+                                convo.setVar("kursInformationenZeit", t("kurs.kursInformationen.zeit.nachts_Payload"));
                                 ok = true;
                                 break;
                             case t("kurs.kursInformationen.keine_angabe"):

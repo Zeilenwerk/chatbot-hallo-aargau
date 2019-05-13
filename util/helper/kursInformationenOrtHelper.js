@@ -5,7 +5,11 @@ module.exports = {
         const pgUtil = require("../pgUtil");
         const logUtil = require("../logUtil");
 
-        let pgQuery = "SELECT DISTINCT * FROM durchfuehrungsort";
+        let pgQuery  = " SELECT DISTINCT o.wert, o.code, o.id FROM durchfuehrungsort d";
+            pgQuery += " FULL JOIN adresse a";
+            pgQuery += " ON d.fk_adresse = a.id";
+            pgQuery += " FULL JOIN ort o";
+            pgQuery += " ON a.fk_ort = o.id";
         logUtil.debug("Ort Query: " + pgQuery);
 
         //Connect to DB

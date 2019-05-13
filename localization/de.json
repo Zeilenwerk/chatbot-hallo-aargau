@@ -18,16 +18,11 @@
     "nicht_implementiert": "Leider noch nicht implementiert"
   },
   "kurs": {
-    "nicht_in_db_gefunden": "Keine {item} in der DB gefunden",
-    "mehr_elemente_anzeigen": "Mehr {item} anzeigen",
-    "keine_angabe": "Keine Angabe",
-    "zurück": "Zurück",
-    "auswahl_behalten": "Auswahl behalten",
     "kursSuchen": "Super, gerne helfe ich Ihnen ein Deutschkurs zu suchen. Dafür benötige ich noch einige Angaben von Ihnen.",
     "kursSuchen_Personen_Daten": "Möchten Sie persönliche Informationen für die Suche des Kurses angeben (zB. Ihr Geschlecht oder Ihre Sprache)?",
     "kursSuchen_Personen_Daten_Ja": "Ja, ich möchte meine persönlichen Informationen angeben.",
     "kursSuchen_Personen_Daten_Nein": "Nein, ich möchte meine persönlichen Informationen nicht angeben.",
-    "kursSuchen_Menu": "Sie Suchen somit einen Deutschkurs mit den folgenden Informationen: <br><br>Persönliche Informationen<br>- Sprache: '{personSprache}'<br>- Geschlecht: '{personGeschlecht}'<br>- Altersgruppe: '{personAltersgruppe}'<br>- Kinder: '{personKind}'<br><br>Kurs Informationen<br>- Intensität: '{kursInformationenIntensitaet}'<br>- Niveau: '{kursInformationenNiveau}'<br>- Altersgruppe: '{kursInformationenAltersgruppe}'<br>- Addresiertes' Geschlecht:' {kursInformationenGeschlecht}<br>- Konversation: '{kursInformationenKonversation}'<br>- Kosten: '{kursInformationenKosten}'<br>- Ort: '{kursInformationenOrt}'<br>- Tag: '{kursInformationenTag}'<br>- Zeit: '{kursInformationenZeit}'<br>- Ziel: '{kursInformationenZiel}'<br>- Anbieter: '{kursInformationenAnbieter}'<br>",
+    "kursSuchen_Menu": "Sie Suchen somit einen Deutschkurs mit den folgenden Informationen: <br><br>Persönliche Informationen<br>- Sprache: '{personSprache}'<br>- Geschlecht: '{personGeschlecht}'<br>- Altersgruppe: '{personAltersgruppe}'<br>- Kinder: '{personKind}'<br><br>Kurs Informationen<br>- Intensität: '{kursInformationenIntensitaet}'<br>- Niveau: '{kursInformationenNiveau}'<br>- Altersgruppe: '{kursInformationenAltersgruppe}'<br>- Addresiertes Geschlecht: '{kursInformationenGeschlecht}'<br>- Konversation: '{kursInformationenKonversation}'<br>- Kosten: '{kursInformationenKosten}'<br>- Ort: '{kursInformationenOrt}'<br>- Tag: '{kursInformationenTag}'<br>- Zeit: '{kursInformationenZeit}'<br>- Ziel: '{kursInformationenZiel}'<br>- Anbieter: '{kursInformationenAnbieter}'<br>",
     "kursSuchen_Menu_Question": "Stimmen diese Angaben für Sie?",
     "kursSuchen_Menu_Question_Question_Qr_Nein": "Nein, ich möchte etwas ändern",
     "correctNeccessaryInfromation_Question": "Welche Angabe möchten sie abändern?",
@@ -57,6 +52,11 @@
     "check_Notwendige_Informationen_Zweck": "Der Kurs Zweck ist {kursZweck}.",
     "check_Notwendige_Informationen_Intensitaet": "Als Kursintensität wurde ein {kursIntensitaet} gewählt.",
     "kursInformationen": {
+      "nicht_in_db_gefunden": "Keine {item} in der DB gefunden",
+      "mehr_elemente_anzeigen": "Mehr {item} anzeigen",
+      "keine_angabe": "Keine Angabe",
+      "zurück": "Zurück",
+      "auswahl_behalten": "Auswahl behalten",
       "intensitaet": {
         "item": "Sprachen",
         "intensitaet_angeben_vorhanden": "Sie haben die folgende Intensität ausgewählt: '{auswahl}'. Sie können die Auswahl beibehalten oder abändern.",
@@ -104,15 +104,15 @@
         "zeit_angeben": "Um wie viel Uhr soll der Kurs am {kursTag} stattfinden?",
         "zeit_angeben_vorhanden": "Sie haben die folgende Zeit ausgewählt: '{auswahl}'. Sie können die Auswahl beibehalten oder abändern.",
         "morgens": "Morgens (07:00 - 10:00 Uhr)",
-        "morgens_Payload": "07:00 Uhr",
+        "morgens_Payload": "07:00",
         "mittags": "Mittags (10:00 - 13:00 Uhr)",
-        "mittags_Payload": "10:00 Uhr",
+        "mittags_Payload": "10:00",
         "nachmittags": "Nachmittags (13:00 - 16:00 Uhr)",
-        "nachmittags_Payload": "13:00 Uhr",
+        "nachmittags_Payload": "13:00",
         "abends": "Abends (16:00 - 19:00 Uhr)",
-        "abends_Payload": "16:00 Uhr",
+        "abends_Payload": "16:00",
         "nachts": "Nachts (19:00 - 22:00 Uhr)",
-        "nachts_Payload": "19:00 Uhr"
+        "nachts_Payload": "19:00"
       },
       "altersgruppe": {
         "item": "Altersgruppen",

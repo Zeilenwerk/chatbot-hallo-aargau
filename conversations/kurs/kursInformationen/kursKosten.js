@@ -26,19 +26,19 @@ module.exports = {
                         let ok = false;
 
                         switch(res.text){
-                            case t("kurs.kursInformationen.kosten.subventionierter"):
+                            case t("kurs.kursInformationen.kosten.subventionierter_Payload"):
                                 convo.setVar("kursInformationenKosten", t("kurs.kursInformationen.kosten.subventionierter_Payload"));
                                 ok = true;
                                 break;
-                            case t("kurs.kursInformationen.kosten.unter_500"):
+                            case t("kurs.kursInformationen.kosten.unter_500_Payload"):
                                 convo.setVar("kursInformationenKosten", t("kurs.kursInformationen.kosten.unter_500_Payload"));
                                 ok = true;
                                 break;
-                            case t("kurs.kursInformationen.kosten.bis_1000"):
+                            case t("kurs.kursInformationen.kosten.bis_1000_Payload"):
                                 convo.setVar("kursInformationenKosten", t("kurs.kursInformationen.kosten.bis_1000_Payload"));
                                 ok = true;
                                 break;
-                            case t("kurs.kursInformationen.kosten.mehr_als_1000"):
+                            case t("kurs.kursInformationen.kosten.mehr_als_1000_Payload"):
                                 convo.setVar("kursInformationenKosten", t("kurs.kursInformationen.kosten.mehr_als_1000_Payload"));
                                 ok = true;
                                 break;

@@ -11,8 +11,8 @@ module.exports = {
             logUtil.debug("All Ziel to display in Convo: " + JSON.stringify(rows));
 
             if (rows.length === 0) {
-                conversation.addMessage(t("kurs.kursInformationen.nicht_in_db_gefunden", {item: t("kurs.kursInformationen.Ziel.item")}), threadName + "0");
-                // conversation.transitionTo(nextThread, t("kurs.kursInformationen.nicht_in_db_gefunden", {item: t("kurs.kursInformationen.Ziel.item")}));
+                conversation.addMessage(t("kurs.kursInformationen.nicht_in_db_gefunden", {item: t("kurs.kursInformationen.ziel.item")}), threadName + "0");
+                // conversation.transitionTo(nextThread, t("kurs.kursInformationen.nicht_in_db_gefunden", {item: t("kurs.kursInformationen.ziel.item")}));
             } else {
 
                 let maxQRToDisplay = convo.vars.limitKursZiel;
@@ -48,13 +48,13 @@ module.exports = {
                     //If there are more than "maxQRToDisplay" elements, offer to display more.
                     if (counter >= maxQRToDisplay) {
                         qr.push({
-                            title: t("kurs.kursInformationen.mehr_elemente_anzeigen", {item: t("kurs.kursInformationen.Ziel.item")}),
-                            payload: t("kurs.kursInformationen.mehr_elemente_anzeigen", {item: t("kurs.kursInformationen.Ziel.item")})
+                            title: t("kurs.kursInformationen.mehr_elemente_anzeigen", {item: t("kurs.kursInformationen.ziel.item")}),
+                            payload: t("kurs.kursInformationen.mehr_elemente_anzeigen", {item: t("kurs.kursInformationen.ziel.item")})
                         })
                     }
 
                     conversation.addQuestion({
-                        text: t("kurs.kursInformationen.Ziel.Ziel_angeben"),
+                        text: t("kurs.kursInformationen.ziel.ziel_angeben"),
                         quick_replies: qr
                     }, [
                         {
@@ -63,7 +63,7 @@ module.exports = {
 
                                 try {
 
-                                    if (res.text === t("kurs.kursInformationen.mehr_elemente_anzeigen", {item: t("kurs.kursInformationen.Ziel.item")})) {
+                                    if (res.text === t("kurs.kursInformationen.mehr_elemente_anzeigen", {item: t("kurs.kursInformationen.ziel.item")})) {
 
                                         //Go to thread with next options
                                         conversation.gotoThread(threadName + (c + 1));
@@ -91,7 +91,7 @@ module.exports = {
 
                                         if (aEntity === null || aEntity === undefined || aEntity.length === 0 || aEntity === "") {
                                             // array empty or does not exist
-                                            conversation.transitionTo(threadName, t('nicht_verstanden'));
+                                            conversation.transitionTo(threadName+"0", t('nicht_verstanden'));
                                         } else {
 
                                             //Set var in convo --> used afterwards to get search results form db

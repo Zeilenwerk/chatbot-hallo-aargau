@@ -165,47 +165,79 @@ module.exports = {
         const intensitaetHelper = require("../../../util/helper/_arch/intensitaetHelper");
         const zweckHelper = require("../../../util/helper/_arch/zweckHelper");
 
-        //Notwendige Informationen
-        /////////////////////////////
-        //1 = Wochenkurs | 2 = intensivkurs
-        let kursIntensitaet = "";
-        if (convo.vars.kursIntensitaet !== "None" && intensitaetHelper.getIntensitaetCodeFromString(convo.vars.kursIntensitaet) !== 0) {
-            kursIntensitaet = " AND i.code = " + intensitaetHelper.getIntensitaetCodeFromString(convo.vars.kursIntensitaet);
-        }
+        let kursInformationenAltersgruppe = "";  // kursInformationenAltersgruppe, vars.kursInformationenAltersgruppe
+        let kursInformationenAnbieter = "";      // kursInformationenAnbieter, vars.kursInformationenAnbieter
+        let kursInformationenGeschlecht = "";    // kursInformationenGeschlecht, vars.kursInformationenGeschlecht
+        let kursInformationenIntensitaet = "";   // kursInformationenIntensitaet, vars.kursInformationenIntensitaet
+        let kursInformationenKonversation = "";  // kursInformationenKonversation, vars.kursInformationenKonversation
+        let kursInformationenKosten = "";        // kursInformationenKosten, vars.kursInformationenKosten
+        let kursInformationenNiveau = "";        // kursInformationenNiveau, vars.kursInformationenNiveau
+        let kursInformationenOrt = "";           // kursInformationenOrt, vars.kursInformationenOrt
+        let kursInformationenTag = "";           // kursInformationenTag, vars.kursInformationenTag
+        let kursInformationenZeit = "";          // kursInformationenZeit, vars.kursInformationenZeit
+        let kursInformationenZiel = "";          // kursInformationenZiel, vars.kursInformationenZiel
+        let personAltersgruppe = "";             // personAltersgruppe, vars.personAltersgruppe
+        let personGeschlecht = "";               // personGeschlecht, vars.personGeschlecht
+        let personKind = "";                     // personKind, vars.personKind
+        let personSprache = "";                  // personSprache, vars.personSprache
 
-        let kursOrt = "";
-        if (convo.vars.kursOrt !== "None") {
-            kursOrt = " AND LOWER(o.ort) = '" + convo.vars.kursOrt.toLowerCase() + "' ";
-        }
-
-        let kursAdressatengruppe = "";
-        if (convo.vars.kursAdressatengruppe !== "None" && adressatengruppenHelper.getAdressatengruppeCodeFromString(convo.vars.kursAdressatengruppe) !== 0) {
-            kursAdressatengruppe = " AND ad.code = " + adressatengruppenHelper.getAdressatengruppeCodeFromString(convo.vars.kursAdressatengruppe);
-        }
-
-        let kursZweck = "";
-        if (zweckHelper.getZweckCodeFromString(convo.vars.kursZweck) !== 0) {
-            kursZweck = " AND z.code = " + zweckHelper.getZweckCodeFromString(convo.vars.kursZweck);
-        }
-
-        let kursNiveau = "";
-        if (niveauHelper.getNiveauCodeFromString(convo.vars.kursNiveau) !== 0) {
-            kursNiveau = " AND n.code = " + niveauHelper.getNiveauCodeFromString(convo.vars.kursNiveau);
-        }
-
-        //Zusatzinfos
+        //Kurs Informationen
         /////////////////////////////
 
 
-        let kursAnbieter = "";
-        if (convo.vars.kursAnbieter !== "None") {
-            kursAnbieter = " AND LOWER(a.offizieller_name) = '" + convo.vars.kursAnbieter.toLowerCase() + "' ";
+        if (null != vars.kursInformationenAltersgruppe && vars.kursInformationenAltersgruppe !== "None" && vars.kursInformationenAltersgruppe !== "") {
+            kursInformationenAltersgruppe = " AND " + vars.kursInformationenAltersgruppe;
+        }
+        if (null != vars.kursInformationenAnbieter && vars.kursInformationenAnbieter !== "None" && vars.kursInformationenAnbieter !== "") {
+            kursInformationenAnbieter = " AND " + vars.kursInformationenAnbieter;
+        }
+        if (null != vars.kursInformationenGeschlecht && vars.kursInformationenGeschlecht !== "None" && vars.kursInformationenGeschlecht !== "") {
+            kursInformationenGeschlecht = " AND " + vars.kursInformationenGeschlecht;
+        }
+        if (null != vars.kursInformationenIntensitaet && vars.kursInformationenIntensitaet !== "None" && vars.kursInformationenIntensitaet !== "") {
+            kursInformationenIntensitaet = " AND " + vars.kursInformationenIntensitaet;
+        }
+        if (null != vars.kursInformationenKonversation && vars.kursInformationenKonversation !== "None" && vars.kursInformationenKonversation !== "") {
+            kursInformationenKonversation = " AND " + vars.kursInformationenKonversation;
+        }
+        if (null != vars.kursInformationenKosten && vars.kursInformationenKosten !== "None" && vars.kursInformationenKosten !== "") {
+            kursInformationenKosten = " AND " + vars.kursInformationenKosten;
+        }
+        if (null != vars.kursInformationenNiveau && vars.kursInformationenNiveau !== "None" && vars.kursInformationenNiveau !== "") {
+            kursInformationenNiveau = " AND " + vars.kursInformationenNiveau;
+        }
+        if (null != vars.kursInformationenOrt && vars.kursInformationenOrt !== "None" && vars.kursInformationenOrt !== "") {
+            kursInformationenOrt = " AND " + vars.kursInformationenOrt;
+        }
+        if (null != vars.kursInformationenTag && vars.kursInformationenTag !== "None" && vars.kursInformationenTag !== "") {
+            kursInformationenTag = " AND " + vars.kursInformationenTag;
+        }
+        if (null != vars.kursInformationenZeit && vars.kursInformationenZeit !== "None" && vars.kursInformationenZeit !== "") {
+            kursInformationenZeit = " AND " + vars.kursInformationenZeit;
+        }
+        if (null != vars.kursInformationenZiel && vars.kursInformationenZiel !== "None" && vars.kursInformationenZiel !== "") {
+            kursInformationenZiel = " AND " + vars.kursInformationenZiel;
+        }
+        if (null != vars.personAltersgruppe && vars.personAltersgruppe !== "None" && vars.personAltersgruppe !== "") {
+            personAltersgruppe = " AND " + vars.personAltersgruppe;
+        }
+        if (null != vars.personGeschlecht && vars.personGeschlecht !== "None" && vars.personGeschlecht !== "") {
+            personGeschlecht = " AND " + vars.personGeschlecht;
+        }
+        if (null != vars.personKind && vars.personKind !== "None" && vars.personKind !== "") {
+            personKind = " AND " + vars.personKind;
+        }
+        if (null != vars.personSprache && vars.personSprache !== "None" && vars.personSprache !== "") {
+            personSprache = " AND " + vars.personSprache;
         }
 
-        let kursTag = "";
-        if(convo.vars.kursTag !== "None"){
-            kursTag = " AND extract(isodow from dz.tag) = " + timeUtil.getDayNumberFromString(convo.vars.kursTag) + " ";
-        }
+
+
+        /*********************************************************************
+        /*********************************************************************
+        /*********************************************************************
+        /********************************************************************/
+
 
         let kursZeit_start = "";
         let kursZeit_ende = "";
@@ -238,15 +270,11 @@ module.exports = {
             }
         }
 
-        //Offset and Limit
-        /////////////////////////////
-        let query_offset = " OFFSET " + offsetKurse;
-        let query_limit = " LIMIT " + maxKurse;
+
 
         // let pgQuery = "SELECT * FROM " + process.env.BOTKIT_STORAGE_POSTGRES_DATABASE_TABLE_DEUTSCHKURS + " " + query_where + " " + query_offset + " " + query_limit;
         //SELECT All Kurs Information with kurs id"
-        let pgQuery =
-            " SELECT ku.id, "
+        let pgQuery = " SELECT ku.id, "
             + "        ku.beschreibung AS kurs_beschreibung, "
             + "        n.wert AS niveau, "
             + "        s.wert AS sprachnachweis, "
@@ -300,21 +328,21 @@ module.exports = {
             + "                             FROM kurs_adressatengruppe "
             + "                             WHERE id_kurs = ku.id) "
             + " WHERE (dz.tag IS NULL OR dz.tag >= now()) "
-            //Necessary Information
-            + " " + kursIntensitaet
-            + " " + kursAdressatengruppe
-            + " " + kursOrt
-            + " " + kursZweck
-            + " " + kursNiveau
-            //Additional Information
-            + " " + kursAnbieter
-            + " " + kursTag
-            + " " + kursZeit_start
-            + " " + kursZeit_ende
-            + " " + kursKosten
-            + " ORDER BY dz.reihenfolge "
-            + " " + query_offset
-            + " " + query_limit;
+            + " " + kursInformationenAltersgruppe
+            + " " + kursInformationenAnbieter
+            + " " + kursInformationenGeschlecht
+            + " " + kursInformationenIntensitaet
+            + " " + kursInformationenKonversation
+            + " " + kursInformationenKosten
+            + " " + kursInformationenNiveau
+            + " " + kursInformationenOrt
+            + " " + kursInformationenTag
+            + " " + kursInformationenZeit
+            + " " + kursInformationenZiel
+            + " " + personAltersgruppe
+            + " " + personGeschlecht
+            + " " + personKind
+            + " " + personSprache
 
         logUtil.debug("Kurs Select DB Query: " + pgQuery);
 
