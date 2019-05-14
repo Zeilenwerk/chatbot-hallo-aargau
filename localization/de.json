@@ -39,7 +39,9 @@
     "kursInformationenZiel": "Kurs Ziel",
     "keine_Aenderung": "Keine Änderung",
     "keine_weiteren_Angaben": "Keine weiteren Angaben",
-    "gefundeneKurse_Question": "Möchten sie weitere Informationen zu einem dieser Kurse?",
+    "kursGefunden": "Ich habe den folgenden Kurs gefunden:",
+    "kursGefunden_Informationen": "Kurs #{nummer}\n\n- Intensitaet: '{kursInformationenIntensitaet}' \n- Altersgruppe: '{kursInformationenAltersgruppe}' \n- Geschlecht: '{kursInformationenGeschlecht}' \n- Konversation: '{kursInformationenKonversation}' \n- Kosten: '{kursInformationenKosten}' \n- Niveau: '{kursInformationenNiveau}' \n- Ort: '{kursInformationenOrt}' \n- Tag: '{kursInformationenTag}' \n- Start Datum: '{kursInformationenZeit_TagStart}' \n- End Datum: '{kursInformationenZeit_TagEnde}' \n- Lektion Startzeit: '{kursInformationenZeit_ZeitStart}' Uhr \n- Lektion Endzeit: '{kursInformationenZeit_ZeitEnde}' Uhr \n- Kurs Ziel(e): '{kursInformationenZiel}' \n- Aadressatengruppe(n): '{kursInformationenAadressatengruppen}' \n- Adressierte Geschlechte: '{kursInformationenGeschlecht}'- Anbieter: '{kursInformationenAnbieter}' \n",
+    "gefundeneKurse_Question": "Möchten sie weitere Informationen (zB. Kontaktinformationen) zu einem dieser Kurse?",
     "gefundeneKurse_Question_QR_Ja": "Ja, weitere Informationen anzeigen",
     "gefundeneKurse_Question_QR_Nein": "Nein, weitere Kurse anzeigen",
     "gefundeneKurse_Question_QR_Infromationen_aendern": "Nein, angegebene Informationen ändern",
@@ -57,6 +59,7 @@
       "keine_angabe": "Keine Angabe",
       "zurück": "Zurück",
       "auswahl_behalten": "Auswahl behalten",
+      "item": "Kurse",
       "intensitaet": {
         "item": "Sprachen",
         "intensitaet_angeben_vorhanden": "Sie haben die folgende Intensität ausgewählt: '{auswahl}'. Sie können die Auswahl beibehalten oder abändern.",

@@ -1,11 +1,11 @@
 module.exports = {
 
-    getKurseFromDB: function(bot, message, convo, luisUtil, nextThread, returnDbEntries){
+    getMatchedKurseFromDB: function(bot, message, convo, luisUtil, nextThread, returnDbEntries){
 
         const pgUtil = require("../pgUtil");
         const logUtil = require("../logUtil");
 
-        let pgQuery = prepareKursQuery(bot,message,convo);
+        let pgQuery = prepareAllMatchedKurseQuery(bot,message,convo);
         logUtil.debug("Kurse Query: " + pgQuery);
 
         //Connect to DB
@@ -35,166 +35,252 @@ module.exports = {
 
     },
 
-    prepareKursQuery: function (bot, message, convo, id=false) {
+    prepareAllMatchedKurseQuery: function (bot, message, convo) {
 
-        const logUtil = require("../../../util/logUtil");
-        const timeUtil = require("../../../util/timeUtil");
-        const niveauHelper = require("../../../util/helper/_arch/niveauHelper");
-        const adressatengruppenHelper = require("../../../util/helper/_arch/adressatengruppenHelper");
-        const intensitaetHelper = require("../../../util/helper/_arch/intensitaetHelper");
-        const zweckHelper = require("../../../util/helper/_arch/zweckHelper");
-
-        //Notwendige Informationen
-        /////////////////////////////
-        //1 = Wochenkurs | 2 = intensivkurs
-        let kursIntensitaet = "";
-        if (convo.vars.kursIntensitaet !== "None" && intensitaetHelper.getIntensitaetCodeFromString(convo.vars.kursIntensitaet) !== 0) {
-            kursIntensitaet = " AND i.code = " + intensitaetHelper.getIntensitaetCodeFromString(convo.vars.kursIntensitaet);
-        }
-
-        let kursOrt = "";
-        if (convo.vars.kursOrt !== "None") {
-            kursOrt = " AND LOWER(o.ort) = '" + convo.vars.kursOrt.toLowerCase() + "' ";
-        }
-
-        let kursAdressatengruppe = "";
-        if (convo.vars.kursAdressatengruppe !== "None" && adressatengruppenHelper.getAdressatengruppeCodeFromString(convo.vars.kursAdressatengruppe) !== 0) {
-            kursAdressatengruppe = " AND ad.code = " + adressatengruppenHelper.getAdressatengruppeCodeFromString(convo.vars.kursAdressatengruppe);
-        }
-
-        let kursZweck = "";
-        if (zweckHelper.getZweckCodeFromString(convo.vars.kursZweck) !== 0) {
-            kursZweck = " AND z.code = " + zweckHelper.getZweckCodeFromString(convo.vars.kursZweck);
-        }
-
-        let kursNiveau = "";
-        if (niveauHelper.getNiveauCodeFromString(convo.vars.kursNiveau) !== 0) {
-            kursNiveau = " AND n.code = " + niveauHelper.getNiveauCodeFromString(convo.vars.kursNiveau);
-        }
-
-        //Zusatzinfos
+        //Initialize possible where conditions
         /////////////////////////////
 
+        let kursInformationenAltersgruppe = "";  // kursInformationenAltersgruppe, convo.vars.kursInformationenAltersgruppe
+        let kursInformationenAnbieter = "";      // kursInformationenAnbieter, convo.vars.kursInformationenAnbieter
+        let kursInformationenGeschlecht = "";    // kursInformationenGeschlecht, convo.vars.kursInformationenGeschlecht
+        let kursInformationenIntensitaet = "";   // kursInformationenIntensitaet, convo.vars.kursInformationenIntensitaet
+        let kursInformationenKonversation = "";  // kursInformationenKonversation, convo.vars.kursInformationenKonversation
+        let kursInformationenKosten = "";        // kursInformationenKosten, convo.vars.kursInformationenKosten
+        let kursInformationenNiveau = "";        // kursInformationenNiveau, convo.vars.kursInformationenNiveau
+        let kursInformationenOrt = "";           // kursInformationenOrt, convo.vars.kursInformationenOrt
+        let kursInformationenTag = "";           // kursInformationenTag, convo.vars.kursInformationenTag
+        let kursInformationenZeit = "";          // kursInformationenZeit, convo.vars.kursInformationenZeit
+        let kursInformationenZiel = "";          // kursInformationenZiel, convo.vars.kursInformationenZiel
+        let personAltersgruppe = "";             // personAltersgruppe, convo.vars.personAltersgruppe
+        let personGeschlecht = "";               // personGeschlecht, convo.vars.personGeschlecht
+        let personKind = "";                     // personKind, convo.vars.personKind
+        let personSprache = "";                  // personSprache, convo.vars.personSprache
 
-        let kursAnbieter = "";
-        if (convo.vars.kursAnbieter !== "None") {
-            kursAnbieter = " AND LOWER(a.offizieller_name) = '" + convo.vars.kursAnbieter.toLowerCase() + "' ";
+        //Kurs Informationen
+        /////////////////////////////
+
+        if (null != convo.vars.kursInformationenAltersgruppe && convo.vars.kursInformationenAltersgruppe !== "None" && convo.vars.kursInformationenAltersgruppe !== "") {
+            kursInformationenAltersgruppe = " AND " + convo.vars.kursInformationenAltersgruppe;
         }
-
-        let kursTag = "";
-        if(convo.vars.kursTag !== "None"){
-            kursTag = " AND extract(isodow from dz.tag) = " + timeUtil.getDayNumberFromString(convo.vars.kursTag) + " ";
+        if (null != convo.vars.kursInformationenAnbieter && convo.vars.kursInformationenAnbieter !== "None" && convo.vars.kursInformationenAnbieter !== "") {
+            kursInformationenAnbieter = " AND UPPER(an.offizieller_name) LIKE UPPER('%" + convo.vars.kursInformationenAnbieter + "%') ";
         }
-
-        let kursZeit_start = "";
-        let kursZeit_ende = "";
-        if(convo.vars.kursZeit !== "None"){
-            kursZeit_start = " AND dz.zeit_start >= '" + convo.vars.kursZeit + ":00' ";
-            //Add 3 Hours to the start time
-            kursZeit_ende = " AND dz.zeit_start <= '" + (parseInt(convo.vars.kursZeit.substring(0, 2)) + 3) +
-                convo.vars.kursZeit.substring(2, convo.vars.kursZeit.length) + ":00' ";
+        if (null != convo.vars.kursInformationenGeschlecht && convo.vars.kursInformationenGeschlecht !== "None" && convo.vars.kursInformationenGeschlecht !== "") {
+            kursInformationenGeschlecht = " AND " + convo.vars.kursInformationenGeschlecht;
         }
+        if (null != convo.vars.kursInformationenIntensitaet && convo.vars.kursInformationenIntensitaet !== "None" && convo.vars.kursInformationenIntensitaet !== "") {
+            kursInformationenIntensitaet = " AND UPPER(i.wert) LIKE UPPER('%" + convo.vars.kursInformationenIntensitaet + "%') ";
+        }
+        if (null != convo.vars.kursInformationenKonversation && convo.vars.kursInformationenKonversation !== "None" && convo.vars.kursInformationenKonversation !== "") {
+            kursInformationenKonversation = " AND UPPER(kon.wert) LIKE UPPER('%" + convo.vars.kursInformationenKonversation + "%') ";
+        }
+        if (null != convo.vars.kursInformationenKosten && convo.vars.kursInformationenKosten !== "None" && convo.vars.kursInformationenKosten !== "") {
 
-
-        let kursKosten = "";
-        if (convo.vars.kursKosten !== "None") {
-            switch (convo.vars.kursKosten.toLowerCase()) {
+            switch (convo.vars.kursInformationenKosten.toLowerCase()) {
                 case "gratis":
-                    kursKosten = " AND ko.betrag <= 0 ";
+                    kursKosten = " AND (SELECT SUM(betrag) FROM kosten WHERE fk_kurs = k.id) <= 0 ";
                     break;
                 case "500":
-                    kursKosten = " AND ko.betrag <= 500 ";
+                    kursKosten = " AND (SELECT SUM(betrag) FROM kosten WHERE fk_kurs = k.id) <= 500 ";
                     break;
                 case "1000":
-                    kursKosten = " AND ko.betrag <= 1000 ";
-                    break;
-                case "1000+":
-                    kursKosten = " AND ko.betrag >= 0 ";
+                    kursKosten = " AND (SELECT SUM(betrag) FROM kosten WHERE fk_kurs = k.id) <= 1000 ";
                     break;
                 default:
                     kursKosten = "";
                     break;
             }
+
+            kursInformationenKosten = " AND " + convo.vars.kursInformationenKosten;
+        }
+        if (null != convo.vars.kursInformationenNiveau && convo.vars.kursInformationenNiveau !== "None" && convo.vars.kursInformationenNiveau !== "") {
+            kursInformationenNiveau = " AND UPPER(n.wert) LIKE UPPER('%" + convo.vars.kursInformationenNiveau + "%') ";
+        }
+        if (null != convo.vars.kursInformationenOrt && convo.vars.kursInformationenOrt !== "None" && convo.vars.kursInformationenOrt !== "") {
+            kursInformationenOrt = " AND UPPER(ort.wert) LIKE UPPER('%" + convo.vars.kursInformationenOrt + "%') ";
+        }
+        if (null != convo.vars.kursInformationenTag && convo.vars.kursInformationenTag !== "None" && convo.vars.kursInformationenTag !== "") {
+            kursInformationenTag = " AND UPPER(durz.tag) LIKE UPPER('%" + convo.vars.kursInformationenTag + "%') ";
+        }
+        if (null != convo.vars.kursInformationenZeit && convo.vars.kursInformationenZeit !== "None" && convo.vars.kursInformationenZeit !== "") {
+
+            let kursZeit_start = " AND durz.zeit_start >= '" + convo.vars.kursInformationenZeit + ":00' ";
+            //Add 3 Hours to the start time
+            let kursZeit_ende = " AND durz.zeit_ende <= '" + (parseInt(convo.vars.kursInformationenZeit.substring(0, 2)) + 3) +
+                convo.vars.kursInformationenZeit.substring(2, convo.vars.kursInformationenZeit.length) + ":00' ";
+
+            kursInformationenZeit = kursZeit_start + " " + kursZeit_ende;
+        }
+        if (null != convo.vars.kursInformationenZiel && convo.vars.kursInformationenZiel !== "None" && convo.vars.kursInformationenZiel !== "") {
+
+            kursInformationenZiel  = " AND UPPER(( ";
+            kursInformationenZiel += "   -- Get All Ziele from Kurs ";
+            kursInformationenZiel += "   concat_ws(', ', (SELECT string_agg(dz.wert, ', ') AS kursInformationenZiel ";
+            kursInformationenZiel += "                    FROM didaktische_ziel dz ";
+            kursInformationenZiel += "                             LEFT JOIN ziel z ";
+            kursInformationenZiel += "                                       ON dz.id = z.fk_didaktische_ziel ";
+            kursInformationenZiel += "                             LEFT JOIN kurs_ziel kz ";
+            kursInformationenZiel += "                                       ON z.id = kz.id ";
+            kursInformationenZiel += "                    WHERE kz.id_kurs = k.id), ";
+            kursInformationenZiel += "             (SELECT string_agg(bz.wert, ', ') ";
+            kursInformationenZiel += "              FROM berufliches_ziel bz ";
+            kursInformationenZiel += "                       LEFT JOIN ziel z ";
+            kursInformationenZiel += "                                 ON bz.id = z.fk_berufliches_ziel ";
+            kursInformationenZiel += "                       LEFT JOIN kurs_ziel kz ";
+            kursInformationenZiel += "                                 ON z.id = kz.id ";
+            kursInformationenZiel += "              WHERE kz.id_kurs = k.id), ";
+            kursInformationenZiel += "             (SELECT string_agg(n.wert, ', ') ";
+            kursInformationenZiel += "              FROM niveau n ";
+            kursInformationenZiel += "                       LEFT JOIN ziel z ";
+            kursInformationenZiel += "                                 ON n.id = z.fk_ziel_niveau ";
+            kursInformationenZiel += "                       LEFT JOIN kurs_ziel kz ";
+            kursInformationenZiel += "                                 ON z.id = kz.id ";
+            kursInformationenZiel += "              WHERE kz.id_kurs = k.id) ";
+            kursInformationenZiel += "       ) ";
+            kursInformationenZiel += "   )) LIKE UPPER('%" + convo.vars.kursInformationenZiel + "%') ";
+
         }
 
-        // let pgQuery = "SELECT * FROM " + process.env.BOTKIT_STORAGE_POSTGRES_DATABASE_TABLE_DEUTSCHKURS + " " + query_where + " " + query_offset + " " + query_limit;
-        //SELECT All Kurs Information with kurs id"
-        let pgQuery =
-            " SELECT ku.id, "
-            + "        ku.beschreibung AS kurs_beschreibung, "
-            + "        n.wert AS niveau, "
-            + "        s.wert AS sprachnachweis, "
-            + "        a.offizieller_name AS anbieter_offizieller_name, "
-            + "        a.strasse AS anbieter_strasse, "
-            + "        a.ort AS anbieter_ort, "
-            + "        a.plz AS anbieter_plz, "
-            + "        a.mail AS anbieter_mail, "
-            + "        a.telefon AS anbieter_telefon, "
-            + "        a.url AS anbieter_url, "
-            + "        k.wert AS konversation, "
-            + "        i.wert AS intensitaet, "
-            + "        z.wert AS zweck, "
-            + "        dz.reihenfolge AS reihenfolge, "
-            + "        dz.tag AS tag, "
-            + "        to_char(dz.tag, 'TMDay') AS tag_name, "
-            + "        extract(isodow from dz.tag) AS tag_Nummer, "
-            + "        dz.zeit_start AS start_Zeit, "
-            + "        dz.zeit_ende AS end_Zeit, "
-            + "        o.ort AS ort, "
-            + "        o.strasse AS ort_Strasse, "
-            + "        o.plz AS ort_PLZ, "
-            + "        o.raum AS ort_Raum, "
-            + "        ad.wert AS adressatengruppe, "
-            + "        (SELECT an.wert "
-            + "        FROM anrede an "
-            + "        WHERE an.id = (SELECT kp.fk_anrede "
-            + "                       FROM kontaktperson kp "
-            + "                       WHERE kp.fk_anbieter = a.id)) AS kontaktperson_anrede, "
-            + "       (SELECT kp.name "
-            + "        FROM kontaktperson kp "
-            + "        WHERE kp.fk_anbieter = a.id) AS kontaktperson_name, "
-            + "       (SELECT kp.vorname "
-            + "        FROM kontaktperson kp "
-            + "        WHERE kp.fk_anbieter = a.id) AS kontaktperson_vorname, "
-            + "       (SELECT kp.telefon "
-            + "        FROM kontaktperson kp "
-            + "        WHERE kp.fk_anbieter = a.id) AS kontaktperson_telefon "
-            + " FROM kurs ku "
-            + " LEFT JOIN niveau n              ON ku.fk_niveau = n.id "
-            + " LEFT JOIN sprachnachweis s      ON ku.fk_sprachnachweis = s.id "
-            + " LEFT JOIN anbieter a            ON ku.fk_anbieter = a.id "
-            + " LEFT JOIN konversation k        ON ku.fk_konversation = k.id "
-            + " LEFT JOIN intensitaet i         ON ku.fk_intensitaet = i.id "
-            + " LEFT JOIN zweck z               ON ku.fk_zweck = z.id "
-            + " LEFT JOIN durchfuehrungszeit dz ON ku.id = dz.fk_kurs "
-            + " LEFT JOIN durchfuehrungsort o   ON dz.fk_durchfuerungsort = o.id "
-            + " LEFT JOIN kosten ko             ON ku.id = ko.fk_kurs "
-            + " LEFT JOIN kostenart ka          ON ko.fk_kostenart = ka.id "
-            + " JOIN adressatengruppe ad ON ad.id in (SELECT id_adressatengruppe "
-            + "                             FROM kurs_adressatengruppe "
-            + "                             WHERE id_kurs = ku.id) "
-            + " WHERE (dz.tag IS NULL OR dz.tag >= now()) "
-            //Necessary Information
-            + " " + kursIntensitaet
-            + " " + kursAdressatengruppe
-            + " " + kursOrt
-            + " " + kursZweck
-            + " " + kursNiveau
-            //Additional Information
-            + " " + kursAnbieter
-            + " " + kursTag
-            + " " + kursZeit_start
-            + " " + kursZeit_ende
-            + " " + kursKosten
-            + " ORDER BY dz.reihenfolge "
+        if (null != convo.vars.personAltersgruppe && convo.vars.personAltersgruppe !== "None" && convo.vars.personAltersgruppe !== "") {
 
-        logUtil.debug("Kurs Select DB Query: " + pgQuery);
+            personAltersgruppe  = " AND UPPER((";
+            personAltersgruppe += "     -- Get All Altersgruppen from Kurs";
+            personAltersgruppe += "     (SELECT string_agg(ag.wert, ', ') AS kursInformationenAadressatengruppen";
+            personAltersgruppe += "      FROM altersgruppe ag";
+            personAltersgruppe += "               LEFT JOIN adressatengruppe adg";
+            personAltersgruppe += "                         ON ag.id = adg.fk_altersgruppe";
+            personAltersgruppe += "               LEFT JOIN kurs_adressatengruppe ka";
+            personAltersgruppe += "                         ON ka.id_adressatengruppe = adg.id";
+            personAltersgruppe += "      WHERE ka.id_kurs = k.id)";
+            personAltersgruppe += " )) LIKE UPPER('%" + convo.vars.personAltersgruppe + "%')";
 
-        //Reste offset
-        convo.setVar("offsetKurse", 0);
+        }
+
+        if (null != convo.vars.personGeschlecht && convo.vars.personGeschlecht !== "None" && convo.vars.personGeschlecht !== "") {
+
+            personGeschlecht  = " AND UPPER(( ";
+            personGeschlecht += "     (SELECT string_agg(g.wert, ', ') AS kursInformationenGeschlecht ";
+            personGeschlecht += "      FROM geschlecht g ";
+            personGeschlecht += "               LEFT JOIN adressatengruppe adg ";
+            personGeschlecht += "                         ON g.id = adg.fk_geschlecht ";
+            personGeschlecht += "               LEFT JOIN kurs_adressatengruppe ka ";
+            personGeschlecht += "                         ON ka.id_adressatengruppe = adg.id ";
+            personGeschlecht += "      WHERE ka.id_kurs = k.id) ";
+            personGeschlecht += "   )) LIKE UPPER('%" + convo.vars.personGeschlecht + "%') ";
+
+        }
+
+        //Person Informationen
+        /////////////////////////////
+
+        if (null != convo.vars.personKind && convo.vars.personKind !== "None" && convo.vars.personKind !== "") {
+            personKind = " AND " + convo.vars.personKind;
+        }
+        if (null != convo.vars.personSprache && convo.vars.personSprache !== "None" && convo.vars.personSprache !== "") {
+            personSprache = " AND " + convo.vars.personSprache;
+        }
+
+
+        //Generate Query
+        /////////////////////////////
+        let pgQuery  = " SELECT ku.id, ";
+        pgQuery += " SELECT DISTINCT k.id,";
+        pgQuery += "                 an.offizieller_name                                   AS kursInformationenAnbieter,";
+        pgQuery += "                 (SELECT string_agg(ag.wert, ', ') AS kursInformationenAltersgruppe";
+        pgQuery += "                  FROM altersgruppe ag";
+        pgQuery += "                           LEFT JOIN adressatengruppe adg";
+        pgQuery += "                                     ON ag.id = adg.fk_altersgruppe";
+        pgQuery += "                           LEFT JOIN kurs_adressatengruppe ka";
+        pgQuery += "                                     ON ka.id_adressatengruppe = adg.id";
+        pgQuery += "                  WHERE ka.id_kurs = k.id)                             AS kursInformationenAltersgruppe,";
+        pgQuery += "                 (SELECT string_agg(g.wert, ', ') AS kursInformationenGeschlecht";
+        pgQuery += "                  FROM geschlecht g";
+        pgQuery += "                           LEFT JOIN adressatengruppe adg";
+        pgQuery += "                                     ON g.id = adg.fk_geschlecht";
+        pgQuery += "                           LEFT JOIN kurs_adressatengruppe ka";
+        pgQuery += "                                     ON ka.id_adressatengruppe = adg.id";
+        pgQuery += "                  WHERE ka.id_kurs = k.id)                             AS kursInformationenGeschlecht,";
+        pgQuery += "                 i.wert                                                AS kursInformationenIntensitaet,";
+        pgQuery += "                 kon.wert                                              AS kursInformationenKonversation,";
+        pgQuery += "                 (SELECT SUM(betrag) FROM kosten WHERE fk_kurs = k.id) AS kursInformationenKosten,";
+        pgQuery += "                 n.wert                                                AS kursInformationenNiveau,";
+        pgQuery += "                 ort.wert                                              AS kursInformationenOrt,";
+        pgQuery += "                 durz.tag                                              AS kursInformationenTag,";
+        pgQuery += "                 durz.tag_start                                        AS kursInformationenZeit_TagStart,";
+        pgQuery += "                 durz.tag_ende                                         AS kursInformationenZeit_TagEnde,";
+        pgQuery += "                 durz.zeit_start                                       AS kursInformationenZeit_ZeitStart,";
+        pgQuery += "                 durz.zeit_ende                                        AS kursInformationenZeit_ZeitEnde,";
+        pgQuery += "                 concat_ws(', ', (SELECT string_agg(dz.wert, ', ') AS ziel";
+        pgQuery += "                                  FROM didaktische_ziel dz";
+        pgQuery += "                                           LEFT JOIN ziel z";
+        pgQuery += "                                                     ON dz.id = z.fk_didaktische_ziel";
+        pgQuery += "                                           LEFT JOIN kurs_ziel kz";
+        pgQuery += "                                                     ON z.id = kz.id";
+        pgQuery += "                                  WHERE kz.id_kurs = k.id),";
+        pgQuery += "                           (SELECT string_agg(bz.wert, ', ')";
+        pgQuery += "                            FROM berufliches_ziel bz";
+        pgQuery += "                                     LEFT JOIN ziel z";
+        pgQuery += "                                               ON bz.id = z.fk_berufliches_ziel";
+        pgQuery += "                                     LEFT JOIN kurs_ziel kz";
+        pgQuery += "                                               ON z.id = kz.id";
+        pgQuery += "                            WHERE kz.id_kurs = k.id),";
+        pgQuery += "                           (SELECT string_agg(n.wert, ', ')";
+        pgQuery += "                            FROM niveau n";
+        pgQuery += "                                     LEFT JOIN ziel z";
+        pgQuery += "                                               ON n.id = z.fk_ziel_niveau";
+        pgQuery += "                                     LEFT JOIN kurs_ziel kz";
+        pgQuery += "                                               ON z.id = kz.id";
+        pgQuery += "                            WHERE kz.id_kurs = k.id)";
+        pgQuery += "                     )                                                 AS kursInformationenZiel";
+        pgQuery += " FROM kurs k";
+        pgQuery += "          LEFT JOIn intensitaet i";
+        pgQuery += "                    ON k.fk_intensitaet = i.id";
+        pgQuery += "          LEFT JOIN niveau n";
+        pgQuery += "                    ON k.fk_niveau = n.id";
+        pgQuery += "          LEFT JOIN sprachnachweis spn";
+        pgQuery += "                    ON k.fk_sprachnachweis = spn.id";
+        pgQuery += "          LEFT JOIN konversation kon";
+        pgQuery += "                    ON k.fk_konversation = kon.id";
+        pgQuery += "          LEFT JOIN anbieter an";
+        pgQuery += "                    ON k.fk_anbieter = an.id";
+        pgQuery += "          LEFT JOIN kontaktperson kp";
+        pgQuery += "                    ON kp.fk_anbieter = an.id";
+        pgQuery += "          LEFT JOIN anrede anr";
+        pgQuery += "                    ON kp.fk_anrede = anr.id";
+        pgQuery += "          LEFT JOIN kontaktdaten kond";
+        pgQuery += "                    ON kp.fk_kontaktdaten = kond.id";
+        pgQuery += "          LEFT JOIN anmeldung anm";
+        pgQuery += "                    ON anm.fk_kurs = k.id";
+        pgQuery += "          LEFT JOIN kontaktdaten kond2";
+        pgQuery += "                    ON anm.fk_kontaktdaten = kond2.id";
+        pgQuery += "          LEFT JOIN anmeldeart anma";
+        pgQuery += "                    ON anm.fk_anmeldeart = anma.id";
+        pgQuery += "          LEFT JOIN durchfuehrungszeit durz";
+        pgQuery += "                    ON durz.fk_kurs = k.id";
+        pgQuery += "          LEFT JOIN durchfuehrungsort duro";
+        pgQuery += "                    ON durz.fk_durchfuerungsort = duro.id";
+        pgQuery += "          LEFT JOIN adresse adr";
+        pgQuery += "                    ON duro.fk_adresse = adr.id";
+        pgQuery += "          LEFT JOIN ort";
+        pgQuery += "                    ON adr.fk_ort = ort.id";
+        pgQuery += " WHERE k.id IS NOT NULL";
+        pgQuery += " " + kursInformationenAltersgruppe;
+        pgQuery += " " + kursInformationenAnbieter;
+        pgQuery += " " + kursInformationenGeschlecht;
+        pgQuery += " " + kursInformationenIntensitaet;
+        pgQuery += " " + kursInformationenKonversation;
+        pgQuery += " " + kursInformationenKosten;
+        pgQuery += " " + kursInformationenNiveau;
+        pgQuery += " " + kursInformationenOrt;
+        pgQuery += " " + kursInformationenTag;
+        pgQuery += " " + kursInformationenZeit;
+        pgQuery += " " + kursInformationenZiel;
+        pgQuery += " " + personAltersgruppe;
+        pgQuery += " " + personGeschlecht;
+        pgQuery += " " + personKind;
+        pgQuery += " " + personSprache;
 
         return pgQuery;
     }
-
 
 };
