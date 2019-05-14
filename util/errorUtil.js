@@ -35,7 +35,7 @@ module.exports = {
                 // reset all conversatino variables
                 let aVars = ["kursOrt", "kursBezirk", "kursZeit", "kursTag", "kursTagUndZeit", "kursDatum", "kursIntensitaet", "kursAnbieter", "kursNiveau", "kursSprache", "kursAdressatengruppe", "kursKosten", "kursZweck"];
                 for (let x = 0; x < aVars.length; x++) {
-                    convo.setVar(aVars[x], "None");
+                    convo.setVar(aVars[x], t("kurs.kursInformationen.keine_angabe"));
                 }
                 convo.setVar("offsetKurse", 0);
 

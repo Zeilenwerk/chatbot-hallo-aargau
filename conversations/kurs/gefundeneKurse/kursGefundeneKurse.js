@@ -40,49 +40,49 @@ module.exports = {
                     let kursInformationenZiel = t("kurs.kursInformationen.keine_angabe");
                     let kursInformationenAadressatengruppen = t("kurs.kursInformationen.keine_angabe");
 
-                    if (null != conversation.vars.kursInformationenAnbieter && conversation.vars.kursInformationenAnbieter !== "None" && conversation.vars.kursInformationenAnbieter !== "") {
+                    if (null != conversation.vars.kursInformationenAnbieter && conversation.vars.kursInformationenAnbieter !== t("kurs.kursInformationen.keine_angabe") && conversation.vars.kursInformationenAnbieter !== "") {
                         kursInformationenAnbieter = conversation.vars.kursInformationenAnbieter;
                     }
-                    if (null != conversation.vars.kursInformationenAltersgruppe && conversation.vars.kursInformationenAltersgruppe !== "None" && conversation.vars.kursInformationenAltersgruppe !== "") {
+                    if (null != conversation.vars.kursInformationenAltersgruppe && conversation.vars.kursInformationenAltersgruppe !== t("kurs.kursInformationen.keine_angabe") && conversation.vars.kursInformationenAltersgruppe !== "") {
                         kursInformationenAltersgruppe = conversation.vars.kursInformationenAltersgruppe;
                     }
-                    if (null != conversation.vars.kursInformationenGeschlecht && conversation.vars.kursInformationenGeschlecht !== "None" && conversation.vars.kursInformationenGeschlecht !== "") {
+                    if (null != conversation.vars.kursInformationenGeschlecht && conversation.vars.kursInformationenGeschlecht !== t("kurs.kursInformationen.keine_angabe") && conversation.vars.kursInformationenGeschlecht !== "") {
                         kursInformationenGeschlecht = conversation.vars.kursInformationenGeschlecht;
                     }
-                    if (null != conversation.vars.kursInformationenIntensitaet && conversation.vars.kursInformationenIntensitaet !== "None" && conversation.vars.kursInformationenIntensitaet !== "") {
+                    if (null != conversation.vars.kursInformationenIntensitaet && conversation.vars.kursInformationenIntensitaet !== t("kurs.kursInformationen.keine_angabe") && conversation.vars.kursInformationenIntensitaet !== "") {
                         kursInformationenIntensitaet = conversation.vars.kursInformationenIntensitaet;
                     }
-                    if (null != conversation.vars.kursInformationenKonversation && conversation.vars.kursInformationenKonversation !== "None" && conversation.vars.kursInformationenKonversation !== "") {
+                    if (null != conversation.vars.kursInformationenKonversation && conversation.vars.kursInformationenKonversation !== t("kurs.kursInformationen.keine_angabe") && conversation.vars.kursInformationenKonversation !== "") {
                         kursInformationenKonversation = conversation.vars.kursInformationenKonversation;
                     }
-                    if (null != conversation.vars.kursInformationenKosten && conversation.vars.kursInformationenKosten !== "None" && conversation.vars.kursInformationenKosten !== "") {
+                    if (null != conversation.vars.kursInformationenKosten && conversation.vars.kursInformationenKosten !== t("kurs.kursInformationen.keine_angabe") && conversation.vars.kursInformationenKosten !== "") {
                         kursInformationenKosten = conversation.vars.kursInformationenKosten;
                     }
-                    if (null != conversation.vars.kursInformationenNiveau && conversation.vars.kursInformationenNiveau !== "None" && conversation.vars.kursInformationenNiveau !== "") {
+                    if (null != conversation.vars.kursInformationenNiveau && conversation.vars.kursInformationenNiveau !== t("kurs.kursInformationen.keine_angabe") && conversation.vars.kursInformationenNiveau !== "") {
                         kursInformationenNiveau = conversation.vars.kursInformationenNiveau;
                     }
-                    if (null != conversation.vars.kursInformationenOrt && conversation.vars.kursInformationenOrt !== "None" && conversation.vars.kursInformationenOrt !== "") {
+                    if (null != conversation.vars.kursInformationenOrt && conversation.vars.kursInformationenOrt !== t("kurs.kursInformationen.keine_angabe") && conversation.vars.kursInformationenOrt !== "") {
                         kursInformationenOrt = conversation.vars.kursInformationenOrt;
                     }
-                    if (null != conversation.vars.kursInformationenTag && conversation.vars.kursInformationenTag !== "None" && conversation.vars.kursInformationenTag !== "") {
+                    if (null != conversation.vars.kursInformationenTag && conversation.vars.kursInformationenTag !== t("kurs.kursInformationen.keine_angabe") && conversation.vars.kursInformationenTag !== "") {
                         kursInformationenTag = conversation.vars.kursInformationenTag;
                     }
-                    if (null != conversation.vars.kursInformationenZeit_TagStart && conversation.vars.kursInformationenZeit_TagStart !== "None" && conversation.vars.kursInformationenZeit_TagStart !== "") {
+                    if (null != conversation.vars.kursInformationenZeit_TagStart && conversation.vars.kursInformationenZeit_TagStart !== t("kurs.kursInformationen.keine_angabe") && conversation.vars.kursInformationenZeit_TagStart !== "") {
                         kursInformationenZeit_TagStart = conversation.vars.kursInformationenZeit_TagStart;
                     }
-                    if (null != conversation.vars.kursInformationenZeit_TagEnde && conversation.vars.kursInformationenZeit_TagEnde !== "None" && conversation.vars.kursInformationenZeit_TagEnde !== "") {
+                    if (null != conversation.vars.kursInformationenZeit_TagEnde && conversation.vars.kursInformationenZeit_TagEnde !== t("kurs.kursInformationen.keine_angabe") && conversation.vars.kursInformationenZeit_TagEnde !== "") {
                         kursInformationenZeit_TagEnde = conversation.vars.kursInformationenZeit_TagEnde;
                     }
-                    if (null != conversation.vars.kursInformationenZeit_ZeitStart && conversation.vars.kursInformationenZeit_ZeitStart !== "None" && conversation.vars.kursInformationenZeit_ZeitStart !== "") {
+                    if (null != conversation.vars.kursInformationenZeit_ZeitStart && conversation.vars.kursInformationenZeit_ZeitStart !== t("kurs.kursInformationen.keine_angabe") && conversation.vars.kursInformationenZeit_ZeitStart !== "") {
                         kursInformationenZeit_ZeitStart = conversation.vars.kursInformationenZeit_ZeitStart;
                     }
-                    if (null != conversation.vars.kursInformationenZeit_ZeitEnde && conversation.vars.kursInformationenZeit_ZeitEnde !== "None" && conversation.vars.kursInformationenZeit_ZeitEnde !== "") {
+                    if (null != conversation.vars.kursInformationenZeit_ZeitEnde && conversation.vars.kursInformationenZeit_ZeitEnde !== t("kurs.kursInformationen.keine_angabe") && conversation.vars.kursInformationenZeit_ZeitEnde !== "") {
                         kursInformationenZeit_ZeitEnde = conversation.vars.kursInformationenZeit_ZeitEnde;
                     }
-                    if (null != conversation.vars.kursInformationenZiel && conversation.vars.kursInformationenZiel !== "None" && conversation.vars.kursInformationenZiel !== "") {
+                    if (null != conversation.vars.kursInformationenZiel && conversation.vars.kursInformationenZiel !== t("kurs.kursInformationen.keine_angabe") && conversation.vars.kursInformationenZiel !== "") {
                         kursInformationenZiel = conversation.vars.kursInformationenZiel;
                     }
-                    if (null != conversation.vars.kursInformationenAadressatengruppen && conversation.vars.kursInformationenAadressatengruppen !== "None" && conversation.vars.kursInformationenAadressatengruppen !== "") {
+                    if (null != conversation.vars.kursInformationenAadressatengruppen && conversation.vars.kursInformationenAadressatengruppen !== t("kurs.kursInformationen.keine_angabe") && conversation.vars.kursInformationenAadressatengruppen !== "") {
                         kursInformationenAadressatengruppen = conversation.vars.kursInformationenAadressatengruppen;
                     }
 
@@ -172,6 +172,8 @@ module.exports = {
             }
         });
 
+        convo.gotoThread(threadName+"0")
+
     },
 
     displayKursContactInfo: function (bot, message, convo, luisUtil, threadName, nextThread = "None", id) {
@@ -259,70 +261,70 @@ module.exports = {
                     let durchfuerungsort_Plz= ("keine_angabe");
                     let durchfuerungsortKinderhuetedienst= ("keine_angabe");
 
-                    if (null != oRow.kursinformationenanbieter && oRow.kursinformationenanbieter !== "None" && oRow.kursinformationenanbieter !== "") {
+                    if (null != oRow.kursinformationenanbieter && oRow.kursinformationenanbieter !== t("kurs.kursInformationen.keine_angabe") && oRow.kursinformationenanbieter !== "") {
                         kursInformationenAnbieter = oRow.kursinformationenanbieter;
                     }
-                    if (null != oRow.kursinformationenkosten && oRow.kursinformationenkosten !== "None" && oRow.kursinformationenkosten !== "") {
+                    if (null != oRow.kursinformationenkosten && oRow.kursinformationenkosten !== t("kurs.kursInformationen.keine_angabe") && oRow.kursinformationenkosten !== "") {
                         kursInformationenKosten = oRow.kursinformationenkosten + " CHF";
                     }
-                    if (null != oRow.kursinformationentag && oRow.kursinformationentag !== "None" && oRow.kursinformationentag !== "") {
+                    if (null != oRow.kursinformationentag && oRow.kursinformationentag !== t("kurs.kursInformationen.keine_angabe") && oRow.kursinformationentag !== "") {
                         kursInformationenTag = oRow.kursinformationentag;
                     }
-                    if (null != oRow.kursinformationenzeit_tagstart && oRow.kursinformationenzeit_tagstart !== "None" && oRow.kursinformationenzeit_tagstart !== "") {
+                    if (null != oRow.kursinformationenzeit_tagstart && oRow.kursinformationenzeit_tagstart !== t("kurs.kursInformationen.keine_angabe") && oRow.kursinformationenzeit_tagstart !== "") {
                         kursInformationenZeit_TagStart = oRow.kursinformationenzeit_tagstart;
                     }
-                    if (null != oRow.kursinformationenzeit_tagende && oRow.kursinformationenzeit_tagende !== "None" && oRow.kursinformationenzeit_tagende !== "") {
+                    if (null != oRow.kursinformationenzeit_tagende && oRow.kursinformationenzeit_tagende !== t("kurs.kursInformationen.keine_angabe") && oRow.kursinformationenzeit_tagende !== "") {
                         kursInformationenZeit_TagEnde = oRow.kursinformationenzeit_tagende;
                     }
-                    if (null != oRow.kursinformationenzeit_zeitstart && oRow.kursinformationenzeit_zeitstart !== "None" && oRow.kursinformationenzeit_zeitstart !== "") {
+                    if (null != oRow.kursinformationenzeit_zeitstart && oRow.kursinformationenzeit_zeitstart !== t("kurs.kursInformationen.keine_angabe") && oRow.kursinformationenzeit_zeitstart !== "") {
                         kursInformationenZeit_ZeitStart = oRow.kursinformationenzeit_zeitstart;
                     }
-                    if (null != oRow.kursinformationenzeit_zeitende && oRow.kursinformationenzeit_zeitende !== "None" && oRow.kursinformationenzeit_zeitende !== "") {
+                    if (null != oRow.kursinformationenzeit_zeitende && oRow.kursinformationenzeit_zeitende !== t("kurs.kursInformationen.keine_angabe") && oRow.kursinformationenzeit_zeitende !== "") {
                         kursInformationenZeit_ZeitEnde = oRow.kursinformationenzeit_zeitende;
                     }
-                    if (null != oRow.kurskontaktperson_name && oRow.kurskontaktperson_name !== "None" && oRow.kurskontaktperson_name !== "") {
+                    if (null != oRow.kurskontaktperson_name && oRow.kurskontaktperson_name !== t("kurs.kursInformationen.keine_angabe") && oRow.kurskontaktperson_name !== "") {
                         kursKontaktperson_Name = oRow.kurskontaktperson_anrede + " " + oRow.kurskontaktperson_name;
                     }
-                    if (null != oRow.kurskontaktperson_telefon && oRow.kurskontaktperson_telefon !== "None" && oRow.kurskontaktperson_telefon !== "") {
+                    if (null != oRow.kurskontaktperson_telefon && oRow.kurskontaktperson_telefon !== t("kurs.kursInformationen.keine_angabe") && oRow.kurskontaktperson_telefon !== "") {
                         kursKontaktperson_Telefon = "<a href=\"tel:" + oRow.kurskontaktperson_telefon + "\">" + oRow.kurskontaktperson_telefon + "<a>";
                     }
-                    if (null != oRow.kurskontaktperson_telefon2 && oRow.kurskontaktperson_telefon2 !== "None" && oRow.kurskontaktperson_telefon2 !== "") {
+                    if (null != oRow.kurskontaktperson_telefon2 && oRow.kurskontaktperson_telefon2 !== t("kurs.kursInformationen.keine_angabe") && oRow.kurskontaktperson_telefon2 !== "") {
                         kursKontaktperson_Telefon2 = "<a href=\"tel:" + oRow.kurskontaktperson_telefon2 + "\">" + oRow.kurskontaktperson_telefon2 + "<a>";
                     }
-                    if (null != oRow.kurskontaktperson_mail && oRow.kurskontaktperson_mail !== "None" && oRow.kurskontaktperson_mail !== "") {
+                    if (null != oRow.kurskontaktperson_mail && oRow.kurskontaktperson_mail !== t("kurs.kursInformationen.keine_angabe") && oRow.kurskontaktperson_mail !== "") {
                         kursKontaktperson_Mail = "<a href=\"mailto:" + oRow.kurskontaktperson_mail + "\">" + oRow.kurskontaktperson_mail + "<a>";
                     }
-                    if (null != oRow.kurskontaktperson_mail2 && oRow.kurskontaktperson_mail2 !== "None" && oRow.kurskontaktperson_mail2 !== "") {
+                    if (null != oRow.kurskontaktperson_mail2 && oRow.kurskontaktperson_mail2 !== t("kurs.kursInformationen.keine_angabe") && oRow.kurskontaktperson_mail2 !== "") {
                         kursKontaktperson_Mail2 = "<a href=\"mailto:" + oRow.kurskontaktperson_mail2 + "\">" + oRow.kurskontaktperson_mail2 + "<a>";
                     }
-                    if (null != oRow.kurskontaktperson_formular && oRow.kurskontaktperson_formular !== "None" && oRow.kurskontaktperson_formular !== "") {
+                    if (null != oRow.kurskontaktperson_formular && oRow.kurskontaktperson_formular !== t("kurs.kursInformationen.keine_angabe") && oRow.kurskontaktperson_formular !== "") {
                         kursKontaktperson_Formular = "<a href=\"" + oRow.kurskontaktperson_formular + "\">" + oRow.kurskontaktperson_formular + "<a>";
                     }
-                    if (null != oRow.kurskontaktperson_url && oRow.kurskontaktperson_url !== "None" && oRow.kurskontaktperson_url !== "") {
+                    if (null != oRow.kurskontaktperson_url && oRow.kurskontaktperson_url !== t("kurs.kursInformationen.keine_angabe") && oRow.kurskontaktperson_url !== "") {
                         kursKontaktperson_Url = "<a href=\"" + oRow.kurskontaktperson_url + "\">" + oRow.kurskontaktperson_url + "<a>";
                     }
-                    if (null != oRow.durchfuerungsortraum && oRow.durchfuerungsortraum !== "None" && oRow.durchfuerungsortraum !== "") {
+                    if (null != oRow.durchfuerungsortraum && oRow.durchfuerungsortraum !== t("kurs.kursInformationen.keine_angabe") && oRow.durchfuerungsortraum !== "") {
                         durchfuerungsortRaum = oRow.durchfuerungsortraum;
                     }
-                    if (null != oRow.durchfuerungsort_adresse && oRow.durchfuerungsort_adresse !== "None" && oRow.durchfuerungsort_adresse !== "") {
+                    if (null != oRow.durchfuerungsort_adresse && oRow.durchfuerungsort_adresse !== t("kurs.kursInformationen.keine_angabe") && oRow.durchfuerungsort_adresse !== "") {
                         durchfuerungsort_Adresse = oRow.durchfuerungsort_adresse;
                     }
-                    if (null != oRow.durchfuerungsort_adresszusatz1 && oRow.durchfuerungsort_adresszusatz1 !== "None" && oRow.durchfuerungsort_adresszusatz1 !== "") {
+                    if (null != oRow.durchfuerungsort_adresszusatz1 && oRow.durchfuerungsort_adresszusatz1 !== t("kurs.kursInformationen.keine_angabe") && oRow.durchfuerungsort_adresszusatz1 !== "") {
                         durchfuerungsort_Adresszusatz1 = oRow.durchfuerungsort_adresszusatz1;
                     }
-                    if (null != oRow.durchfuerungsort_adresszusatz2 && oRow.durchfuerungsort_adresszusatz2 !== "None" && oRow.durchfuerungsort_adresszusatz2 !== "") {
+                    if (null != oRow.durchfuerungsort_adresszusatz2 && oRow.durchfuerungsort_adresszusatz2 !== t("kurs.kursInformationen.keine_angabe") && oRow.durchfuerungsort_adresszusatz2 !== "") {
                         durchfuerungsort_Adresszusatz2 = oRow.durchfuerungsort_adresszusatz2;
                     }
-                    if (null != oRow.durchfuerungsort_adresszusatz3 && oRow.durchfuerungsort_adresszusatz3 !== "None" && oRow.durchfuerungsort_adresszusatz3 !== "") {
+                    if (null != oRow.durchfuerungsort_adresszusatz3 && oRow.durchfuerungsort_adresszusatz3 !== t("kurs.kursInformationen.keine_angabe") && oRow.durchfuerungsort_adresszusatz3 !== "") {
                         durchfuerungsort_Adresszusatz3 = oRow.durchfuerungsort_adresszusatz3;
                     }
-                    if (null != oRow.kursinformationenort && oRow.kursinformationenort !== "None" && oRow.kursinformationenort !== "") {
+                    if (null != oRow.kursinformationenort && oRow.kursinformationenort !== t("kurs.kursInformationen.keine_angabe") && oRow.kursinformationenort !== "") {
                         kursInformationenOrt = oRow.kursinformationenort;
                     }
-                    if (null != oRow.durchfuerungsort_plz && oRow.durchfuerungsort_plz !== "None" && oRow.durchfuerungsort_plz !== "") {
+                    if (null != oRow.durchfuerungsort_plz && oRow.durchfuerungsort_plz !== t("kurs.kursInformationen.keine_angabe") && oRow.durchfuerungsort_plz !== "") {
                         durchfuerungsort_Plz = oRow.durchfuerungsort_plz;
                     }
-                    if (null != oRow.durchfuerungsortkinderhuetedienst && oRow.durchfuerungsortkinderhuetedienst !== "None" && oRow.durchfuerungsortkinderhuetedienst !== "") {
+                    if (null != oRow.durchfuerungsortkinderhuetedienst && oRow.durchfuerungsortkinderhuetedienst !== t("kurs.kursInformationen.keine_angabe") && oRow.durchfuerungsortkinderhuetedienst !== "") {
                         durchfuerungsortKinderhuetedienst = oRow.durchfuerungsortkinderhuetedienst;
                     }
 

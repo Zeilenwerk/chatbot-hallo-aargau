@@ -49,7 +49,7 @@ module.exports = {
                                 break;
                             case t("kurs.kursInformationen.keine_angabe"):
                                 //Set var in convo --> used afterwards to get search results form db
-                                convo.setVar("kursInformationenZeit", "None");
+                                convo.setVar("kursInformationenZeit", t("kurs.kursInformationen.keine_angabe"));
                                 ok = true;
                                 break;
                             default:

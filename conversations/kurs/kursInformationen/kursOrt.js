@@ -76,7 +76,7 @@ module.exports = {
                                     } else if (res.text === t("kurs.kursInformationen.keine_angabe")) {
 
                                         //Set var in convo --> used afterwards to get search results form db
-                                        conversation.setVar("kursInformationenOrt", "None");
+                                        conversation.setVar("kursInformationenOrt", t("kurs.kursInformationen.keine_angabe"));
 
                                         //continue to next thread
                                         if (nextThread !== "None") {
@@ -213,7 +213,7 @@ module.exports = {
                                     } else if (res.text === t("kurs.kursInformationen.auswahl_behalten")) {
 
                                         //Set var in convo --> used afterwards to get search results form db
-                                        conversation.setVar("kursInformationenOrt", "None");
+                                        conversation.setVar("kursInformationenOrt", t("kurs.kursInformationen.keine_angabe"));
 
                                         //continue to next thread
                                         if (nextThread !== "None") {

@@ -26,7 +26,7 @@ module.exports = {
                         switch(res.text){
                             case t("person.keine_angabe"):
                                 //Set var in convo --> used afterwards to get search results form db
-                                convo.setVar("personKind", "None");
+                                convo.setVar("personKind", t("kurs.kursInformationen.keine_angabe"));
                                 ok = true;
                                 break;
                             case t("person.kinder.kinder_ja"):

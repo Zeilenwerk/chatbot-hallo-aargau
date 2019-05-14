@@ -76,7 +76,7 @@ module.exports = {
                                     } else if (res.text === t("kurs.kursInformationen.keine_angabe")) {
 
                                         //Set var in convo --> used afterwards to get search results form db
-                                        conversation.setVar("kursInformationenIntensitaet", "None");
+                                        conversation.setVar("kursInformationenIntensitaet", t("kurs.kursInformationen.keine_angabe"));
 
                                         //continue to next thread
                                         if (nextThread !== "None") {

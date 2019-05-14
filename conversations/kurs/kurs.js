@@ -248,19 +248,14 @@ module.exports = {
                         switch (res.text) {
 
                             case t('ja'):
-
-                                gefundeneKurse.displayGefundeneKurse(bot, message,convo,luisUtil,"displayGefundeneKurse", "displayFoundKursContactInformation");
-
-                                convo.gotoThread("displayGefundeneKurse0");
+                                gefundeneKurse.displayGefundeneKurse(bot, message, convo, luisUtil, "displayGefundeneKurse", "displayFoundKursContactInformation");
                                 convo.next();
                                 break;
                             case t('kurs.kursSuchen_Menu_Question_Question_Qr_Nein'):
                                 convo.gotoThread("correctInfromation");
-                                convo.next();
                                 break;
                             default:
-                                convo.addMessage(t('nicht_verstanden'));
-                                convo.repeat();
+                                convo.transitionTo("kursSuchen_Menu", t('nicht_verstanden'));
                                 break;
                         }
                     } catch (err) {
@@ -514,5 +509,4 @@ module.exports = {
         convo.gotoThread("initialMessage");
 
     }
-
 };

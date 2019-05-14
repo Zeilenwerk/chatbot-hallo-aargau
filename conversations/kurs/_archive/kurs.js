@@ -75,7 +75,7 @@ module.exports = {
 
                 if (aEntity === null || aEntity === undefined || aEntity.length === 0) {
                     logUtil.debug("Initialize var " + aVars[x] + " with value to 'None'");
-                    convo.setVar(aVars[x], "None");
+                    convo.setVar(aVars[x], t("kurs.kursInformationen.keine_angabe"));
                 } else {
                     if (aEntity[1]) {
                         convo.setVar(aVars[x], aEntity[1]);
@@ -332,7 +332,7 @@ module.exports = {
         //********************************
         logUtil.debug("Check Notwendige Informationen");
 
-        if (convo.vars.kursOrt !== "None" && convo.vars.kursAdressatengruppe !== "None" && convo.vars.kursZweck !== "None" && convo.vars.kursNiveau !== "None" && convo.vars.kursIntensitaet !== "None") {
+        if (convo.vars.kursOrt !== t("kurs.kursInformationen.keine_angabe") && convo.vars.kursAdressatengruppe !== t("kurs.kursInformationen.keine_angabe") && convo.vars.kursZweck !== t("kurs.kursInformationen.keine_angabe") && convo.vars.kursNiveau !== t("kurs.kursInformationen.keine_angabe") && convo.vars.kursIntensitaet !== t("kurs.kursInformationen.keine_angabe")) {
             logUtil.info("Alle Notwendigen Infos vorhanden");
             logUtil.debug("gotoThread kursNotwendigeInfosMenu");
             convo.gotoThread("kursNotwendigeInfosMenu");
@@ -357,7 +357,7 @@ module.exports = {
                 logUtil.debug("askKursOrt");
                 kursOrt.askKursOrt(bot, message, convo, luisUtil);
             } else {
-                if (convo.vars.kursBezirk !== "None") {
+                if (convo.vars.kursBezirk !== t("kurs.kursInformationen.keine_angabe")) {
                     convo.say(t('kurs.check_Notwendige_Informationen_Ort', {
                         kursOrt: "{{vars.kursOrt}}",
                         kursBezirk: "{{vars.kursBezirk}}"

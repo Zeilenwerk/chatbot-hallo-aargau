@@ -87,22 +87,22 @@ module.exports = {
         //Kurs Informationen
         /////////////////////////////
 
-        if (null != convo.vars.kursInformationenAltersgruppe && convo.vars.kursInformationenAltersgruppe !== "None" && convo.vars.kursInformationenAltersgruppe !== "") {
+        if (null != convo.vars.kursInformationenAltersgruppe && convo.vars.kursInformationenAltersgruppe !== t("kurs.kursInformationen.keine_angabe") && convo.vars.kursInformationenAltersgruppe !== "") {
             kursInformationenAltersgruppe = " AND " + convo.vars.kursInformationenAltersgruppe;
         }
-        if (null != convo.vars.kursInformationenAnbieter && convo.vars.kursInformationenAnbieter !== "None" && convo.vars.kursInformationenAnbieter !== "") {
+        if (null != convo.vars.kursInformationenAnbieter && convo.vars.kursInformationenAnbieter !== t("kurs.kursInformationen.keine_angabe") && convo.vars.kursInformationenAnbieter !== "") {
             kursInformationenAnbieter = " AND UPPER(an.offizieller_name) LIKE UPPER('%" + convo.vars.kursInformationenAnbieter + "%') ";
         }
-        if (null != convo.vars.kursInformationenGeschlecht && convo.vars.kursInformationenGeschlecht !== "None" && convo.vars.kursInformationenGeschlecht !== "") {
+        if (null != convo.vars.kursInformationenGeschlecht && convo.vars.kursInformationenGeschlecht !== t("kurs.kursInformationen.keine_angabe") && convo.vars.kursInformationenGeschlecht !== "") {
             kursInformationenGeschlecht = " AND " + convo.vars.kursInformationenGeschlecht;
         }
-        if (null != convo.vars.kursInformationenIntensitaet && convo.vars.kursInformationenIntensitaet !== "None" && convo.vars.kursInformationenIntensitaet !== "") {
+        if (null != convo.vars.kursInformationenIntensitaet && convo.vars.kursInformationenIntensitaet !== t("kurs.kursInformationen.keine_angabe") && convo.vars.kursInformationenIntensitaet !== "") {
             kursInformationenIntensitaet = " AND UPPER(i.wert) LIKE UPPER('%" + convo.vars.kursInformationenIntensitaet + "%') ";
         }
-        if (null != convo.vars.kursInformationenKonversation && convo.vars.kursInformationenKonversation !== "None" && convo.vars.kursInformationenKonversation !== "") {
+        if (null != convo.vars.kursInformationenKonversation && convo.vars.kursInformationenKonversation !== t("kurs.kursInformationen.keine_angabe") && convo.vars.kursInformationenKonversation !== "") {
             kursInformationenKonversation = " AND UPPER(kon.wert) LIKE UPPER('%" + convo.vars.kursInformationenKonversation + "%') ";
         }
-        if (null != convo.vars.kursInformationenKosten && convo.vars.kursInformationenKosten !== "None" && convo.vars.kursInformationenKosten !== "") {
+        if (null != convo.vars.kursInformationenKosten && convo.vars.kursInformationenKosten !== t("kurs.kursInformationen.keine_angabe") && convo.vars.kursInformationenKosten !== "") {
 
             switch (convo.vars.kursInformationenKosten.toLowerCase()) {
                 case "gratis":
@@ -121,16 +121,16 @@ module.exports = {
 
             kursInformationenKosten = " AND " + convo.vars.kursInformationenKosten;
         }
-        if (null != convo.vars.kursInformationenNiveau && convo.vars.kursInformationenNiveau !== "None" && convo.vars.kursInformationenNiveau !== "") {
+        if (null != convo.vars.kursInformationenNiveau && convo.vars.kursInformationenNiveau !== t("kurs.kursInformationen.keine_angabe") && convo.vars.kursInformationenNiveau !== "") {
             kursInformationenNiveau = " AND UPPER(n.wert) LIKE UPPER('%" + convo.vars.kursInformationenNiveau + "%') ";
         }
-        if (null != convo.vars.kursInformationenOrt && convo.vars.kursInformationenOrt !== "None" && convo.vars.kursInformationenOrt !== "") {
+        if (null != convo.vars.kursInformationenOrt && convo.vars.kursInformationenOrt !== t("kurs.kursInformationen.keine_angabe") && convo.vars.kursInformationenOrt !== "") {
             kursInformationenOrt = " AND UPPER(ort.wert) LIKE UPPER('%" + convo.vars.kursInformationenOrt + "%') ";
         }
-        if (null != convo.vars.kursInformationenTag && convo.vars.kursInformationenTag !== "None" && convo.vars.kursInformationenTag !== "") {
+        if (null != convo.vars.kursInformationenTag && convo.vars.kursInformationenTag !== t("kurs.kursInformationen.keine_angabe") && convo.vars.kursInformationenTag !== "") {
             kursInformationenTag = " AND UPPER(durz.tag) LIKE UPPER('%" + convo.vars.kursInformationenTag + "%') ";
         }
-        if (null != convo.vars.kursInformationenZeit && convo.vars.kursInformationenZeit !== "None" && convo.vars.kursInformationenZeit !== "") {
+        if (null != convo.vars.kursInformationenZeit && convo.vars.kursInformationenZeit !== t("kurs.kursInformationen.keine_angabe") && convo.vars.kursInformationenZeit !== "") {
 
             let kursZeit_start = " AND durz.zeit_start >= '" + convo.vars.kursInformationenZeit + ":00' ";
             //Add 3 Hours to the start time
@@ -139,7 +139,7 @@ module.exports = {
 
             kursInformationenZeit = kursZeit_start + " " + kursZeit_ende;
         }
-        if (null != convo.vars.kursInformationenZiel && convo.vars.kursInformationenZiel !== "None" && convo.vars.kursInformationenZiel !== "") {
+        if (null != convo.vars.kursInformationenZiel && convo.vars.kursInformationenZiel !== t("kurs.kursInformationen.keine_angabe") && convo.vars.kursInformationenZiel !== "") {
 
             kursInformationenZiel  = " AND UPPER(( ";
             kursInformationenZiel += "   -- Get All Ziele from Kurs ";
@@ -169,7 +169,7 @@ module.exports = {
 
         }
 
-        if (null != convo.vars.personAltersgruppe && convo.vars.personAltersgruppe !== "None" && convo.vars.personAltersgruppe !== "") {
+        if (null != convo.vars.personAltersgruppe && convo.vars.personAltersgruppe !== t("kurs.kursInformationen.keine_angabe") && convo.vars.personAltersgruppe !== "") {
 
             personAltersgruppe  = " AND UPPER((";
             personAltersgruppe += "     -- Get All Altersgruppen from Kurs";
@@ -184,7 +184,7 @@ module.exports = {
 
         }
 
-        if (null != convo.vars.personGeschlecht && convo.vars.personGeschlecht !== "None" && convo.vars.personGeschlecht !== "") {
+        if (null != convo.vars.personGeschlecht && convo.vars.personGeschlecht !== t("kurs.kursInformationen.keine_angabe") && convo.vars.personGeschlecht !== "") {
 
             personGeschlecht  = " AND UPPER(( ";
             personGeschlecht += "     (SELECT string_agg(g.wert, ', ') AS kursInformationenGeschlecht ";
@@ -201,10 +201,10 @@ module.exports = {
         //Person Informationen
         /////////////////////////////
 
-        if (null != convo.vars.personKind && convo.vars.personKind !== "None" && convo.vars.personKind !== "") {
+        if (null != convo.vars.personKind && convo.vars.personKind !== t("kurs.kursInformationen.keine_angabe") && convo.vars.personKind !== "") {
             personKind = " AND " + convo.vars.personKind;
         }
-        if (null != convo.vars.personSprache && convo.vars.personSprache !== "None" && convo.vars.personSprache !== "") {
+        if (null != convo.vars.personSprache && convo.vars.personSprache !== t("kurs.kursInformationen.keine_angabe") && convo.vars.personSprache !== "") {
             personSprache = " AND " + convo.vars.personSprache;
         }
 
