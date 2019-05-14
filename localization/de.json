@@ -45,6 +45,8 @@
     "gefundeneKurse_Question_QR_Ja": "Ja, weitere Informationen anzeigen",
     "gefundeneKurse_Question_QR_Nein": "Nein, weitere Kurse anzeigen",
     "gefundeneKurse_Question_QR_Infromationen_aendern": "Nein, angegebene Informationen ändern",
+    "gefundenerKurs_Auswahl": "Sie haben den Kurs mit der ID '{id}' ausgewählt. Stimmt das?",
+    "gefundenerKurs_Zusatzinformationen": "Ich habe folgende Informationen zum ausgewählten Kurs gefunden:\n\n-Anbieter: '{kursInformationenAnbieter}'\n-Kosten: '{kursInformationenKosten}'\n-Durchführungstag(e): '{kursInformationenTag}'\n-Startdatum: '{kursInformationenZeit_TagStart}'\n-Enddatum: '{kursInformationenZeit_TagEnde}'\n-Lektion Startzeit: '{kursInformationenZeit_ZeitStart}'\n-Lektion Endzeit: '{kursInformationenZeit_ZeitEnde}'\n\nKontaktperson:-Name: '{kursKontaktperson_Name}'\n-Telefon: '{kursKontaktperson_Telefon}'\n-Telefon 2: '{kursKontaktperson_Telefon2}'\n-Mail: '{kursKontaktperson_Mail}'\n-Mail 2: '{kursKontaktperson_Mail2}'\n-Online Formular: '{kursKontaktperson_Formular}'\n-Website: '{kursKontaktperson_Url}'\n\nDurchführungsort:-Kursraum: '{durchfuerungsortRaum}\n-Adresse: '{durchfuerungsort_Adresse}\n-Ort: '{kursInformationenOrt}\n-PLZ: '{durchfuerungsort_Plz}\n-Kinderhütedienst vorhanden: '{durchfuerungsortKinderhuetedienst}'",
     "check_Notwendige_Informationen_Ort": "Den Ort haben Sie schon angegeben ({kursOrt}, im Bezirk {kursBezirk}), somit benötige ich dies nicht mehr.",
     "check_Notwendige_Informationen_Ort_Bezirk": "Den Ort haben Sie schon angegeben ({kursOrt}), somit benötige ich dies nicht mehr.",
     "check_Notwendige_Informationen_Tag": "Als Kurstag, haben Sie den {kursTag} gewählt.",
