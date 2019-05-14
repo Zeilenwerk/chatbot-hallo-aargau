@@ -54,6 +54,7 @@ module.exports = {
         const kursZeit = require("./kursInformationen/kursZeit");
         const kursZiel = require("./kursInformationen/kursZiel");
         const kursAnbieter = require("./kursInformationen/kursAnbieter");
+        const gefundeneKurse = require("./gefundeneKurse/kursGefundeneKurse");
 
         //********************************
         // Initialize Conversation
@@ -247,7 +248,10 @@ module.exports = {
                         switch (res.text) {
 
                             case t('ja'):
-                                convo.gotoThread("zusatzInfo");
+
+                                gefundeneKurse.displayGefundeneKurse(bot, message,convo,luisUtil,"displayGefundeneKurse", "displayFoundKursContactInformation");
+
+                                convo.gotoThread("displayGefundeneKurse0");
                                 convo.next();
                                 break;
                             case t('kurs.kursSuchen_Menu_Question_Question_Qr_Nein'):

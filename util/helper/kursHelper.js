@@ -5,7 +5,7 @@ module.exports = {
         const pgUtil = require("../pgUtil");
         const logUtil = require("../logUtil");
 
-        let pgQuery = prepareAllMatchedKurseQuery(bot,message,convo);
+        let pgQuery = this.prepareAllMatchedKurseQuery(bot,message,convo);
         logUtil.debug("Kurse Query: " + pgQuery);
 
         //Connect to DB
@@ -31,7 +31,35 @@ module.exports = {
             });
     },
 
-    getKursWithId: function(bot, message, convo, luisUtil, nextThread, returnDbEntries){
+    getKursWithId: function(bot, message, convo, luisUtil, nextThread, id, returnDbEntries){
+
+        const pgUtil = require("../pgUtil");
+        const logUtil = require("../logUtil");
+
+        let pgQuery = this.prepareKursQueryWithId(id);
+        logUtil.debug("Kurse Query: " + pgQuery);
+
+        //Connect to DB
+        /////////////////////////////
+        const pgClient = pgUtil.getDB();
+        pgClient.connect();
+
+        // Execute Query and return res
+        /////////////////////////////
+        pgClient.query(pgQuery,
+            (err, res) => {
+                if (err) throw new Error(err.stack);
+
+                pgClient.end();
+
+                if (res.rows.length > 0) {
+                    logUtil.debug("Kurse to display from : " + JSON.stringify(res.rows));
+                    returnDbEntries(convo, res.rows);
+                } else {
+                    returnDbEntries(convo, "");
+                }
+
+            });
 
     },
 
@@ -183,8 +211,7 @@ module.exports = {
 
         //Generate Query
         /////////////////////////////
-        let pgQuery  = " SELECT ku.id, ";
-        pgQuery += " SELECT DISTINCT k.id,";
+        let pgQuery  = " SELECT DISTINCT k.id AS id,";
         pgQuery += "                 an.offizieller_name                                   AS kursInformationenAnbieter,";
         pgQuery += "                 (SELECT string_agg(ag.wert, ', ') AS kursInformationenAltersgruppe";
         pgQuery += "                  FROM altersgruppe ag";
@@ -281,6 +308,109 @@ module.exports = {
         pgQuery += " " + personSprache;
 
         return pgQuery;
+    },
+
+    prepareKursQueryWithId: function (id) {
+
+        let pgQuery  = " SELECT DISTINCT k.id AS id,";
+            pgQuery += "                 an.offizieller_name                                   AS kursInformationenAnbieter,";
+            pgQuery += "                 (SELECT string_agg(ag.wert, ', ') AS kursInformationenAltersgruppe";
+            pgQuery += "                  FROM altersgruppe ag";
+            pgQuery += "                           LEFT JOIN adressatengruppe adg";
+            pgQuery += "                                     ON ag.id = adg.fk_altersgruppe";
+            pgQuery += "                           LEFT JOIN kurs_adressatengruppe ka";
+            pgQuery += "                                     ON ka.id_adressatengruppe = adg.id";
+            pgQuery += "                  WHERE ka.id_kurs = k.id)                             AS kursInformationenAltersgruppe,";
+            pgQuery += "                 (SELECT string_agg(g.wert, ', ') AS kursInformationenGeschlecht";
+            pgQuery += "                  FROM geschlecht g";
+            pgQuery += "                           LEFT JOIN adressatengruppe adg";
+            pgQuery += "                                     ON g.id = adg.fk_geschlecht";
+            pgQuery += "                           LEFT JOIN kurs_adressatengruppe ka";
+            pgQuery += "                                     ON ka.id_adressatengruppe = adg.id";
+            pgQuery += "                  WHERE ka.id_kurs = k.id)                             AS kursInformationenGeschlecht,";
+            pgQuery += "                 i.wert                                                AS kursInformationenIntensitaet,";
+            pgQuery += "                 kon.wert                                              AS kursInformationenKonversation,";
+            pgQuery += "                 (SELECT SUM(betrag) FROM kosten WHERE fk_kurs = k.id) AS kursInformationenKosten,";
+            pgQuery += "                 n.wert                                                AS kursInformationenNiveau,";
+            pgQuery += "                 ort.wert                                              AS kursInformationenOrt,";
+            pgQuery += "                 durz.tag                                              AS kursInformationenTag,";
+            pgQuery += "                 durz.tag_start                                        AS kursInformationenZeit_TagStart,";
+            pgQuery += "                 durz.tag_ende                                         AS kursInformationenZeit_TagEnde,";
+            pgQuery += "                 durz.zeit_start                                       AS kursInformationenZeit_ZeitStart,";
+            pgQuery += "                 durz.zeit_ende                                        AS kursInformationenZeit_ZeitEnde,";
+            pgQuery += "                 concat_ws(', ', (SELECT string_agg(dz.wert, ', ') AS ziel";
+            pgQuery += "                                  FROM didaktische_ziel dz";
+            pgQuery += "                                           LEFT JOIN ziel z";
+            pgQuery += "                                                     ON dz.id = z.fk_didaktische_ziel";
+            pgQuery += "                                           LEFT JOIN kurs_ziel kz";
+            pgQuery += "                                                     ON z.id = kz.id";
+            pgQuery += "                                  WHERE kz.id_kurs = k.id),";
+            pgQuery += "                           (SELECT string_agg(bz.wert, ', ')";
+            pgQuery += "                            FROM berufliches_ziel bz";
+            pgQuery += "                                     LEFT JOIN ziel z";
+            pgQuery += "                                               ON bz.id = z.fk_berufliches_ziel";
+            pgQuery += "                                     LEFT JOIN kurs_ziel kz";
+            pgQuery += "                                               ON z.id = kz.id";
+            pgQuery += "                            WHERE kz.id_kurs = k.id),";
+            pgQuery += "                           (SELECT string_agg(n.wert, ', ')";
+            pgQuery += "                            FROM niveau n";
+            pgQuery += "                                     LEFT JOIN ziel z";
+            pgQuery += "                                               ON n.id = z.fk_ziel_niveau";
+            pgQuery += "                                     LEFT JOIN kurs_ziel kz";
+            pgQuery += "                                               ON z.id = kz.id";
+            pgQuery += "                            WHERE kz.id_kurs = k.id)";
+            pgQuery += "                     )                                                 AS kursInformationenZiel,";
+            pgQuery += "             an.offizieller_name AS kursInformationenAnbieter,";
+            pgQuery += "             anr.wert AS kursKontaktperson_Anrede,";
+            pgQuery += "             kp.name || ' ' || kp.vorname AS kursKontaktperson_Name,";
+            pgQuery += "             kond.telefon AS kursKontaktperson_Telefon,";
+            pgQuery += "             kond.telefon2 AS kursKontaktperson_Telefon2,";
+            pgQuery += "             kond.mail AS kursKontaktperson_Mail,";
+            pgQuery += "             kond.mail2 AS kursKontaktperson_Mail2,";
+            pgQuery += "             kond.online_formular AS kursKontaktperson_Formular,";
+            pgQuery += "             kond.url AS kursKontaktperson_Url,";
+            pgQuery += "             durz.lektionen AS durchfuerungszeitLektionen,";
+            pgQuery += "             duro.kinderhuetedienst AS durchfuerungsortKinderhuetedienst,";
+            pgQuery += "             duro.raum AS durchfuerungsortRaum,";
+            pgQuery += "             adr.adresse AS durchfuerungsort_Adresse,";
+            pgQuery += "             adr.adresszusatz_1 AS durchfuerungsort_Adresszusatz1,";
+            pgQuery += "             adr.adresszusatz_2 AS durchfuerungsort_Adresszusatz2,";
+            pgQuery += "             adr.adresszusatz_3 AS durchfuerungsort_Adresszusatz3,";
+            pgQuery += "             adr.plz AS durchfuerungsort_Plz";
+            pgQuery += " FROM kurs k";
+            pgQuery += "          LEFT JOIn intensitaet i";
+            pgQuery += "                    ON k.fk_intensitaet = i.id";
+            pgQuery += "          LEFT JOIN niveau n";
+            pgQuery += "                    ON k.fk_niveau = n.id";
+            pgQuery += "          LEFT JOIN sprachnachweis spn";
+            pgQuery += "                    ON k.fk_sprachnachweis = spn.id";
+            pgQuery += "          LEFT JOIN konversation kon";
+            pgQuery += "                    ON k.fk_konversation = kon.id";
+            pgQuery += "          LEFT JOIN anbieter an";
+            pgQuery += "                    ON k.fk_anbieter = an.id";
+            pgQuery += "          LEFT JOIN kontaktperson kp";
+            pgQuery += "                    ON kp.fk_anbieter = an.id";
+            pgQuery += "          LEFT JOIN anrede anr";
+            pgQuery += "                    ON kp.fk_anrede = anr.id";
+            pgQuery += "          LEFT JOIN kontaktdaten kond";
+            pgQuery += "                    ON kp.fk_kontaktdaten = kond.id";
+            pgQuery += "          LEFT JOIN anmeldung anm";
+            pgQuery += "                    ON anm.fk_kurs = k.id";
+            pgQuery += "          LEFT JOIN kontaktdaten kond2";
+            pgQuery += "                    ON anm.fk_kontaktdaten = kond2.id";
+            pgQuery += "          LEFT JOIN anmeldeart anma";
+            pgQuery += "                    ON anm.fk_anmeldeart = anma.id";
+            pgQuery += "          LEFT JOIN durchfuehrungszeit durz";
+            pgQuery += "                    ON durz.fk_kurs = k.id";
+            pgQuery += "          LEFT JOIN durchfuehrungsort duro";
+            pgQuery += "                    ON durz.fk_durchfuerungsort = duro.id";
+            pgQuery += "          LEFT JOIN adresse adr";
+            pgQuery += "                    ON duro.fk_adresse = adr.id";
+            pgQuery += "          LEFT JOIN ort";
+            pgQuery += "                    ON adr.fk_ort = ort.id";
+            pgQuery += " WHERE k.id = " + id;
+
+            return pgQuery;
     }
 
 };

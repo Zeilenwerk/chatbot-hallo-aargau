@@ -1,26 +1,26 @@
 module.exports = {
     displayGefundeneKurse: function (bot, message, convo, luisUtil, threadName, nextThread = "None") {
 
-        const pgUtil = require("../../../util/pgUtil");
         const {t} = require('../../../node_modules/localizify');
         const logUtil = require("../../../util/logUtil");
-        const timeUtil = require("../../../util/timeUtil");
         const errorUtil = require("../../../util/errorUtil");
         const kursHelper = require('../../../util/helper/kursHelper');
         const gefundeneKurse = this;
 
         kursHelper.getMatchedKurseFromDB(bot, message, convo, luisUtil, nextThread, function (conversation, rows) {
 
-            logUtil.debug("All Altersgruppe to display in Convo: " + JSON.stringify(rows));
+            logUtil.debug("All getMatchedKurseFromDB to display in Convo: " + JSON.stringify(rows));
 
             if (rows.length === 0) {
-                conversation.addMessage(t("kurs.kursInformationen.nicht_in_db_gefunden", {item: t("kurs.kursInformationen.altersgruppe.item")}), threadName+"0");
+                conversation.addMessage(t("kurs.kursInformationen.nicht_in_db_gefunden", {item: t("kurs.kursInformationen.item")}), threadName+"0");
                 //conversation.transitionTo(nextThread, t("kurs.kursInformationen.nicht_in_db_gefunden", {item: t("kurs.kursInformationen.altersgruppe.item")}));
             } else {
 
                 let maxQRToDisplay = 1;
 
                 for (let c = 0; c < Math.ceil(rows.length / maxQRToDisplay); c++) {
+
+                    let oRow = rows[c];
 
                     conversation.addMessage(t("kurs.kursGefunden"), threadName+c);
 
@@ -86,7 +86,7 @@ module.exports = {
                         kursInformationenAadressatengruppen = conversation.vars.kursInformationenAadressatengruppen;
                     }
 
-                    conversation.addMessage(t("kursGefunden_Informationen", {
+                    conversation.addMessage(t("kurs.kursGefunden_Informationen", {
                         nummer: (c+1),
                         kursInformationenAnbieter: kursInformationenAnbieter,
                         kursInformationenAltersgruppe: kursInformationenAltersgruppe,
@@ -110,7 +110,7 @@ module.exports = {
                         qr.push({title: t("kurs.kursInformationen.zurück"), payload: t("kurs.kursInformationen.zurück")})
                     }
 
-                    qr.push({title: t("gefundeneKurse_Question_QR_Ja"), payload: rows.id});
+                    qr.push({title: t("gefundeneKurse_Question_QR_Ja"), payload: oRow.id});
 
                     //If there are more than "maxQRToDisplay" elements, offer to display more.
                     if (c < rows.length-1) {
@@ -135,8 +135,16 @@ module.exports = {
                                             //Go to thread with previous options
                                             conversation.gotoThread(threadName + (c - 1));
                                             break;
-                                        case res.text === t("kurs.gefundeneKurse_Question_QR_Ja"):
-                                            gefundeneKurse.displayKursContactInfo(bot, message, conversation, luisUtil, "displayFoundKursContactInformation", "askFeedback");
+                                        case !isNaN(res.text):
+                                            gefundeneKurse.displayKursContactInfo(bot, message, conversation, luisUtil, "displayFoundKursContactInformation", "askFeedback", res.text);
+
+                                            // continue to next thread
+                                            if (nextThread !== "None") {
+                                                conversation.gotoThread(nextThread);
+                                            } else {
+                                                conversation.next();
+                                            }
+
                                             break;
                                         case res.text === t("kurs.gefundeneKurse_Question_QR_Nein"):
                                             //Go to thread with next options
@@ -166,105 +174,192 @@ module.exports = {
 
     },
 
-    displayKursContactInfo: function (bot, message, convo, luisUtil, threadName, nextThread = "None") {
+    displayKursContactInfo: function (bot, message, convo, luisUtil, threadName, nextThread = "None", id) {
 
-    },
-
-    displayKurs: function (bot, message, convo) {
-
-        const pgUtil = require("../../../util/pgUtil");
         const {t} = require('../../../node_modules/localizify');
         const logUtil = require("../../../util/logUtil");
-        const timeUtil = require("../../../util/timeUtil");
+        const errorUtil = require("../../../util/errorUtil");
+        const kursHelper = require('../../../util/helper/kursHelper');
 
-        let pgQuery = this.prepareKursQuery(bot, message, convo, maxKurse, offsetKurse);
+        convo.addQuestion({
+            text: t("kurs.gefundenerKurs_Auswahl"),
+            quick_replies: [
+                {
+                    title: t('gefundeneKurse_Question_QR_Ja'),
+                    payload: t('gefundeneKurse_Question_QR_Ja'),
+                },
+                {
+                    title: t('gefundeneKurse_Question_QR_Infromationen_aendern'),
+                    payload: t('gefundeneKurse_Question_QR_Infromationen_aendern'),
+                },
+            ]
+        }, [
+            {
+                default: true,
+                callback: function (res, convo) {
+                    try {
+                        switch (res.text) {
 
-        //Connect to DB
-        /////////////////////////////
-        const pgClient = pgUtil.getDB();
-        pgClient.connect();
+                            case t('gefundeneKurse_Question_QR_Ja'):
+                                convo.next();
+                                break;
+                            case t('gefundeneKurse_Question_QR_Infromationen_aendern'):
+                                convo.gotoThread("correctInfromation");
+                                break;
+                            default:
+                                convo.say(t('nicht_verstanden'));
+                                convo.repeat();
+                                break;
+                        }
+                    } catch (err) {
+                        errorUtil.displayErrorMessage(bot, message, err, false, false);
+                    }
 
-        // Execute Query and return res
-        /////////////////////////////
-        pgClient.query(pgQuery,
-            (err, res) => {
-                if (err) throw new Error(err.stack);
+                }
+            }
+        ], {}, threadName);
 
-                pgClient.end();
+        kursHelper.getKursWithId(bot, message, convo, luisUtil, nextThread, id, function (conversation, rows) {
 
-                logUtil.debug("Display Kurs Informationen DB Response:");
-                logUtil.debug(JSON.stringify(res));
+            logUtil.debug("All Altersgruppe to display in Convo: " + JSON.stringify(rows));
 
-                if (res.rows.length > 0) {
-                    addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kurs_Informationen_Gefunden'));
-                } else {
-                    addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kurs_Informationen_nicht_Gefunden'));
-                    convo.setVar("offsetKurse", 0);
-                    convo.gotoThread("kursNotwendigeInfosMenu");
+            if (rows.length === 0) {
+                conversation.addMessage(t("kurs.kursInformationen.nicht_in_db_gefunden", {item: t("kurs.kursInformationen.item")}), nextThread);
+            } else {
+
+                let maxQRToDisplay = 1;
+
+                for (let c = 0; c < Math.ceil(rows.length / maxQRToDisplay); c++) {
+
+                    let oRow = rows[c];
+
+                    conversation.addMessage(t("kurs.kursGefunden"), threadName);
+
+
+                    let kursInformationenAnbieter= ("keine_angabe");
+                    let kursInformationenKosten= ("keine_angabe");
+                    let kursInformationenTag= ("keine_angabe");
+                    let kursInformationenZeit_TagStart= ("keine_angabe");
+                    let kursInformationenZeit_TagEnde= ("keine_angabe");
+                    let kursInformationenZeit_ZeitStart= ("keine_angabe");
+                    let kursInformationenZeit_ZeitEnde= ("keine_angabe");
+                    let kursKontaktperson_Name= ("keine_angabe");
+                    let kursKontaktperson_Telefon= ("keine_angabe");
+                    let kursKontaktperson_Telefon2= ("keine_angabe");
+                    let kursKontaktperson_Mail= ("keine_angabe");
+                    let kursKontaktperson_Mail2= ("keine_angabe");
+                    let kursKontaktperson_Formular= ("keine_angabe");
+                    let kursKontaktperson_Url= ("keine_angabe");
+                    let durchfuerungsortRaum= ("keine_angabe");
+                    let durchfuerungsort_Adresse= ("keine_angabe");
+                    let durchfuerungsort_Adresszusatz1= ("keine_angabe");
+                    let durchfuerungsort_Adresszusatz2= ("keine_angabe");
+                    let durchfuerungsort_Adresszusatz3= ("keine_angabe");
+                    let kursInformationenOrt= ("keine_angabe");
+                    let durchfuerungsort_Plz= ("keine_angabe");
+                    let durchfuerungsortKinderhuetedienst= ("keine_angabe");
+
+                    if (null != oRow.kursinformationenanbieter && oRow.kursinformationenanbieter !== "None" && oRow.kursinformationenanbieter !== "") {
+                        kursInformationenAnbieter = oRow.kursinformationenanbieter;
+                    }
+                    if (null != oRow.kursinformationenkosten && oRow.kursinformationenkosten !== "None" && oRow.kursinformationenkosten !== "") {
+                        kursInformationenKosten = oRow.kursinformationenkosten + " CHF";
+                    }
+                    if (null != oRow.kursinformationentag && oRow.kursinformationentag !== "None" && oRow.kursinformationentag !== "") {
+                        kursInformationenTag = oRow.kursinformationentag;
+                    }
+                    if (null != oRow.kursinformationenzeit_tagstart && oRow.kursinformationenzeit_tagstart !== "None" && oRow.kursinformationenzeit_tagstart !== "") {
+                        kursInformationenZeit_TagStart = oRow.kursinformationenzeit_tagstart;
+                    }
+                    if (null != oRow.kursinformationenzeit_tagende && oRow.kursinformationenzeit_tagende !== "None" && oRow.kursinformationenzeit_tagende !== "") {
+                        kursInformationenZeit_TagEnde = oRow.kursinformationenzeit_tagende;
+                    }
+                    if (null != oRow.kursinformationenzeit_zeitstart && oRow.kursinformationenzeit_zeitstart !== "None" && oRow.kursinformationenzeit_zeitstart !== "") {
+                        kursInformationenZeit_ZeitStart = oRow.kursinformationenzeit_zeitstart;
+                    }
+                    if (null != oRow.kursinformationenzeit_zeitende && oRow.kursinformationenzeit_zeitende !== "None" && oRow.kursinformationenzeit_zeitende !== "") {
+                        kursInformationenZeit_ZeitEnde = oRow.kursinformationenzeit_zeitende;
+                    }
+                    if (null != oRow.kurskontaktperson_name && oRow.kurskontaktperson_name !== "None" && oRow.kurskontaktperson_name !== "") {
+                        kursKontaktperson_Name = oRow.kurskontaktperson_anrede + " " + oRow.kurskontaktperson_name;
+                    }
+                    if (null != oRow.kurskontaktperson_telefon && oRow.kurskontaktperson_telefon !== "None" && oRow.kurskontaktperson_telefon !== "") {
+                        kursKontaktperson_Telefon = "<a href=\"tel:" + oRow.kurskontaktperson_telefon + "\">" + oRow.kurskontaktperson_telefon + "<a>";
+                    }
+                    if (null != oRow.kurskontaktperson_telefon2 && oRow.kurskontaktperson_telefon2 !== "None" && oRow.kurskontaktperson_telefon2 !== "") {
+                        kursKontaktperson_Telefon2 = "<a href=\"tel:" + oRow.kurskontaktperson_telefon2 + "\">" + oRow.kurskontaktperson_telefon2 + "<a>";
+                    }
+                    if (null != oRow.kurskontaktperson_mail && oRow.kurskontaktperson_mail !== "None" && oRow.kurskontaktperson_mail !== "") {
+                        kursKontaktperson_Mail = "<a href=\"mailto:" + oRow.kurskontaktperson_mail + "\">" + oRow.kurskontaktperson_mail + "<a>";
+                    }
+                    if (null != oRow.kurskontaktperson_mail2 && oRow.kurskontaktperson_mail2 !== "None" && oRow.kurskontaktperson_mail2 !== "") {
+                        kursKontaktperson_Mail2 = "<a href=\"mailto:" + oRow.kurskontaktperson_mail2 + "\">" + oRow.kurskontaktperson_mail2 + "<a>";
+                    }
+                    if (null != oRow.kurskontaktperson_formular && oRow.kurskontaktperson_formular !== "None" && oRow.kurskontaktperson_formular !== "") {
+                        kursKontaktperson_Formular = "<a href=\"" + oRow.kurskontaktperson_formular + "\">" + oRow.kurskontaktperson_formular + "<a>";
+                    }
+                    if (null != oRow.kurskontaktperson_url && oRow.kurskontaktperson_url !== "None" && oRow.kurskontaktperson_url !== "") {
+                        kursKontaktperson_Url = "<a href=\"" + oRow.kurskontaktperson_url + "\">" + oRow.kurskontaktperson_url + "<a>";
+                    }
+                    if (null != oRow.durchfuerungsortraum && oRow.durchfuerungsortraum !== "None" && oRow.durchfuerungsortraum !== "") {
+                        durchfuerungsortRaum = oRow.durchfuerungsortraum;
+                    }
+                    if (null != oRow.durchfuerungsort_adresse && oRow.durchfuerungsort_adresse !== "None" && oRow.durchfuerungsort_adresse !== "") {
+                        durchfuerungsort_Adresse = oRow.durchfuerungsort_adresse;
+                    }
+                    if (null != oRow.durchfuerungsort_adresszusatz1 && oRow.durchfuerungsort_adresszusatz1 !== "None" && oRow.durchfuerungsort_adresszusatz1 !== "") {
+                        durchfuerungsort_Adresszusatz1 = oRow.durchfuerungsort_adresszusatz1;
+                    }
+                    if (null != oRow.durchfuerungsort_adresszusatz2 && oRow.durchfuerungsort_adresszusatz2 !== "None" && oRow.durchfuerungsort_adresszusatz2 !== "") {
+                        durchfuerungsort_Adresszusatz2 = oRow.durchfuerungsort_adresszusatz2;
+                    }
+                    if (null != oRow.durchfuerungsort_adresszusatz3 && oRow.durchfuerungsort_adresszusatz3 !== "None" && oRow.durchfuerungsort_adresszusatz3 !== "") {
+                        durchfuerungsort_Adresszusatz3 = oRow.durchfuerungsort_adresszusatz3;
+                    }
+                    if (null != oRow.kursinformationenort && oRow.kursinformationenort !== "None" && oRow.kursinformationenort !== "") {
+                        kursInformationenOrt = oRow.kursinformationenort;
+                    }
+                    if (null != oRow.durchfuerungsort_plz && oRow.durchfuerungsort_plz !== "None" && oRow.durchfuerungsort_plz !== "") {
+                        durchfuerungsort_Plz = oRow.durchfuerungsort_plz;
+                    }
+                    if (null != oRow.durchfuerungsortkinderhuetedienst && oRow.durchfuerungsortkinderhuetedienst !== "None" && oRow.durchfuerungsortkinderhuetedienst !== "") {
+                        durchfuerungsortKinderhuetedienst = oRow.durchfuerungsortkinderhuetedienst;
+                    }
+
+
+                    conversation.addMessage(t("kurs.gefundenerKurs_Zusatzinformationen", {
+                        kursInformationenAnbieter: kursInformationenAnbieter,
+                        kursInformationenKosten: kursInformationenKosten,
+                        kursInformationenTag: kursInformationenTag,
+                        kursInformationenZeit_TagStart: kursInformationenZeit_TagStart,
+                        kursInformationenZeit_TagEnde: kursInformationenZeit_TagEnde,
+                        kursInformationenZeit_ZeitStart: kursInformationenZeit_ZeitStart,
+                        kursInformationenZeit_ZeitEnde: kursInformationenZeit_ZeitEnde,
+                        kursKontaktperson_Name: kursKontaktperson_Name,
+                        kursKontaktperson_Telefon: kursKontaktperson_Telefon,
+                        kursKontaktperson_Telefon2: kursKontaktperson_Telefon2,
+                        kursKontaktperson_Mail: kursKontaktperson_Mail,
+                        kursKontaktperson_Mail2: kursKontaktperson_Mail2,
+                        kursKontaktperson_Formular: kursKontaktperson_Formular,
+                        kursKontaktperson_Url: kursKontaktperson_Url,
+                        durchfuerungsortRaum: durchfuerungsortRaum,
+                        durchfuerungsort_Adresse: durchfuerungsort_Adresse,
+                        kursInformationenOrt: kursInformationenOrt,
+                        durchfuerungsort_Plz: durchfuerungsort_Plz,
+                        durchfuerungsortKinderhuetedienst: durchfuerungsortKinderhuetedienst,
+                    }));
+
+                    // continue to next thread
+                    if (nextThread !== "None") {
+                        conversation.gotoThread(nextThread);
+                    } else {
+                        conversation.next();
+                    }
+
                 }
 
-                var oRow = res.rows[0];
+            }
+        });
 
-                if (oRow) {
-
-                    if (oRow.kurs_beschreibung != null && oRow.kurs_beschreibung !== "") {
-                        addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kursBeschreibung', {kursBeschreibung: oRow.kurs_beschreibung}));
-                    }
-
-                    if (oRow.zweck != null && oRow.zweck !== "") {
-                        addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kursZweck', {kursZweck: oRow.zweck}));
-                    }
-
-                    if (oRow.tag_nummer != null && oRow.tag_nummer > 0) {
-                        addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kursTag_Datum', {
-                            kursTag: timeUtil.getDayNameFromNumber(oRow.tag_nummer),
-                            kursDatum: timeUtil.formatDate(oRow.tag)
-                        }));
-                    }
-
-                    if (oRow.start_zeit != null && oRow.start_zeit !== "" && oRow.end_zeit != null && oRow.end_zeit !== "") {
-                        addMessage(t('kurs.gefundeneKurse.kursGefundeneKurse.kurs_Zeit', {
-                            einzelkursstart: oRow.start_zeit,
-                            einzelkursende: oRow.end_zeit
-                        }));
-                    }
-
-                    if (oRow.durchfuerungsort_strasse != null && oRow.durchfuerungsort_strasse !== "") {
-                        addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kursOrt', {
-                            ortStrasse: oRow.durchfuerungsort_strasse,
-                            ortPlz: oRow.durchfuerungsort_plz,
-                            ortName: oRow.durchfuerungsort_ort
-                        }));
-
-                    }
-
-                    if (oRow.anbieter_offizieller_name != null && oRow.anbieter_offizieller_name !== "") {
-
-                        addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kursAnbieter', {kursAnbieter: oRow.anbieter_offizieller_name}));
-
-                        if (oRow.anbieter_mail != null && oRow.anbieter_mail !== "") {
-                            addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kursAnbieter_Mail', {kursAnbieter_Mail: oRow.anbieter_mail}));
-                        }
-                        if (oRow.anbieter_telefon != null && oRow.anbieter_telefon !== "") {
-                            addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kursAnbieter_Telefon', {kursAnbieter_Telefon: oRow.anbieter_telefon}));
-                        }
-                        if (oRow.anbieter_url != null && oRow.anbieter_url !== "") {
-                            addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kursAnbieter_Website', {kursAnbieter_Website: oRow.anbieter_url}));
-                        }
-                        if (oRow.kontaktperson_name != null && oRow.kontaktperson_name !== "") {
-                            let kpName = oRow.kontaktperson_anrede + " " + oRow.kontaktperson_name + " " + oRow.kontaktperson_vorname;
-                            addMessage(t('kurs.gefundeneKurse.kursInformationenKurs.kursKontaktperson', {
-                                kursKontaktperson_Name: kpName,
-                                kursKontaktperson_Telefon: oRow.kontaktperson_telefon
-                            }));
-                        }
-                    }
-                }
-
-                if (res.rows.length > 0) {
-                    convo.gotoThread("askFeedback");
-                }
-
-            });
     }
 };
