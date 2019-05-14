@@ -169,10 +169,10 @@ module.exports = {
 
                 }
 
+                convo.gotoThread(threadName+"0");
+
             }
         });
-
-        convo.gotoThread(threadName+"0")
 
     },
 

@@ -65,6 +65,8 @@ module.exports = {
 
     prepareAllMatchedKurseQuery: function (bot, message, convo) {
 
+        const {t} = require('../../node_modules/localizify');
+
         //Initialize possible where conditions
         /////////////////////////////
 
@@ -94,7 +96,17 @@ module.exports = {
             kursInformationenAnbieter = " AND UPPER(an.offizieller_name) LIKE UPPER('%" + convo.vars.kursInformationenAnbieter + "%') ";
         }
         if (null != convo.vars.kursInformationenGeschlecht && convo.vars.kursInformationenGeschlecht !== t("kurs.kursInformationen.keine_angabe") && convo.vars.kursInformationenGeschlecht !== "") {
-            kursInformationenGeschlecht = " AND " + convo.vars.kursInformationenGeschlecht;
+
+            kursInformationenGeschlecht  = " AND UPPER(( ";
+            kursInformationenGeschlecht += "     (SELECT string_agg(g.wert, ', ') AS kursInformationenGeschlecht ";
+            kursInformationenGeschlecht += "      FROM geschlecht g ";
+            kursInformationenGeschlecht += "               LEFT JOIN adressatengruppe adg ";
+            kursInformationenGeschlecht += "                         ON g.id = adg.fk_geschlecht ";
+            kursInformationenGeschlecht += "               LEFT JOIN kurs_adressatengruppe ka ";
+            kursInformationenGeschlecht += "                         ON ka.id_adressatengruppe = adg.id ";
+            kursInformationenGeschlecht += "      WHERE ka.id_kurs = k.id) ";
+            kursInformationenGeschlecht += "   )) LIKE UPPER('%" + convo.vars.personGeschlecht + "%') ";
+
         }
         if (null != convo.vars.kursInformationenIntensitaet && convo.vars.kursInformationenIntensitaet !== t("kurs.kursInformationen.keine_angabe") && convo.vars.kursInformationenIntensitaet !== "") {
             kursInformationenIntensitaet = " AND UPPER(i.wert) LIKE UPPER('%" + convo.vars.kursInformationenIntensitaet + "%') ";
