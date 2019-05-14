@@ -30,8 +30,8 @@ module.exports = {
                     for (let i = offset; i < rows.length; i++) {
                         if (counter < maxQRToDisplay) {
                             let oRow = rows[i];
-                            if (oRow.wert != null && oRow.wert !== "") {
-                                qr.push({title: oRow.wert, payload: oRow.wert})
+                            if (oRow.ziel != null && oRow.ziel !== "") {
+                                qr.push({title: oRow.ziel, payload: oRow.ziel})
                             }
                         }
                         counter++;
