@@ -1,4 +1,4 @@
--- Database: Deutschkurs
+-- Database: Kurs
 -- Author: 
 CREATE DATABASE untitled
     WITH OWNER = postgres

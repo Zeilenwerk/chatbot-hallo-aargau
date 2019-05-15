@@ -1,0 +1,80 @@
+Id;FK_Niveau;FK_Sprachnachweis;FK_Anbieter;FK_Konversation;FK_Intensitaet;FK_Typ;Beschreibung;Einstufungstest;Einzelunterricht
+1;1;2;10;1;3;;;false;false
+2;1;2;10;1;3;;;false;false
+3;12;10;13;;3;;Sie haben Mühe, Wörter und Sätze zu lesen oder zu schreiben.Die Schriftsprache wird von Grund auf gelernt.Es wird mit Themen aus dem Alltag gearbeitet.;false;true
+4;12;10;13;;3;;Sie haben Mühe, Wörter und Sätze zu lesen oder zu schreiben.Die Schriftsprache wird von Grund auf gelernt.Es wird mit Themen aus dem Alltag gearbeitet.;false;true
+5;12;10;13;;3;;Sie wollen mehr Sicherheit im Schreiben erlangen.Regeln der Rechtschreibung und Grammatik werden vertieft.Es wird mit Texten aus Beruf und Alltag gearbeitet.;false;true
+6;5;5;12;;3;;Vertiefung ist angesagt: Mit dem Deutschkurs B2 festigen Sie Ihre Kenntnisse so, dass Sie sich mit Muttersprachlern problemlos unterhalten können. Sie üben, über eine Reihe von Themen zu diskutieren, erweitern dabei Ihren Wortschatz und vertiefen die Grammatik.;true;true
+7;6;5;12;;3;;Vertiefung ist angesagt: Mit dem Deutschkurs B2 festigen Sie Ihre Kenntnisse so, dass Sie sich mit Muttersprachlern problemlos unterhalten können. Sie üben, über eine Reihe von Themen zu diskutieren, erweitern dabei Ihren Wortschatz und vertiefen die Grammatik.;true;true
+8;6;5;12;;3;;Vertiefung ist angesagt: Mit dem Deutschkurs B2 festigen Sie Ihre Kenntnisse so, dass Sie sich mit Muttersprachlern problemlos unterhalten können. Sie üben, über eine Reihe von Themen zu diskutieren, erweitern dabei Ihren Wortschatz und vertiefen die Grammatik.;true;true
+9;6;5;12;;3;;Vertiefung ist angesagt: Mit dem Deutschkurs B2 festigen Sie Ihre Kenntnisse so, dass Sie sich mit Muttersprachlern problemlos unterhalten können. Sie üben, über eine Reihe von Themen zu diskutieren, erweitern dabei Ihren Wortschatz und vertiefen die Grammatik.;true;true
+10;6;5;12;;3;;Vertiefung ist angesagt: Mit dem Deutschkurs B2 festigen Sie Ihre Kenntnisse so, dass Sie sich mit Muttersprachlern problemlos unterhalten können. Sie üben, über eine Reihe von Themen zu diskutieren, erweitern dabei Ihren Wortschatz und vertiefen die Grammatik.;true;true
+11;6;5;12;;4;;Der Kurs Geschäftsdeutsch B2 richtet sich an Deutschlernende, die ihre Fähigkeiten im Bereich schriftlicher und mündlicher Kommunikation für die Arbeit im Büro verbessern möchten.;true;true
+12;6;5;12;2;3;;Sie haben eine solide Basis im Deutschen und möchten Ihre mündliche Ausdrucksfähigkeit verbessern? Im Fokuskurs Besser Sprechen B2 üben Sie das Sprechen in authentischen Situationen und über Themen Ihrer Wahl in Paaren, Kleingruppen und im Plenum und gewinnen so weiter an sprachlicher Sicherheit, um sich spontan und fliessend auszudrücken. Ihr Wortschatz erweitert sich und Sie formulieren Ihre Beiträge grammatikalisch korrekter.;true;true
+79;6;5;12;;3;;Vertiefung ist angesagt: Mit dem Deutschkurs B2 festigen Sie Ihre Kenntnisse so, dass Sie sich mit Muttersprachlern problemlos unterhalten können. Sie üben, über eine Reihe von Themen zu diskutieren, erweitern dabei Ihren Wortschatz und vertiefen die Grammatik.;true;true
+13;4;1;12;;3;;Jetzt starten: Legen Sie mit dem Anfängerkurs Deutsch A1 den Grundstein für eine erfolgreiche Kommunikation in Deutsch. Der Sprachkurs vermittelt Ihnen die Basics des modernen Alltagsdeutsch und zeigt Ihnen kulturelle Besonderheiten der deutschsprachigen Länder auf.;true;true
+14;8;7;12;;3;;Auf die Details kommt es an: Im Deutschkurs auf Niveaustufe C2 konzentrieren Sie sich auf die Feinheiten der deutschen Sprache. Ihr bereits sehr gutes Deutsch wird am Ende dieser Niveaustufe auf ein fast perfektes und fliessendes Deutsch angehoben, das einer mutter-sprachlichen Verwendung der Sprache gleicht.;true;true
+15;8;7;12;;3;;Auf die Details kommt es an: Im Deutschkurs auf Niveaustufe C2 konzentrieren Sie sich auf die Feinheiten der deutschen Sprache. Ihr bereits sehr gutes Deutsch wird am Ende dieser Niveaustufe auf ein fast perfektes und fliessendes Deutsch angehoben, das einer mutter-sprachlichen Verwendung der Sprache gleicht.;true;true
+16;5;4;12;;3;;Bleiben Sie dran: Auf der Niveaustufe B1 erweitern Sie Ihre bisherige Sprachkompetenz. Sie erlangen Gewandtheit im Sprechen und Schreiben und sind in der Lage, Ihr erstes Buch auf Englisch zu lesen oder sich auf Reisen im Alltag zu verständigen.;true;true
+17;5;4;12;;4;;Bleiben Sie dran: Auf der Niveaustufe B1 erweitern Sie Ihre bisherige Sprachkompetenz. Sie erlangen Gewandtheit im Sprechen und Schreiben und sind in der Lage, Ihr erstes Buch auf Englisch zu lesen oder sich auf Reisen im Alltag zu verständigen.;true;true
+18;5;4;12;;3;;Bleiben Sie dran: Auf der Niveaustufe B1 erweitern Sie Ihre bisherige Sprachkompetenz. Sie erlangen Gewandtheit im Sprechen und Schreiben und sind in der Lage, Ihr erstes Buch auf Englisch zu lesen oder sich auf Reisen im Alltag zu verständigen.;true;true
+19;5;4;12;;3;;Bleiben Sie dran: Auf der Niveaustufe B1 erweitern Sie Ihre bisherige Sprachkompetenz. Sie erlangen Gewandtheit im Sprechen und Schreiben und sind in der Lage, Ihr erstes Buch auf Englisch zu lesen oder sich auf Reisen im Alltag zu verständigen.;true;true
+20;1;9;12;;3;;Jetzt starten: Legen Sie mit dem Anfängerkurs Deutsch A1 den Grundstein für eine erfolgreiche Kommunikation in Deutsch. Der Sprachkurs vermittelt Ihnen die Basics des modernen Alltagsdeutsch und zeigt Ihnen kulturelle Besonderheiten der deutschsprachigen Länder auf.;true;true
+21;1;3;12;;3;;Jetzt starten: Legen Sie mit dem Anfängerkurs Deutsch A1 den Grundstein für eine erfolgreiche Kommunikation in Deutsch. Der Sprachkurs vermittelt Ihnen die Basics des modernen Alltagsdeutsch und zeigt Ihnen kulturelle Besonderheiten der deutschsprachigen Länder auf.;true;true
+22;1;3;12;;3;;Die erste Hürde ist gemeistert: Sie haben bereits die Basics gelernt und können jetzt auf der Niveaustufe A2 Ihre Grundkenntnisse erweitern. Sie bauen Ihren Wortschatz aus, verbessern Ihre Aussprache und lernen, in alltäglichen Situationen natürlich zu kommunizieren.;true;true
+23;1;3;12;;4;;Die erste Hürde ist gemeistert: Sie haben bereits die Basics gelernt und können jetzt auf der Niveaustufe A2 Ihre Grundkenntnisse erweitern. Sie bauen Ihren Wortschatz aus, verbessern Ihre Aussprache und lernen, in alltäglichen Situationen natürlich zu kommunizieren.;true;true
+24;1;3;12;;3;;Die erste Hürde ist gemeistert: Sie haben bereits die Basics gelernt und können jetzt auf der Niveaustufe A2 Ihre Grundkenntnisse erweitern. Sie bauen Ihren Wortschatz aus, verbessern Ihre Aussprache und lernen, in alltäglichen Situationen natürlich zu kommunizieren.;true;true
+25;7;6;12;;3;;Mit grossen Schritten vorwärts: Auf der Niveaustufe C1 konzentrieren Sie sich auf die Benutzung der deutschen Sprache im Fortgeschrittenenbereich. Ihr bereits gutes Deutsch wird besonders in den Bereichen Sprechen und Schreiben verbessert.;true;true
+26;7;6;12;2;3;;Sie sprechen bereits sehr gut Deutsch und möchten Ihre mündliche Ausdrucksfähigkeit weiter verbessern? Im Fokuskurs Besser Sprechen C1 üben Sie das Sprechen in authentischen Situationen und über Themen Ihrer Wahl in Paaren, Kleingruppen und im Plenum und gewinnen so themenunabhängig an sprachlicher Sicherheit, ohne nach Worten suchen zu müssen. Ihr Wortschatz erweitert sich und Sie formulieren Ihre Beiträge grammatikalisch korrekter.;true;true
+27;7;6;12;;3;;Mit grossen Schritten vorwärts: Auf der Niveaustufe C1 konzentrieren Sie sich auf die Benutzung der deutschen Sprache im Fortgeschrittenenbereich. Ihr bereits gutes Deutsch wird besonders in den Bereichen Sprechen und Schreiben verbessert. ;true;true
+28;7;6;12;;3;;Mit grossen Schritten vorwärts: Auf der Niveaustufe C1 konzentrieren Sie sich auf die Benutzung der deutschen Sprache im Fortgeschrittenenbereich. Ihr bereits gutes Deutsch wird besonders in den Bereichen Sprechen und Schreiben verbessert. ;true;true
+29;11;9;2;;4;;;;
+30;11;9;2;;4;;;;
+31;1;9;2;;4;;;;
+32;1;9;2;;4;;Deutsch A1 mit Alltagswissen;;
+33;1;9;2;;4;;Deutsch A1 mit Deutsch Mathematik Sport und IKT;;
+34;1;9;2;;4;;Deutsch A1 mit Deutsch Mathematik Sport und IKT;;
+35;1;9;5;;4;;Deutsch A1 mit Alltagsmathematik und sozialkulturellen Werten;;
+36;1;9;5;;4;;Deutsch A1 mit Alltagsmathematik und sozialkulturellen Werten;;
+37;1;9;7;;3;;Deutsch A1-A2;;
+38;1;9;7;;3;;Deutsch A1-A2;;
+39;1;9;7;;3;;Deutsch A1-A2;;
+40;1;9;7;;3;;Deutsch A1-A2;;
+41;1;9;8;;3;;Deutsch A1-B1;;
+42;1;9;8;;3;;Deutsch A1-B1;;
+43;1;9;8;;3;;Deutsch A1-B1;;
+44;1;9;8;;3;;Deutsch A1-B1;;
+45;1;9;8;;3;;Deutsch A1-A2;;
+46;1;9;8;;3;;Deutsch A1-A2;;
+47;1;9;8;;3;;Deutsch A1-A2;;
+48;1;9;8;;3;;Deutsch A1-A2;;
+49;1;9;8;;3;;Deutsch A1-A2;;
+50;1;9;8;;3;;Deutsch A1-A2;;
+51;1;9;8;;3;;Deutsch A1-A2;;
+52;1;9;8;;3;;Deutsch A1-A2;;
+53;1;9;8;;3;;Deutsch A1-A2;;
+54;1;9;8;;3;;Deutsch A1-A2;;
+55;1;9;8;;3;;Deutsch A1-A2;;
+56;1;9;8;;3;;Deutsch A1-A2;;
+57;1;9;8;;3;;Deutsch A1-A2;;
+58;1;9;8;;3;;Deutsch A1-A2;;
+59;1;9;8;;3;;Deutsch A1-A2;;
+60;1;9;2;;3;;Deutsch A1-B1;;
+61;1;9;2;;3;;Deutsch A1-B1;;
+62;1;9;2;;3;;Deutsch A1-B1;;
+63;1;9;7;;3;;Deutsch A1-B1;;
+64;1;9;8;;3;;Deutsch A1-B1;;
+65;5;4;11;;3;;Deutsch A2-B1;true;
+66;5;3;8;;3;;Vorbereitungskurs mit Zertifikatsprüfung telc Deutsch in der Pflege B1;true;
+67;5;3;8;;3;;Vorbereitungskurs mit Zertifikatsprüfung telc Deutsch in der Pflege B1;true;
+68;5;5;8;;3;;Vorbereitungskurs mit Zertifikatsprüfung telc Deutsch in der Pflege B2;true;
+69;5;5;8;;3;;Vorbereitungskurs mit Zertifikatsprüfung telc Deutsch in der Pflege B2;true;
+70;10;9;8;;4;;;;
+71;10;9;8;;4;;;;
+72;10;9;8;;4;;;;
+73;1;2;4;;;;;false;
+74;1;2;1;;3;;;false;
+75;1;9;6;;3;;;;
+76;1;9;3;;3;;;;
+77;4;9;9;;;;;;
+78;1;9;9;;3;;;;

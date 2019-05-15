@@ -18,8 +18,7 @@ module.exports = function (controller) {
     //*********************************
     controller.on('ingest_error', function (err, bot, message) {
         //An error happend while processing the message in an ingest middleware.
-        logUtil.error(`[ingest_error] There was an error processing your request. Please try again later. Error: ${err.toString()}`);
-        logUtil.error(message);
+        logUtil.error(`[ingest_error] There was an error processing your request. Please try again later. Error: ${err.stack}`);
 
         // bot.reply(message, `There was an error processing your request. Please try again later. Error: ${err.toString()}`);
         errorUtil.displayErrorMessage(bot, message, err, false, false);
@@ -28,7 +27,6 @@ module.exports = function (controller) {
     controller.on('normalize_error', function (err, bot, message) {
         //An error happend while processing the message in a normalize middleware.
         logUtil.error(`[normalize_error] There was an error processing your request. Please try again later. Error: ${err.toString()}`);
-        logUtil.error(message);
 
         // bot.reply(message, `There was an error processing your request. Please try again later. Error: ${err.toString()}`);
         errorUtil.displayErrorMessage(bot, message, err, false, false);
@@ -37,7 +35,6 @@ module.exports = function (controller) {
     controller.on('categorize_error', function (err, bot, message) {
         //An error happend while processing the message in a categorize middleware.
         logUtil.error(`[categorize_error] There was an error processing your request. Please try again later. Error: ${err.toString()}`);
-        logUtil.error(message);
 
         // bot.reply(message, `There was an error processing your request. Please try again later. Error: ${err.toString()}`);
         errorUtil.displayErrorMessage(bot, message, err, false, false);
@@ -46,7 +43,6 @@ module.exports = function (controller) {
     controller.on('receive_error', function (err, bot, message, pipeline_stage) {
         //An error happend while processing the message in a receive middleware.
         logUtil.error(`[receive_error] There was an error processing your request. Please try again later. Error: ${err.toString()}`);
-        logUtil.error(message);
 
         // bot.reply(message, `There was an error processing your request. Please try again later. Error: ${err.toString()}`);
         errorUtil.displayErrorMessage(bot, message, err, false, false);
@@ -93,9 +89,7 @@ module.exports = function (controller) {
         .on('unhandledRejection', (reason, p) => {
             const logUtil = require("../util/logUtil");
 
-            logUtil.error(reason);
-            logUtil.error('Unhandled Rejection at Promise');
-            logUtil.error(p);
+            logUtil.error('Unhandled Rejection at Promise: ' + JSON.stringify(p) + " Reason: " + JSON.stringify(reason));
 
             //Does not work yet
             //restartNodeApp(logUtil, "unhandledRejection");
@@ -103,8 +97,7 @@ module.exports = function (controller) {
         .on('uncaughtException', err => {
             const logUtil = require("../util/logUtil");
 
-            logUtil.error(err);
-            logUtil.error('Uncaught Exception thrown');
+            logUtil.error('Uncaught Exception thrown: ' + err.stack);
 
             //Does not work yet
             //restartNodeApp(logUtil, "uncaughtException");

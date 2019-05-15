@@ -1,14 +1,11 @@
 {
   "ja": "Ja",
   "nein": "Nein",
+  "keine_Angabe": "Keine Angabe",
   "nicht_verstanden": "Leider habe ich die Antwort nicht verstanden.",
-  "tag_montag": "Montag",
-  "tag_dienstag": "Dienstag",
-  "tag_mittwoch": "Mittwoch",
-  "tag_donnerstag": "Donnerstag",
-  "tag_freitag": "Freitag",
-  "tag_samstag": "Samstag",
-  "tag_sonntag": "Sonntag",
+  "informationen_korrigieren": "Welche Informationen möchten Sie ändern?",
+  "informationen_korrigieren_person": "Persönliche Informationen ändern",
+  "informationen_korrigieren_kurs": "Kurs Informationen ändern",
   "_connection_events": {
     "onboarding": "Guten Tag! Wie kann ich Ihenen helfen?",
     "reconnect": "Willkommen zurück! Wie kann ich Ihenen helfen?",
@@ -17,35 +14,44 @@
     "onboarding_Hilfe": "Hilfe"
   },
   "bot_conversation": {
-    "onTimeout": "Leider ist das Zeitlimit überschirtten worden. Diese Sitzung wird beendet.",
+    "onTimeout": "Leider ist das Zeitlimit überschirtten worden ({timeout}). Diese Sitzung wird beendet.",
     "nicht_implementiert": "Leider noch nicht implementiert"
   },
   "kurs": {
-    "kursSuchen": "Super, gerne helfe ich Ihnen ein Deutschkurs zu suchen. Dafür benötige ich noch folgende Angaben: Ort, Tag, Uhrzeit und Kursniveau.",
-    "kursNotwendigeInfosMenu_Message": "Sie Suchen somit einen {kursIntensitaet} für {kursAdressatengruppe} in {kursOrt}. Der Kurs Zweck ist {kursZweck} und entspricht dem Niveau {kursNiveau}.",
-    "kursNotwendigeInfosMenu_Question": "Stimmen diese Angaben für Sie?",
-    "kursNotwendigeInfosMenu_Question_Qr_Nein": "Nein, ich möchte etwas ändern",
+    "weiterhelefen": "Wie kann ich Ihnen weiterhelfen?",
+    "kursAuswahl": "Zurück zur Kursauswahl",
+    "weiter_feedback": "Weiter zum Feedback",
+    "kurssuche_starten": "Ich werde nun mit den angegebene Informationen versuchen einen Kurs zu finden. Ist das für Sie in Ordnung?",
+    "alleKurseAnzeigen": "Alle Kurse anzeigen?",
+    "kursSuchen": "Super, gerne helfe ich Ihnen ein Deutschkurs zu suchen. Dafür benötige ich noch einige Angaben von Ihnen.",
+    "kursSuchen_Personen_Daten": "Möchten Sie persönliche Informationen für die Suche des Kurses angeben (zB. Ihr Geschlecht oder Ihre Sprache)?",
+    "kursSuchen_Personen_Daten_Ja": "Ja, ich möchte meine persönlichen Informationen angeben.",
+    "kursSuchen_Personen_Daten_Nein": "Nein, ich möchte meine persönlichen Informationen nicht angeben.",
+    "kursSuchen_Menu": "Sie Suchen somit einen Deutschkurs mit den folgenden Informationen: <br><br>Persönliche Informationen<br>- Sprache: '{personSprache}'<br>- Geschlecht: '{personGeschlecht}'<br>- Altersgruppe: '{personAltersgruppe}'<br>- Kinder: '{personKind}'<br><br>Kurs Informationen<br>- Intensität: '{kursInformationenIntensitaet}'<br>- Niveau: '{kursInformationenNiveau}'<br>- Altersgruppe: '{kursInformationenAltersgruppe}'<br>- Addresiertes Geschlecht: '{kursInformationenGeschlecht}'<br>- Konversation: '{kursInformationenKonversation}'<br>- Kosten: '{kursInformationenKosten}'<br>- Ort: '{kursInformationenOrt}'<br>- Tag: '{kursInformationenTag}'<br>- Zeit: '{kursInformationenZeit}'<br>- Ziel: '{kursInformationenZiel}'<br>- Anbieter: '{kursInformationenAnbieter}'<br>",
+    "kursSuchen_Menu_Question": "Stimmen diese Angaben für Sie?",
+    "kursSuchen_Menu_Question_Question_Qr_Nein": "Nein, ich möchte etwas ändern",
     "correctNeccessaryInfromation_Question": "Welche Angabe möchten sie abändern?",
-    "kurs_Ort": "Kurs Ort",
-    "kurs_Tag": "Kurs Tag",
-    "kurs_Zeit": "Kurs Zeit",
-    "kurs_Niveau": "Kurs Niveau",
+    "kursInformationenAltersgruppe": "Kurs Altersgruppe",
+    "kursInformationenAnbieter": "Kurs Anbieter",
+    "kursInformationenGeschlecht": "Kurs Geschlecht",
+    "kursInformationenIntensitaet": "Kurs Intensitaet",
+    "kursInformationenKonversation": "Kurs Konversation",
+    "kursInformationenKosten": "Kurs Kosten",
+    "kursInformationenNiveau": "Kurs Niveau",
+    "kursInformationenOrt": "Kurs Ort",
+    "kursInformationenTag": "Kurs Tag",
+    "kursInformationenZeit": "Kurs Zeit",
+    "kursInformationenZiel": "Kurs Ziel",
     "keine_Aenderung": "Keine Änderung",
-    "zusatzInfo_Say": "Zusätzliche Infromationen helfen mir die Kurse besser für Sie anzuzeigen.",
-    "zusatzInfo_Question": "Möchten sie mir noch eine oder mehrere der folgenden Zusatzinformationen geben?",
-    "kurs_Adressatengruppe": "Kurs Adressatengruppe",
-    "kurs_Anbieter": "Kurs Anbieter",
-    "kurs_Intensitaet": "Kurs Intensitaet",
-    "kurs_Kosten": "Kurs Kosten",
     "keine_weiteren_Angaben": "Keine weiteren Angaben",
-    "Adressatengruppe": "Adressatengruppe",
-    "Anbieter": "Anbieter",
-    "Intensitaet": "Intensitaet",
-    "Kosten": "Kosten",
-    "gefundeneKurse_Question": "Möchten sie weitere Informationen zu einem dieser Kurse?",
+    "kursGefunden": "Ich habe den folgenden Kurs gefunden:",
+    "kursGefunden_Informationen": "Kurs #{nummer}<br><br> - Intensitaet: '{kursInformationenIntensitaet}' <br> - Altersgruppe: '{kursInformationenAltersgruppe}' <br> - Geschlecht: '{kursInformationenGeschlecht}' <br> - Konversation: '{kursInformationenKonversation}' <br> - Kosten: '{kursInformationenKosten}' <br> - Niveau: '{kursInformationenNiveau}' <br> - Ort: '{kursInformationenOrt}' <br> - Tag: '{kursInformationenTag}' <br> - Start Datum: '{kursInformationenZeit_TagStart}' <br> - End Datum: '{kursInformationenZeit_TagEnde}' <br> - Lektion Startzeit: '{kursInformationenZeit_ZeitStart}' <br> - Lektion Endzeit: '{kursInformationenZeit_ZeitEnde}' <br> - Kurs Ziel(e): '{kursInformationenZiel}' <br> - Aadressatengruppe(n): '{kursInformationenAadressatengruppen}' <br> - Adressierte Geschlechte: '{kursInformationenGeschlecht}'<br> - Anbieter: '{kursInformationenAnbieter}'",
+    "gefundeneKurse_Question": "Möchten sie weitere Informationen (zB. Kontaktinformationen) zu einem dieser Kurse?",
     "gefundeneKurse_Question_QR_Ja": "Ja, weitere Informationen anzeigen",
     "gefundeneKurse_Question_QR_Nein": "Nein, weitere Kurse anzeigen",
     "gefundeneKurse_Question_QR_Infromationen_aendern": "Nein, angegebene Informationen ändern",
+    "gefundenerKurs_Auswahl": "Sie haben den Kurs mit der ID '{id}' ausgewählt. Stimmt das?",
+    "gefundenerKurs_Zusatzinformationen": "Ich habe folgende Informationen zum ausgewählten Kurs gefunden:<br><br> -Anbieter: '{kursInformationenAnbieter}'<br> -Kosten: '{kursInformationenKosten}'<br> -Durchführungstag(e): '{kursInformationenTag}'<br> -Startdatum: '{kursInformationenZeit_TagStart}'<br> -Enddatum: '{kursInformationenZeit_TagEnde}'<br> -Lektion Startzeit: '{kursInformationenZeit_ZeitStart}'<br> -Lektion Endzeit: '{kursInformationenZeit_ZeitEnde}'<br><br>Kontaktperson:<br>-Name: '{kursKontaktperson_Name}'<br> -Telefon: '{kursKontaktperson_Telefon}'<br> -Telefon 2: '{kursKontaktperson_Telefon2}'<br> -Mail: '{kursKontaktperson_Mail}'<br> -Mail 2: '{kursKontaktperson_Mail2}'<br> -Online Formular: '{kursKontaktperson_Formular}'<br> -Website: '{kursKontaktperson_Url}'<br><br>Durchführungsort:<br>-Kursraum: '{durchfuerungsortRaum}<br> -Adresse: '{durchfuerungsort_Adresse}<br> -Ort: '{kursInformationenOrt}<br> -PLZ: '{durchfuerungsort_Plz}<br> -Kinderhütedienst vorhanden: '{durchfuerungsortKinderhuetedienst}'",
     "check_Notwendige_Informationen_Ort": "Den Ort haben Sie schon angegeben ({kursOrt}, im Bezirk {kursBezirk}), somit benötige ich dies nicht mehr.",
     "check_Notwendige_Informationen_Ort_Bezirk": "Den Ort haben Sie schon angegeben ({kursOrt}), somit benötige ich dies nicht mehr.",
     "check_Notwendige_Informationen_Tag": "Als Kurstag, haben Sie den {kursTag} gewählt.",
@@ -54,6 +60,93 @@
     "check_Notwendige_Informationen_Adressatengruppe": "Die Adressatengruppe ist {kursAdressatengruppe}.",
     "check_Notwendige_Informationen_Zweck": "Der Kurs Zweck ist {kursZweck}.",
     "check_Notwendige_Informationen_Intensitaet": "Als Kursintensität wurde ein {kursIntensitaet} gewählt.",
+    "kursInformationen": {
+      "nicht_in_db_gefunden": "Keine {item} in der DB gefunden",
+      "mehr_elemente_anzeigen": "Mehr {item} anzeigen",
+      "keine_angabe": "Keine Angabe",
+      "zurück": "Zurück",
+      "auswahl_behalten": "Auswahl behalten",
+      "item": "Kurse",
+      "intensitaet": {
+        "item": "Sprachen",
+        "intensitaet_angeben_vorhanden": "Sie haben die folgende Intensität ausgewählt: '{auswahl}'. Sie können die Auswahl beibehalten oder abändern.",
+        "intensitaet_angeben": "Was für eine Intensität soll der kurs haben?"
+      },
+      "niveau":{
+        "item": "Niveaus",
+        "niveau_angeben_vorhanden": "Sie haben das folgende Niveau ausgewählt: '{auswahl}'. Sie können die Auswahl beibehalten oder abändern.",
+        "niveau_angeben": "Für welches Sprachniveau suchen Sie den Kurs?"
+      },
+      "ziel": {
+        "item": "Ziele",
+        "ziel_angeben": "Suchen Sie einen Kurs mit einem bestimmten Ziel das Sie erreichen möchten?",
+        "ziel_angeben_vorhanden": "Sie haben das folgende Ziel ausgewählt: '{auswahl}'. Sie können die Auswahl beibehalten oder abändern.",
+        "didaktisches_ziel": "Didaktisches Ziel",
+        "berufliches_ziel": "Berufliches Ziel"
+      },
+      "konversation": {
+        "item": "Konversationen",
+        "konversation_angeben_vorhanden": "Sie haben die folgende Konversation ausgewählt: '{auswahl}'. Sie können die Auswahl beibehalten oder abändern.",
+        "konversation_angeben": "Was für einen Konversation soll der Kurs enthalten?"
+      },
+      "anbieter": {
+        "item": "Anbieter",
+        "anbieter_angeben_vorhanden": "Sie haben den folgenden Anbieter ausgewählt: '{auswahl}'. Sie können die Auswahl beibehalten oder abändern.",
+        "anbieter_angeben": "Wer soll den Kurs Anbieten?"
+      },
+      "ort":{
+        "item": "Orte",
+        "ort_angeben_vorhanden": "Sie haben den folgenden Ort ausgewählt: '{auswahl}'. Sie können die Auswahl beibehalten oder abändern.",
+        "ort_angeben": "An welchem Ort soll der Kurs durchgeführt werden?"
+      },
+      "tag":{
+        "tag_angeben": "An welchem Tag soll der Kurs stattfinden?",
+        "tag_angeben_vorhanden": "Sie haben den folgenden Tag ausgewählt: '{auswahl}'. Sie können die Auswahl beibehalten oder abändern.",
+        "montag": "Montag",
+        "dienstag": "Dienstag",
+        "mittwoch": "Mittwoch",
+        "donnerstag": "Donnerstag",
+        "freitag": "Freitag",
+        "samstag": "Samstag",
+        "sonntag": "Sonntag"
+      },
+      "zeit":{
+        "zeit_angeben": "Um wie viel Uhr soll der Kurs am {kursTag} stattfinden?",
+        "zeit_angeben_vorhanden": "Sie haben die folgende Zeit ausgewählt: '{auswahl}'. Sie können die Auswahl beibehalten oder abändern.",
+        "morgens": "Morgens (07:00 - 10:00 Uhr)",
+        "morgens_Payload": "07:00",
+        "mittags": "Mittags (10:00 - 13:00 Uhr)",
+        "mittags_Payload": "10:00",
+        "nachmittags": "Nachmittags (13:00 - 16:00 Uhr)",
+        "nachmittags_Payload": "13:00",
+        "abends": "Abends (16:00 - 19:00 Uhr)",
+        "abends_Payload": "16:00",
+        "nachts": "Nachts (19:00 - 22:00 Uhr)",
+        "nachts_Payload": "19:00"
+      },
+      "altersgruppe": {
+        "item": "Altersgruppen",
+        "anbieter_angeben_vorhanden": "Sie haben folgenden Anbieter ausgewählt: '{auswahl}'. Sie können die Auswahl beibehalten oder abändern.",
+        "altersgruppe_angeben": "Soll der Kurs für eine bestimmte Altersgruppe adressiert sein?"
+      },
+      "geschlecht": {
+        "item": "Geschlechte",
+        "geschlecht_angeben_vorhanden": "Sie haben folgenden Geschlecht ausgewählt: '{auswahl}'. Sie können die Auswahl beibehalten oder abändern.",
+        "geschlecht_angeben": "Soll der Kurs für ein bestimmtes Geschlecht adressiert sein?"
+      },
+      "kosten": {
+        "kosten_angeben": "Wie viel darf der Kurs Kosten?",
+        "kosten_angeben_vorhanden": "Sie haben die folgenden Kosten ausgewählt: '{auswahl}'. Sie können die Auswahl beibehalten oder abändern.",
+        "subventionierter": "Subventionierter Kurs (Gratis)",
+        "subventionierter_Payload": "Gratis",
+        "unter_500": "Unter 500 Chf",
+        "unter_500_Payload": "500",
+        "bis_1000": "Bis zu 1000 Chf",
+        "bis_1000_Payload": "1000",
+        "mehr_als_1000": "Mehr als 1000 Chf",
+        "mehr_als_1000_Payload": "1000+"
+      }
+    },
     "gefundeneKurse": {
       "kursGefundeneKurse": {
         "kurse_Gefunden": "Ich habe folgende Kurse gefunden",
@@ -77,92 +170,39 @@
         "kursAnbieter_Website": "Website: {kursAnbieter_Website}",
         "kursKontaktperson": "Kontaktperson: {kursKontaktperson_Name}, {kursKontaktperson_Telefon}"
       }
-    },
-    "notwendigeInformationen": {
-      "kursNiveau":{
-        "askKursNiveau": "Für welches Sprachniveau suchen Sie den Kurs?",
-        "askKursNiveau_Qr_Anfaenger": "Kurs für Anfänger",
-        "askKursNiveau_Qr_Schrift": "Für Personen mit Kenntnis der lateinischen Schrift",
-        "askKursNiveau_Qr_A1": "A1",
-        "askKursNiveau_Qr_A2": "A2",
-        "askKursNiveau_Qr_B1": "B1",
-        "askKursNiveau_Qr_B2": "B2",
-        "askKursNiveau_Qr_C1": "C1",
-        "askKursNiveau_Qr_C2": "C2"
-      },
-      "kursOrt":{
-        "askKursOrt": "Wo soll der Deutschkurs stattfinden?",
-        "askKursOrt_Qr_Aarau": "Aarau",
-        "askKursOrt_Qr_Aarau_Payload": "Deutschkurs in Aarau",
-        "askKursOrt_Qr_Baden": "Baden",
-        "askKursOrt_Qr_Baden_Payload": "Deutschkurs in Baden"
-      },
-      "kursIntensitaet": {
-        "convoKursIntensitaet": "Was für eine Kursintensität suchen Sie?",
-        "convoKursIntensitaet_Qr_Wochenkurs": "Wochenkurs",
-        "convoKursIntensitaet_Qr_Intensivkurs": "Intensivkurs"
-      },
-      "kursAdressatengruppe": {
-        "convoKursAdressatengruppe": "Für welches Adressatengruppe soll der Kurs sein?",
-        "convoKursAdressatengruppe_Qr_Frauen": "Frauen",
-        "convoKursAdressatengruppe_Qr_Frauen_Payload": "Frauen",
-        "convoKursAdressatengruppe_Qr_Erwachsene": "Erwachsene",
-        "convoKursAdressatengruppe_Qr_Erwachsene_Payload": "Erwachsene",
-        "convoKursAdressatengruppe_Qr_Muttersprache": "Erwachsene deutscher Muttersprache",
-        "convoKursAdressatengruppe_Qr_Muttersprache_Payload": "Erwachsene deutscher Muttersprache oder gute mündliche Deutschkenntnisse",
-        "convoKursAdressatengruppe_Qr_A1": "Niveau A1 abgschlossen",
-        "convoKursAdressatengruppe_Qr_A1_Payload": "Abgeschlossene Niveau A1 oder im Einstufungstest Niveau A2 erreicht",
-        "convoKursAdressatengruppe_Qr_A2": "Niveau A2 abgschlossen",
-        "convoKursAdressatengruppe_Qr_A2_Payload": "Erwachsene mit abgeschlossene Niveaustufe A2 oder im Einstufungstest Niveaustufe B1 erreicht",
-        "convoKursAdressatengruppe_Qr_B1": "Niveau B1 abgschlossen",
-        "convoKursAdressatengruppe_Qr_B1_Payload": "Erwachsene mit abgeschlossene Niveaustufe B1 oder im Einstufungstest Niveaustufe B2 erreicht",
-        "convoKursAdressatengruppe_Qr_B2": "Niveau B2 abgschlossen",
-        "convoKursAdressatengruppe_Qr_B2_Payload": "Erwachsene im Einstufungstest Niveaustufe B2 erreicht",
-        "convoKursAdressatengruppe_Qr_C1": "Niveau C1 abgschlossen",
-        "convoKursAdressatengruppe_Qr_C1_Payload": "Erwachsene mit abgeschlossene Niveaustufe C1 oder im Einstufungstest Niveaustufe C2 erreicht"
-      },
-      "kursZweck": {
-        "askKursZweck": "Was für einen Zweck soll der Kurs erfüllen?"
-      }
-    },
-    "zusaetzlicheInformationen": {
-      "kursAnbieter": {
-        "convoKursAnbieter": "Wer soll den Kurs Anbieten?",
-        "convoKursAnbieter_Qr_Nosotras": "Nosotras Aargau",
-        "convoKursAnbieter_Qr_Verein": "Verein Lesen und Schreiben für Erwachsene",
-        "convoKursAnbieter_Qr_Tlc": "TLC Baden"
-      },
-      "kursTag":{
-        "askKursTag": "An welchem Tag soll der Kurs stattfinden?",
-        "askKursTag_Qr_Montag": "Montag",
-        "askKursTag_Qr_Dienstag": "Dienstag",
-        "askKursTag_Qr_Mittwoch": "Mittwoch",
-        "askKursTag_Qr_Donnerstag": "Donnerstag",
-        "askKursTag_Qr_Freitag": "Freitag",
-        "askKursTag_Qr_Samstag": "Samstag",
-        "askKursTag_Qr_Sonntag": "Sonntag"
-      },
-      "kursZeit":{
-        "askKursZeit": "Um wie viel Uhr soll der Kurs am {kursTag} stattfinden?",
-        "askKursZeit_Morgens": "Morgens (07:00 - 10:00 Uhr)",
-        "askKursZeit_Morgens_Payload": "07:00 Uhr",
-        "askKursZeit_Mittags": "Mittags (10:00 - 13:00 Uhr)",
-        "askKursZeit_Mittags_Payload": "10:00 Uhr",
-        "askKursZeit_Nachmittags": "Nachmittags (13:00 - 16:00 Uhr)",
-        "askKursZeit_Nachmittags_Payload": "13:00 Uhr",
-        "askKursZeit_Abends": "Abends (16:00 - 19:00 Uhr)",
-        "askKursZeit_Abends_Payload": "16:00 Uhr",
-        "askKursZeit_Nachts": "Nachts (19:00 - 22:00 Uhr)",
-        "askKursZeit_Nachts_Payload": "19:00 Uhr"
-      },
-      "kursKosten": {
-        "convoKursKosten": "Wie viel darf der Kurs Kosten?",
-        "convoKursKosten_Qr_Subventionierter": "Subventionierter Kurs (Gratis)",
-        "convoKursKosten_Qr_500": "Unter 500 Chf",
-        "convoKursKosten_Qr_1000": "Bis zu 1000 Chf",
-        "convoKursKosten_Qr_1000plus": "Mehr als 1000 Chf"
-      }
     }
+  },
+  "person": {
+    "correctNeccessaryInfromation_Question": "Welche Angabe möchten sie abändern?",
+    "personSprache": "Sprache",
+    "personGeschlecht": "Geschlecht",
+    "personAltersgruppe": "Altersgruppe",
+    "personKinder": "Kinder",
+    "keine_Aenderung": "Keine Änderung",
+
+    "personen_infos_angeben": "Möchten Sie persönliche Informationen angeben? Diese Angabe ist Optional und dient dazu, Ihnen einen besseren Kursvorschlag zu geben.",
+    "nicht_in_db_gefunden": "Keine {item} in der DB gefunden",
+    "mehr_elemente_anzeigen": "Mehr {item} anzeigen",
+    "keine_angabe": "Keine Angabe",
+    "zurück": "Zurück",
+    "sprache": {
+      "item": "Sprachen",
+      "sprache_angeben": "Möchten sie Ihre Sprache angeben?"
+    },
+    "geschlecht": {
+      "item": "Geschlechte",
+      "geschlecht_angeben": "Möchten Sie Ihr Geschlecht angeben?"
+    },
+    "altersgruppe": {
+      "item": "Altersgruppen",
+      "altersgruppe_angeben": "Möchten Sie Ihre Altersgruppe angeben?"
+    },
+    "kinder": {
+      "kinder_angeben": "Möchten Sie angeben ob sie Kinder haben?",
+      "kinder_ja": "Ja, ich habe ein oder mehrere Kinder",
+      "kinder_nein": "Nein, ich habe keine Kinder"
+    }
+
   },
   "help": {
     "helpMenu_Message": "Wie kann ich Ihenen helfen?",

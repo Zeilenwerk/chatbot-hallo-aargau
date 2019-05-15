@@ -1,0 +1,5 @@
+Id;Code;FK_Adresse;Raum;Kinderhuetedienst
+1;1;7;Nosotras Aargau;false
+2;2;8;Anlaufstelle Integration Aargau (2. Stock);false
+3;3;2;Kursraum 2;false
+4;4;9;Kursraum;false

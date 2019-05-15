@@ -31,7 +31,7 @@ module.exports = function (controller) {
 
             //Timeout conversation
             convo.onTimeout(function(convo) {
-                convo.say(t('bot_conversation.onTimeout'));
+                bot.reply(message, t('bot_conversation.onTimeout', {timeout: "2 Minuten inaktiv"}));
                 end.convoQuit(convo, message, bot);
             });
 

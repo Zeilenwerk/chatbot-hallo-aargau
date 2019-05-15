@@ -14,7 +14,8 @@ module.exports = {
         }
 
         if (error) {
-            logMessage += JSON.stringify(error);
+            logMessage += " Error: " + JSON.stringify(error);
+            logMessage += " Stack: " + JSON.stringify(error.stack);
         } else {
             logMessage += t('error.default_error_message');
         }
@@ -34,7 +35,7 @@ module.exports = {
                 // reset all conversatino variables
                 let aVars = ["kursOrt", "kursBezirk", "kursZeit", "kursTag", "kursTagUndZeit", "kursDatum", "kursIntensitaet", "kursAnbieter", "kursNiveau", "kursSprache", "kursAdressatengruppe", "kursKosten", "kursZweck"];
                 for (let x = 0; x < aVars.length; x++) {
-                    convo.setVar(aVars[x], "None");
+                    convo.setVar(aVars[x], t("kurs.kursInformationen.keine_angabe"));
                 }
                 convo.setVar("offsetKurse", 0);
 

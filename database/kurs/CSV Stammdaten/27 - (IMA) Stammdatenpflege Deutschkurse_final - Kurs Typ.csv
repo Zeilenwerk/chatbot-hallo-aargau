@@ -1,0 +1,4 @@
+Id;Code;Wert;Beschreibung
+1;1;Gruppenkurs offen;Kurs mit einer offenen Gruppe
+2;2;Gruppenkurs geschlossen;Kurs für eine geschlossene Gruppe (zB. Kurs für Mitarbeiter einer  Firma)
+3;3;Einzelkurs;
