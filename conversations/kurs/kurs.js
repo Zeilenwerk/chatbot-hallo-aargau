@@ -177,6 +177,10 @@ module.exports = {
                     title: t('kurs.kursSuchen_Personen_Daten_Nein'),
                     payload: t('kurs.kursSuchen_Personen_Daten_Nein'),
                 },
+                {
+                    title: t('kurs.alleKurseAnzeigen'),
+                    payload: t('kurs.alleKurseAnzeigen'),
+                }
             ]
         }, [
             {
@@ -192,6 +196,10 @@ module.exports = {
                                 break;
                             case t('kurs.kursSuchen_Personen_Daten_Nein'):
                                 convo.gotoThread("askKursInitialIntensitaet0");
+                                convo.next();
+                                break;
+                            case t('kurs.alleKurseAnzeigen'):
+                                convo.gotoThread("kursSuchen_Menu");
                                 convo.next();
                                 break;
                             default:
@@ -249,6 +257,7 @@ module.exports = {
 
                             case t('ja'):
                                 gefundeneKurse.displayGefundeneKurse(bot, message, convo, luisUtil, "displayGefundeneKurse", "displayFoundKursContactInformation");
+                                convo.gotoThread("startKursSearch");
                                 convo.next();
                                 break;
                             case t('kurs.kursSuchen_Menu_Question_Question_Qr_Nein'):
@@ -265,6 +274,47 @@ module.exports = {
                 }
             }
         ], {}, "kursSuchen_Menu");
+
+        // Start Kurs Serarch
+        //////////////////////////////////
+        convo.addQuestion({
+            text: t('kurs.kurssuche_starten'),
+            quick_replies: [
+                {
+                    title: t('ja'),
+                    payload: t('ja'),
+                },
+                {
+                    title: t('kurs.kursSuchen_Menu_Question_Question_Qr_Nein'),
+                    payload: t('kurs.kursSuchen_Menu_Question_Question_Qr_Nein'),
+                },
+            ]
+        }, [
+            {
+                default: true,
+                callback: function (res, convo) {
+
+                    try {
+                        switch (res.text) {
+
+                            case t('ja'):
+                                convo.gotoThread("displayGefundeneKurse0");
+                                convo.next();
+                                break;
+                            case t('kurs.kursSuchen_Menu_Question_Question_Qr_Nein'):
+                                convo.gotoThread("correctInfromation");
+                                break;
+                            default:
+                                convo.transitionTo("kursSuchen_Menu", t('nicht_verstanden'));
+                                break;
+                        }
+                    } catch (err) {
+                        errorUtil.displayErrorMessage(bot, message, err, false, false);
+                    }
+
+                }
+            }
+        ], {}, "startKursSearch");
 
 
         // Correct Information

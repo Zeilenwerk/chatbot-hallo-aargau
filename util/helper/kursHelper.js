@@ -90,7 +90,15 @@ module.exports = {
         /////////////////////////////
 
         if (null != convo.vars.kursInformationenAltersgruppe && convo.vars.kursInformationenAltersgruppe !== t("kurs.kursInformationen.keine_angabe") && convo.vars.kursInformationenAltersgruppe !== "") {
-            kursInformationenAltersgruppe = " AND " + convo.vars.kursInformationenAltersgruppe;
+            kursInformationenAltersgruppe  = "   AND UPPER((";
+            kursInformationenAltersgruppe += "     (SELECT string_agg(ag.wert, ', ') AS kursInformationenAadressatengruppen";
+            kursInformationenAltersgruppe += "      FROM altersgruppe ag";
+            kursInformationenAltersgruppe += "               LEFT JOIN adressatengruppe adg";
+            kursInformationenAltersgruppe += "                         ON ag.id = adg.fk_altersgruppe";
+            kursInformationenAltersgruppe += "               LEFT JOIN kurs_adressatengruppe ka";
+            kursInformationenAltersgruppe += "                         ON ka.id_adressatengruppe = adg.id";
+            kursInformationenAltersgruppe += "      WHERE ka.id_kurs = k.id)";
+            kursInformationenAltersgruppe += " )) LIKE UPPER('%" + convo.vars.kursInformationenAltersgruppe + "%')";
         }
         if (null != convo.vars.kursInformationenAnbieter && convo.vars.kursInformationenAnbieter !== t("kurs.kursInformationen.keine_angabe") && convo.vars.kursInformationenAnbieter !== "") {
             kursInformationenAnbieter = " AND UPPER(an.offizieller_name) LIKE UPPER('%" + convo.vars.kursInformationenAnbieter + "%') ";
@@ -118,20 +126,18 @@ module.exports = {
 
             switch (convo.vars.kursInformationenKosten.toLowerCase()) {
                 case "gratis":
-                    kursKosten = " AND (SELECT SUM(betrag) FROM kosten WHERE fk_kurs = k.id) <= 0 ";
+                    kursInformationenKosten = " AND (SELECT SUM(betrag) FROM kosten WHERE fk_kurs = k.id) <= 0 ";
                     break;
                 case "500":
-                    kursKosten = " AND (SELECT SUM(betrag) FROM kosten WHERE fk_kurs = k.id) <= 500 ";
+                    kursInformationenKosten = " AND (SELECT SUM(betrag) FROM kosten WHERE fk_kurs = k.id) <= 500 ";
                     break;
                 case "1000":
-                    kursKosten = " AND (SELECT SUM(betrag) FROM kosten WHERE fk_kurs = k.id) <= 1000 ";
+                    kkursInformationenKosten = " AND (SELECT SUM(betrag) FROM kosten WHERE fk_kurs = k.id) <= 1000 ";
                     break;
                 default:
-                    kursKosten = "";
+                    kursInformationenKosten = "";
                     break;
             }
-
-            kursInformationenKosten = " AND " + convo.vars.kursInformationenKosten;
         }
         if (null != convo.vars.kursInformationenNiveau && convo.vars.kursInformationenNiveau !== t("kurs.kursInformationen.keine_angabe") && convo.vars.kursInformationenNiveau !== "") {
             kursInformationenNiveau = " AND UPPER(n.wert) LIKE UPPER('%" + convo.vars.kursInformationenNiveau + "%') ";
@@ -154,7 +160,6 @@ module.exports = {
         if (null != convo.vars.kursInformationenZiel && convo.vars.kursInformationenZiel !== t("kurs.kursInformationen.keine_angabe") && convo.vars.kursInformationenZiel !== "") {
 
             kursInformationenZiel  = " AND UPPER(( ";
-            kursInformationenZiel += "   -- Get All Ziele from Kurs ";
             kursInformationenZiel += "   concat_ws(', ', (SELECT string_agg(dz.wert, ', ') AS kursInformationenZiel ";
             kursInformationenZiel += "                    FROM didaktische_ziel dz ";
             kursInformationenZiel += "                             LEFT JOIN ziel z ";
@@ -184,7 +189,6 @@ module.exports = {
         if (null != convo.vars.personAltersgruppe && convo.vars.personAltersgruppe !== t("kurs.kursInformationen.keine_angabe") && convo.vars.personAltersgruppe !== "") {
 
             personAltersgruppe  = " AND UPPER((";
-            personAltersgruppe += "     -- Get All Altersgruppen from Kurs";
             personAltersgruppe += "     (SELECT string_agg(ag.wert, ', ') AS kursInformationenAadressatengruppen";
             personAltersgruppe += "      FROM altersgruppe ag";
             personAltersgruppe += "               LEFT JOIN adressatengruppe adg";
@@ -214,10 +218,12 @@ module.exports = {
         /////////////////////////////
 
         if (null != convo.vars.personKind && convo.vars.personKind !== t("kurs.kursInformationen.keine_angabe") && convo.vars.personKind !== "") {
-            personKind = " AND " + convo.vars.personKind;
+            //personKind = " AND " + convo.vars.personKind;
+            personKind = "  ";
         }
         if (null != convo.vars.personSprache && convo.vars.personSprache !== t("kurs.kursInformationen.keine_angabe") && convo.vars.personSprache !== "") {
-            personSprache = " AND " + convo.vars.personSprache;
+            // personSprache = " AND " + convo.vars.personSprache;
+            personSprache = " ";
         }
 
 

@@ -61,7 +61,7 @@ var debug = require('debug')('botkit:main');
 var botkitStoragePostgres = require('./node_modules/botkit-storage-postgres');
 
 var bot_options = {
-    reply: false,
+    replyWithTyping: true,
     storage: botkitStoragePostgres({
         host: process.env.BOTKIT_STORAGE_POSTGRES_HOST,
         port: process.env.BOTKIT_STORAGE_POSTGRES_PORT,
