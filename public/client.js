@@ -340,6 +340,8 @@
 
         that.input = document.getElementById('messenger_input');
 
+        that.input_button = document.getElementById('messenger_input_button');
+
         that.focus();
 
         that.on('connected', function() {
@@ -432,13 +434,27 @@
             // }
             // list.style.width = width + 'px';
 
-            if (message.disable_input) {
-              that.input.disabled = true;
+            if (message.input_placeholder) {
+              //that.input.disabled = true;
+              that.input.placeholder= message.input_placeholder;
             } else {
-              that.input.disabled = false;
+              // that.input.disabled = false;
+              that.input.style.display = "Text hier eingeben";
+            }
+
+            if (message.disable_input) {
+              //that.input.disabled = true;
+              that.input.style.display = "none";
+              that.input_button.style.display = "none";
+            } else {
+              // that.input.disabled = false;
+              that.input.style.display = "block";
+              that.input_button.style.display = "block";
             }
           } else {
-            that.input.disabled = false;
+            // that.input.disabled = false;
+            that.input.style.display = "block";
+            that.input_button.style.display = "block";
           }
         });
 

@@ -1,11 +1,10 @@
 module.exports = {
-    askKursAnbieter: function (bot, message, convo, luisUtil, threadName, nextThread = "None") {
+    kursMenu: function (bot, message, convo, luisUtil, threadName, nextThread = "None") {
 
         const kursInformationenAnbieterHelper = require('../../../util/helper/kursInformationenAnbieterHelper');
         const {t} = require('localizify');
         const logUtil = require("../../../util/logUtil");
         const errorUtil = require("../../../util/errorUtil");
-        const dialogUtil = require("../../../util/dialogUtil");
 
         kursInformationenAnbieterHelper.getAnbieterFromDB(bot, message, convo, luisUtil, nextThread, function (conversation, rows) {
 
@@ -56,8 +55,7 @@ module.exports = {
 
                     conversation.addQuestion({
                         text: t("kurs.kursInformationen.anbieter.anbieter_angeben"),
-                        quick_replies: qr,
-                        disable_input: true
+                        quick_replies: qr
                     }, [
                         {
                             default: true,
@@ -102,15 +100,9 @@ module.exports = {
                                             //Reset offset
                                             logUtil.debug("kursInformationenAnbieter = " + convo.vars.kursInformationenAnbieter);
 
-                                            dialogUtil.kursMenuDialog_NoLUIS(conversation);
-
                                             //continue to next thread
                                             if (nextThread !== "None") {
-                                                if (nextThread === "kursSuchen_Menu") {
-                                                    conversation.transitionTo(nextThread, convo.vars.kursSuchenMenu);
-                                                }else{
-                                                    conversation.gotoThread(nextThread);
-                                                }
+                                                conversation.gotoThread(nextThread);
                                             } else {
                                                 conversation.next();
                                             }

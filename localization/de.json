@@ -23,14 +23,37 @@
     "weiter_feedback": "Weiter zum Feedback",
     "kurssuche_starten": "Ich werde nun mit den angegebene Informationen versuchen einen Kurs zu finden. Ist das für Sie in Ordnung?",
     "alleKurseAnzeigen": "Alle Kurse anzeigen?",
-    "kursSuchen": "Super, gerne helfe ich Ihnen ein Deutschkurs zu suchen. Dafür benötige ich noch einige Angaben von Ihnen.",
+    "kursSuchen": "Super, gerne helfe ich Ihnen einen Deutschkurs zu suchen.",
+    "kursSuchen_Angaben": "Bitte beschreiben Sie mir den gesuchten Kurs. Für die Kurs Suche, drücken sie auf den 'Hilfe für die Kurs Suche' Knopf",
+    "kursSuchen_Hilfe": "Hilfe für die Kurs Suche",
+    "kursSuchen_BereitsAngegeben": "Sie haben bereits folgende Angaben zum Kurs eingegeben:",
+
     "kursSuchen_Personen_Daten": "Möchten Sie persönliche Informationen für die Suche des Kurses angeben (zB. Ihr Geschlecht oder Ihre Sprache)?",
     "kursSuchen_Personen_Daten_Ja": "Ja, ich möchte meine persönlichen Informationen angeben.",
     "kursSuchen_Personen_Daten_Nein": "Nein, ich möchte meine persönlichen Informationen nicht angeben.",
-    "kursSuchen_Menu": "Sie Suchen somit einen Deutschkurs mit den folgenden Informationen: <br><br>Persönliche Informationen<br>- Sprache: '{personSprache}'<br>- Geschlecht: '{personGeschlecht}'<br>- Altersgruppe: '{personAltersgruppe}'<br>- Kinder: '{personKind}'<br><br>Kurs Informationen<br>- Intensität: '{kursInformationenIntensitaet}'<br>- Niveau: '{kursInformationenNiveau}'<br>- Altersgruppe: '{kursInformationenAltersgruppe}'<br>- Addresiertes Geschlecht: '{kursInformationenGeschlecht}'<br>- Konversation: '{kursInformationenKonversation}'<br>- Kosten: '{kursInformationenKosten}'<br>- Ort: '{kursInformationenOrt}'<br>- Tag: '{kursInformationenTag}'<br>- Zeit: '{kursInformationenZeit}'<br>- Ziel: '{kursInformationenZiel}'<br>- Anbieter: '{kursInformationenAnbieter}'<br>",
+    "kursSuchen_Menu": "Sie Suchen somit einen Deutschkurs mit den folgenden Informationen:",
+    "kursSuchen_PersoenlicheInformationen": "Persönliche Informationen",
+    "kursSuchen_Sprache": "- Sprache: '{personSprache}'",
+    "kursSuchen_Geschlecht": "- Geschlecht: '{personGeschlecht}'",
+    "kursSuchen_PersonAltersgruppe": "- Altersgruppe: '{personAltersgruppe}'",
+    "kursSuchen_Kinder": "- Kinder: '{personKind}'",
+    "kursSuchen_KursInformationen": "Kurs Informationen",
+    "kursSuchen_Intensität": "- Intensität: '{kursInformationenIntensitaet}'",
+    "kursSuchen_Niveau": "- Niveau: '{kursInformationenNiveau}'",
+    "kursSuchen_KursAltersgruppe": "- Altersgruppe: '{kursInformationenAltersgruppe}'",
+    "kursSuchen_Addresiertes": "- Addresiertes Geschlecht: '{kursInformationenGeschlecht}'",
+    "kursSuchen_Konversation": "- Konversation: '{kursInformationenKonversation}'",
+    "kursSuchen_Kosten": "- Kosten: '{kursInformationenKosten}'",
+    "kursSuchen_Ort": "- Ort: '{kursInformationenOrt}'",
+    "kursSuchen_Tag": "- Tag: '{kursInformationenTag}'",
+    "kursSuchen_Zeit": "- Zeit: '{kursInformationenZeit}'",
+    "kursSuchen_Ziel": "- Ziel: '{kursInformationenZiel}'",
+    "kursSuchen_Anbieter": "- Anbieter: '{kursInformationenAnbieter}'",
+
+
     "kursSuchen_Menu_Question": "Stimmen diese Angaben für Sie?",
     "kursSuchen_Menu_Question_Question_Qr_Nein": "Nein, ich möchte etwas ändern",
-    "correctNeccessaryInfromation_Question": "Welche Angabe möchten sie abändern?",
+    "correctNeccessaryInfromation_Question": "Sie können 2 Arten von Suchkriterien eingeben: Informationen über sie selbst oder Informationen zum gewünschten Kurs. Klicken sie auf die Auswahl:",
     "kursInformationenAltersgruppe": "Kurs Altersgruppe",
     "kursInformationenAnbieter": "Kurs Anbieter",
     "kursInformationenGeschlecht": "Kurs Geschlecht",
@@ -246,5 +269,9 @@
   },
   "error": {
     "default_error_message": "Ein Fehler ist aufgetreten."
+  },
+  "utterances": {
+    "ja": "ja, gerne, sehr wohl, sicher",
+    "nein": "keine angabe, nein, gar nicht, bitte nicht"
   }
 }

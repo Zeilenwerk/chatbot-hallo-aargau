@@ -11,7 +11,7 @@ module.exports = function (controller) {
     // Handle User Intents
     //*********************************
 
-    controller.hears(["Deutschkurs suchen", "Hilfe", "Help", "Informationen zum Aufenthaltsstatus"], 'message_received', luis.middleware.hereIntent, function (bot, message) {
+    controller.hears(["Deutschkurs suchen", "Hilfe", "Help", t('_connection_events.onboarding_Deutschkurs')], 'message_received', luis.middleware.hereIntent, function (bot, message) {
 
         bot.startConversation(message, function (err, convo) {
 

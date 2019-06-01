@@ -31,6 +31,7 @@ module.exports = {
         const logUtil = require("../../util/logUtil");
         const luisUtil = require("../../util/luisUtil");
         const errorUtil = require("../../util/errorUtil");
+        const dialogUtil = require("../../util/dialogUtil");
 
         //********************************
         // Required Threads
@@ -103,6 +104,8 @@ module.exports = {
         // Initialize Conversation Variables
         //********************************
 
+        let angabenVorhanden = false;
+
         try {
             //Variablen zur Suche eines Deutschkurses die in der Conversation ausfindig gemacht werden müssen
             let aVars = ["kursInformationenAltersgruppe",
@@ -129,6 +132,7 @@ module.exports = {
                     logUtil.debug("Initialize var " + aVars[x] + " with value to '" + t("keine_Angabe") + "'");
                     convo.setVar(aVars[x], t("keine_Angabe"));
                 } else {
+                    angabenVorhanden = true;
                     if (aEntity[1]) {
                         convo.setVar(aVars[x], aEntity[1]);
                         logUtil.debug(aVars[x] + " = " + aEntity[1]);
@@ -165,47 +169,40 @@ module.exports = {
 
         //Initial Message
         //////////////////////////////////
-        convo.addMessage(t('kurs.kursSuchen'), "initialMessage");
+        convo.say({
+            text: t('kurs.kursSuchen'),
+            disable_input: true
+        });
         convo.addQuestion({
-            text: t('kurs.kursSuchen_Personen_Daten'),
+            text: t('kurs.kursSuchen_Angaben'),
             quick_replies: [
                 {
-                    title: t('kurs.kursSuchen_Personen_Daten_Ja'),
-                    payload: t('kurs.kursSuchen_Personen_Daten_Ja'),
-                },
-                {
-                    title: t('kurs.kursSuchen_Personen_Daten_Nein'),
-                    payload: t('kurs.kursSuchen_Personen_Daten_Nein'),
-                },
-                {
-                    title: t('kurs.alleKurseAnzeigen'),
-                    payload: t('kurs.alleKurseAnzeigen'),
+                    title: t('kurs.kursSuchen_Hilfe'),
+                    payload: t('kurs.kursSuchen_Hilfe'),
                 }
-            ]
+            ],
+            disable_input: false,
+            input_placeholder: "Kursbeschreibung hier eingeben"
         }, [
             {
                 default: true,
-                callback: function (res, convo) {
+                callback: function (res, convo, message) {
 
                     try {
-                        switch (res.text) {
+                        if (res.text.toLowerCase() === t('kurs.kursSuchen_Hilfe').toLowerCase()
+                            || res.text.toLowerCase().includes(t('kurs.kursSuchen_Hilfe').toLowerCase())) {
 
-                            case t('kurs.kursSuchen_Personen_Daten_Ja'):
-                                convo.gotoThread("askPersonInitialSprache0");
-                                convo.next();
-                                break;
-                            case t('kurs.kursSuchen_Personen_Daten_Nein'):
-                                convo.gotoThread("askKursInitialIntensitaet0");
-                                convo.next();
-                                break;
-                            case t('kurs.alleKurseAnzeigen'):
-                                convo.gotoThread("kursSuchen_Menu");
-                                convo.next();
-                                break;
-                            default:
-                                convo.say(t('nicht_verstanden'));
-                                convo.repeat();
-                                break;
+                            convo.gotoThread("correctInfromation");
+                            convo.next();
+
+                        } else {
+
+                            if (dialogUtil.kursMenuDialog(convo, res)) {
+                                console.log("Kurs suchen: " + convo.vars.kursSuchenMenu);
+                                convo.transitionTo("kursSuchen_Menu", convo.vars.kursSuchenMenu);
+                            } else {
+                                convo.transitionTo("initialMessage", t('nicht_verstanden'))
+                            }
                         }
                     } catch (err) {
                         errorUtil.displayErrorMessage(bot, message, err, false, false);
@@ -217,23 +214,7 @@ module.exports = {
 
         //Kurs Suche Menu
         //////////////////////////////////
-        convo.addMessage(t('kurs.kursSuchen_Menu', {
-            kursInformationenAltersgruppe: "{{vars.kursInformationenAltersgruppe}}",
-            kursInformationenAnbieter: "{{vars.kursInformationenAnbieter}}",
-            kursInformationenGeschlecht: "{{vars.kursInformationenGeschlecht}}",
-            kursInformationenIntensitaet: "{{vars.kursInformationenIntensitaet}}",
-            kursInformationenKonversation: "{{vars.kursInformationenKonversation}}",
-            kursInformationenKosten: "{{vars.kursInformationenKosten}}",
-            kursInformationenNiveau: "{{vars.kursInformationenNiveau}}",
-            kursInformationenOrt: "{{vars.kursInformationenOrt}}",
-            kursInformationenTag: "{{vars.kursInformationenTag}}",
-            kursInformationenZeit: "{{vars.kursInformationenZeit}}",
-            kursInformationenZiel: "{{vars.kursInformationenZiel}}",
-            personAltersgruppe: "{{vars.personAltersgruppe}}",
-            personGeschlecht: "{{vars.personGeschlecht}}",
-            personKind: "{{vars.personKind}}",
-            personSprache: "{{vars.personSprache}}"
-        }), 'kursSuchen_Menu');
+        //convo.addMessage(convo.vars.kursSuchenMenu, 'kursSuchen_Menu');
 
         convo.addQuestion({
             text: t('kurs.kursSuchen_Menu_Question'),
@@ -246,26 +227,23 @@ module.exports = {
                     title: t('kurs.kursSuchen_Menu_Question_Question_Qr_Nein'),
                     payload: t('kurs.kursSuchen_Menu_Question_Question_Qr_Nein'),
                 },
-            ]
+            ],
+            disable_input: true
         }, [
             {
                 default: true,
                 callback: function (res, convo) {
-
                     try {
-                        switch (res.text) {
-
-                            case t('ja'):
-                                gefundeneKurse.displayGefundeneKurse(bot, message, convo, luisUtil, "displayGefundeneKurse", "displayFoundKursContactInformation");
-                                convo.gotoThread("startKursSearch");
-                                convo.next();
-                                break;
-                            case t('kurs.kursSuchen_Menu_Question_Question_Qr_Nein'):
-                                convo.gotoThread("correctInfromation");
-                                break;
-                            default:
-                                convo.transitionTo("kursSuchen_Menu", t('nicht_verstanden'));
-                                break;
+                        if (res.text.toLowerCase() === t('ja').toLowerCase() ||
+                            res.text.toLowerCase().includes(t('utterances.ja').toLowerCase())) {
+                            gefundeneKurse.displayGefundeneKurse(bot, message, convo, luisUtil, "displayGefundeneKurse", "displayFoundKursContactInformation");
+                            convo.gotoThread("startKursSearch");
+                            convo.next();
+                        } else if (res.text.toLowerCase() === t('kurs.kursSuchen_Menu_Question_Question_Qr_Nein').toLowerCase() ||
+                            res.text.toLowerCase().includes(t('utterances.nein').toLowerCase())) {
+                            convo.gotoThread("correctInfromation");
+                        } else {
+                            convo.transitionTo("kursSuchen_Menu", t('nicht_verstanden'));
                         }
                     } catch (err) {
                         errorUtil.displayErrorMessage(bot, message, err, false, false);
@@ -288,7 +266,8 @@ module.exports = {
                     title: t('kurs.kursSuchen_Menu_Question_Question_Qr_Nein'),
                     payload: t('kurs.kursSuchen_Menu_Question_Question_Qr_Nein'),
                 },
-            ]
+            ],
+            disable_input: true
         }, [
             {
                 default: true,
@@ -330,7 +309,8 @@ module.exports = {
                     title: t('informationen_korrigieren_kurs'),
                     payload: t('informationen_korrigieren_kurs'),
                 },
-            ]
+            ],
+            disable_input: true
         }, [
             {
                 default: true,
@@ -441,7 +421,8 @@ module.exports = {
 
         convo.addQuestion({
             text: t('kurs.correctNeccessaryInfromation_Question'),
-            quick_replies: qr_correct_kurs
+            quick_replies: qr_correct_kurs,
+            disable_input: true
         }, [
             {
                 default: true,
@@ -517,7 +498,8 @@ module.exports = {
                     title: t('kurs.gefundeneKurse_Question_QR_Infromationen_aendern'),
                     payload: t('kurs.gefundeneKurse_Question_QR_Infromationen_aendern'),
                 },
-            ]
+            ],
+            disable_input: true
         }, [
             {
                 default: true,

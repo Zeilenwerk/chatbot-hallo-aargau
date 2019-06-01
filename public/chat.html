@@ -49,11 +49,12 @@
                 </div>
             </section>
             <div id="message_replies">
+<!--            <div id="message_replies" style="display: none">-->
             </div>
             <footer>
                 <form onsubmit="Botkit.send(Botkit.input.value, event)">
-                    <input type="text" autocomplete="off" id="messenger_input" placeholder="Type here..." />
-                    <button type="submit">Send</button>
+                    <input type="text" autocomplete="off" id="messenger_input" placeholder="Text hier eingeben..." />
+                    <button type="submit" id="messenger_input_button">Senden</button>
                 </form>
             </footer>
         </div>

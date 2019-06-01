@@ -5,6 +5,7 @@ module.exports = {
         const {t} = require('localizify');
         const logUtil = require("../../../util/logUtil");
         const errorUtil = require("../../../util/errorUtil");
+        const dialogUtil = require("../../../util/dialogUtil");
 
         personAltersgruppeHelper.getAltersgruppenFromDB(bot, message, convo, luisUtil, nextThread, function (conversation, rows) {
 
@@ -55,7 +56,8 @@ module.exports = {
 
                     conversation.addQuestion({
                         text: t("person.altersgruppe.altersgruppe_angeben"),
-                        quick_replies: qr
+                        quick_replies: qr,
+                        disable_input: true
                     }, [
                         {
                             default: true,
@@ -100,9 +102,15 @@ module.exports = {
                                             //Reset offset
                                             logUtil.debug("personAltersgruppe = " + convo.vars.personAltersgruppe);
 
+                                            dialogUtil.kursMenuDialog_NoLUIS(conversation);
+
                                             //continue to next thread
                                             if (nextThread !== "None") {
-                                                conversation.gotoThread(nextThread);
+                                                if (nextThread === "kursSuchen_Menu") {
+                                                    conversation.transitionTo(nextThread, convo.vars.kursSuchenMenu);
+                                                }else{
+                                                    conversation.gotoThread(nextThread);
+                                                }
                                             } else {
                                                 conversation.next();
                                             }
