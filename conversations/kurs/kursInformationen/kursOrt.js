@@ -5,6 +5,7 @@ module.exports = {
         const {t} = require('localizify');
         const logUtil = require("../../../util/logUtil");
         const errorUtil = require("../../../util/errorUtil");
+        const dialogUtil = require("../../../util/dialogUtil");
 
         kursInformationenOrtHelper.getOrtFromDB(bot, message, convo, luisUtil, nextThread, function (conversation, rows) {
 
@@ -55,7 +56,8 @@ module.exports = {
 
                     conversation.addQuestion({
                         text: t("kurs.kursInformationen.ort.ort_angeben"),
-                        quick_replies: qr
+                        quick_replies: qr,
+                        disable_input: true
                     }, [
                         {
                             default: true,
@@ -95,14 +97,20 @@ module.exports = {
                                         } else {
 
                                             //Set var in convo --> used afterwards to get search results form db
-                                            conversation.setVar("kursInformationenOrt", aEntity[0]);
+                                            conversation.setVar("kursInformationenOrt", aEntity[1].charAt(0).toUpperCase() + aEntity[1].slice(1));
 
                                             //Reset offset
                                             logUtil.debug("kursInformationenOrt = " + convo.vars.kursInformationenOrt);
 
+                                            dialogUtil.kursMenuDialog_NoLUIS(conversation);
+
                                             //continue to next thread
                                             if (nextThread !== "None") {
-                                                conversation.gotoThread(nextThread);
+                                                if (nextThread === "kursSuchen_Menu") {
+                                                    conversation.transitionTo(nextThread, convo.vars.kursSuchenMenu);
+                                                }else{
+                                                    conversation.gotoThread(nextThread);
+                                                }
                                             } else {
                                                 conversation.next();
                                             }

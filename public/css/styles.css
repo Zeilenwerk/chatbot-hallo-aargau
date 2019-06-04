@@ -221,17 +221,65 @@ a.button {
         margin: 0.5rem;
         margin-left: 0; }
     #message_window #message_replies a {
-      text-decoration: none;
+      /*text-decoration: none;*/
+      /*display: block;*/
+      /*border: 2px solid #a795ef;*/
+      /*color: #a795ef;*/
+      /*border-radius: 16px;*/
+      /*padding: 0.25rem 1rem;*/
+      /*font-size: 14px;*/
+      /*cursor: pointer;*/
+
+      -webkit-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+      -moz-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+      -ms-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+      -o-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+      transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
       display: block;
-      border: 1px solid #a795ef;
-      color: #a795ef;
-      border-radius: 16px;
+      text-decoration: none;
+      border-radius: 4px;
       padding: 0.25rem 1rem;
-      font-size: 14px;
-      cursor: pointer; }
+      font-size: 16px;
+      cursor: pointer;
+      color: #a795ef;
+      box-shadow: rgba(167, 149, 239, 1) 0 0px 0px 2px inset;
+
+    }
       #message_window #message_replies a:hover {
-        background: #a795ef;
-        color: #FFF; }
+        /*background: #FFF;*/
+        /*color: #a795ef;*/
+
+        font-weight: bold;
+        color: rgba(255, 255, 255, 1);
+        box-shadow: rgba(167, 149, 239, 1) 0 0px 0px 40px inset;
+      }
+
+
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(167, 149, 239, 0.4);
+  }
+  70% {
+    -webkit-box-shadow: 0 0 0 10px rgba(167, 149, 239, 0);
+  }
+  100% {
+    -webkit-box-shadow: 0 0 0 0 rgba(167, 149, 239, 0);
+  }
+}
+@keyframes pulse {
+  0% {
+    -moz-box-shadow: 0 0 0 0 rgba(167, 149, 239, 0.4);
+    box-shadow: 0 0 0 0 rgba(167, 149, 239, 0.4);
+  }
+  70% {
+    -moz-box-shadow: 0 0 0 10px rgba(167, 149, 239, 0);
+    box-shadow: 0 0 0 10px rgba(167, 149, 239, 0);
+  }
+  100% {
+    -moz-box-shadow: 0 0 0 0 rgba(167, 149, 239, 0);
+    box-shadow: 0 0 0 0 rgba(167, 149, 239, 0);
+  }
+}
 
 /* typing indicator CSS based on code by Joseph Fusco -> https://codepen.io/fusco/pen/XbpaYv */
 .typing-indicator {

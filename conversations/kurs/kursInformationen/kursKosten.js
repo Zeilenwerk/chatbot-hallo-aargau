@@ -4,6 +4,7 @@ module.exports = {
         const {t} = require('localizify');
         const logUtil = require("../../../util/logUtil");
         const errorUtil = require("../../../util/errorUtil");
+        const dialogUtil = require("../../../util/dialogUtil");
 
         let qr = [];
 
@@ -15,7 +16,8 @@ module.exports = {
 
         convo.addQuestion({
             text: t("kurs.kursInformationen.kosten.kosten_angeben"),
-            quick_replies: qr
+            quick_replies: qr,
+            disable_input: true
         }, [
             {
                 default: true,
@@ -55,10 +57,17 @@ module.exports = {
 
                         if (ok){
                             //continue to next thread
+                            dialogUtil.kursMenuDialog_NoLUIS(conversation);
+
+                            //continue to next thread
                             if (nextThread !== "None") {
-                                convo.gotoThread(nextThread);
+                                if (nextThread === "kursSuchen_Menu") {
+                                    conversation.transitionTo(nextThread, convo.vars.kursSuchenMenu);
+                                }else{
+                                    conversation.gotoThread(nextThread);
+                                }
                             } else {
-                                convo.next();
+                                conversation.next();
                             }
                         }
 

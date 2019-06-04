@@ -16,14 +16,11 @@ module.exports = {
                     payload: t('help.helpMenu_Message_Qr_Kurs_Suchen'),
                 },
                 {
-                    title: t('help.helpMenu_Message_Qr_Aufenthaltsstatus'),
-                    payload: t('help.helpMenu_Message_Qr_Aufenthaltsstatus'),
-                },
-                {
                     title: t('help.helpMenu_Message_Qr_Hilfe'),
                     payload: t('help.helpMenu_Message_Qr_Hilfe'),
                 },
-            ]
+            ],
+            disable_input: true
         }, "helpMenu");
 
         convo.addQuestion({
