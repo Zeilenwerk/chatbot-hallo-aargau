@@ -179,6 +179,10 @@ module.exports = {
                 {
                     title: t('kurs.kursSuchen_Hilfe'),
                     payload: t('kurs.kursSuchen_Hilfe'),
+                },
+                {
+                    title: t('kurs.alleKurseAnzeigen'),
+                    payload: t('kurs.alleKurseAnzeigen'),
                 }
             ],
             disable_input: false,
@@ -193,6 +197,13 @@ module.exports = {
                             || res.text.toLowerCase().includes(t('kurs.kursSuchen_Hilfe').toLowerCase())) {
 
                             convo.gotoThread("correctInfromation");
+                            convo.next();
+
+                        } else if (res.text.toLowerCase() === t('kurs.alleKurseAnzeigen').toLowerCase()
+                            || res.text.toLowerCase().includes(t('kurs.alleKurseAnzeigen').toLowerCase())) {
+
+                            gefundeneKurse.displayGefundeneKurse(bot, message, convo, luisUtil, "displayGefundeneKurse", "displayFoundKursContactInformation");
+                            convo.gotoThread("startKursSearch");
                             convo.next();
 
                         } else {

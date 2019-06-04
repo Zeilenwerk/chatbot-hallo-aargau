@@ -21,10 +21,10 @@
     "weiterhelefen": "Wie kann ich Ihnen weiterhelfen?",
     "kursAuswahl": "Zurück zur Kursauswahl",
     "weiter_feedback": "Weiter zum Feedback",
-    "kurssuche_starten": "Ich werde nun mit den angegebene Informationen versuchen einen Kurs zu finden. Ist das für Sie in Ordnung?",
-    "alleKurseAnzeigen": "Alle Kurse anzeigen?",
+    "kurssuche_starten": "Ich werde nun einen Kurs suchen. Ist das für Sie in Ordnung?",
+    "alleKurseAnzeigen": "Alle Kurse anzeigen",
     "kursSuchen": "Super, gerne helfe ich Ihnen einen Deutschkurs zu suchen.",
-    "kursSuchen_Angaben": "Bitte beschreiben Sie mir den gesuchten Kurs. Für die Kurs Suche, drücken sie auf den 'Hilfe für die Kurs Suche' Knopf",
+    "kursSuchen_Angaben": "Bitte beschreiben Sie mir den gesuchten Kurs. Für Hilfe oder alle Kurse, drücken sie auf den Knopf",
     "kursSuchen_Hilfe": "Hilfe für die Kurs Suche",
     "kursSuchen_BereitsAngegeben": "Sie haben bereits folgende Angaben zum Kurs eingegeben:",
 
@@ -52,6 +52,7 @@
 
 
     "kursSuchen_Menu_Question": "Stimmen diese Angaben für Sie?",
+    "kursSuchen_Menu_Angaben": "Ihre Suche:",
     "kursSuchen_Menu_Question_Question_Qr_Nein": "Nein, ich möchte etwas ändern",
     "correctNeccessaryInfromation_Question": "Sie können 2 Arten von Suchkriterien eingeben: Informationen über sie selbst oder Informationen zum gewünschten Kurs. Klicken sie auf die Auswahl:",
     "kursInformationenAltersgruppe": "Kurs Altersgruppe",
@@ -68,13 +69,13 @@
     "keine_Aenderung": "Keine Änderung",
     "keine_weiteren_Angaben": "Keine weiteren Angaben",
     "kursGefunden": "Ich habe den folgenden Kurs gefunden:",
-    "kursGefunden_Informationen": "Kurs #{nummer}<br><br> - Intensitaet: '{kursInformationenIntensitaet}' <br> - Altersgruppe: '{kursInformationenAltersgruppe}' <br> - Geschlecht: '{kursInformationenGeschlecht}' <br> - Konversation: '{kursInformationenKonversation}' <br> - Kosten: '{kursInformationenKosten}' <br> - Niveau: '{kursInformationenNiveau}' <br> - Ort: '{kursInformationenOrt}' <br> - Tag: '{kursInformationenTag}' <br> - Start Datum: '{kursInformationenZeit_TagStart}' <br> - End Datum: '{kursInformationenZeit_TagEnde}' <br> - Lektion Startzeit: '{kursInformationenZeit_ZeitStart}' <br> - Lektion Endzeit: '{kursInformationenZeit_ZeitEnde}' <br> - Kurs Ziel(e): '{kursInformationenZiel}' <br> - Aadressatengruppe(n): '{kursInformationenAadressatengruppen}' <br> - Adressierte Geschlechte: '{kursInformationenGeschlecht}'<br> - Anbieter: '{kursInformationenAnbieter}'",
-    "gefundeneKurse_Question": "Möchten sie weitere Informationen (zB. Kontaktinformationen) zu einem dieser Kurse?",
-    "gefundeneKurse_Question_QR_Ja": "Ja, weitere Informationen anzeigen",
+    "kursGefunden_Informationen": "Kurs #{nummer}<br><br> {kursInformationenIntensitaet} für {kursInformationenGeschlecht}. Kurs für Niveau {kursInformationenNiveau}. Von {kursInformationenZeit_ZeitStart} bis {kursInformationenZeit_ZeitEnde} Uhr in {kursInformationenOrt}",
+    "gefundeneKurse_Question": "Möchten sie Kontaktinformationen für den Kurs?",
+    "gefundeneKurse_Question_QR_Ja": "Ja, Kontakt anzeigen",
     "gefundeneKurse_Question_QR_Nein": "Nein, weitere Kurse anzeigen",
-    "gefundeneKurse_Question_QR_Infromationen_aendern": "Nein, angegebene Informationen ändern",
+    "gefundeneKurse_Question_QR_Infromationen_aendern": "Nein, Suche ändern",
     "gefundenerKurs_Auswahl": "Sie haben den Kurs mit der ID '{id}' ausgewählt. Stimmt das?",
-    "gefundenerKurs_Zusatzinformationen": "Ich habe folgende Informationen zum ausgewählten Kurs gefunden:<br><br> -Anbieter: '{kursInformationenAnbieter}'<br> -Kosten: '{kursInformationenKosten}'<br> -Durchführungstag(e): '{kursInformationenTag}'<br> -Startdatum: '{kursInformationenZeit_TagStart}'<br> -Enddatum: '{kursInformationenZeit_TagEnde}'<br> -Lektion Startzeit: '{kursInformationenZeit_ZeitStart}'<br> -Lektion Endzeit: '{kursInformationenZeit_ZeitEnde}'<br><br>Kontaktperson:<br>-Name: '{kursKontaktperson_Name}'<br> -Telefon: '{kursKontaktperson_Telefon}'<br> -Telefon 2: '{kursKontaktperson_Telefon2}'<br> -Mail: '{kursKontaktperson_Mail}'<br> -Mail 2: '{kursKontaktperson_Mail2}'<br> -Online Formular: '{kursKontaktperson_Formular}'<br> -Website: '{kursKontaktperson_Url}'<br><br>Durchführungsort:<br>-Kursraum: '{durchfuerungsortRaum}<br> -Adresse: '{durchfuerungsort_Adresse}<br> -Ort: '{kursInformationenOrt}<br> -PLZ: '{durchfuerungsort_Plz}<br> -Kinderhütedienst vorhanden: '{durchfuerungsortKinderhuetedienst}'",
+    "gefundenerKurs_Zusatzinformationen": "{kursInformationenAnbieter} <br>Kosten: {kursInformationenKosten}<br> Kontakt: {kursKontakt}",
     "check_Notwendige_Informationen_Ort": "Den Ort haben Sie schon angegeben ({kursOrt}, im Bezirk {kursBezirk}), somit benötige ich dies nicht mehr.",
     "check_Notwendige_Informationen_Ort_Bezirk": "Den Ort haben Sie schon angegeben ({kursOrt}), somit benötige ich dies nicht mehr.",
     "check_Notwendige_Informationen_Tag": "Als Kurstag, haben Sie den {kursTag} gewählt.",
@@ -259,8 +260,8 @@
     "askFeedback_Transition_5": "Das tut mir leid, das sie gar nicht zufriden sind."
   },
   "end": {
-    "convoEnd_Question": "Kann ich Ihnen weiterhin behilflich sein?",
-    "convoEnd_Question_Qr_Ja": "Ja, ich habe noch weitere Anliegen",
+    "convoEnd_Question": "Kann ich Ihnen weiter Helfen?",
+    "convoEnd_Question_Qr_Ja": "Ja, ich möchte noch ein Kurs suchen",
     "convoEnd_Question_Qr_Ja_Payload": "Ja",
     "convoEnd_Question_Qr_Nein": "Nein, das wäre alles",
     "convoEnd_Question_Qr_Nein_Payload": "Nein",
@@ -275,3 +276,4 @@
     "nein": "keine angabe, nein, gar nicht, bitte nicht"
   }
 }
+

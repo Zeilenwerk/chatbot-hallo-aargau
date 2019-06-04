@@ -19,7 +19,9 @@ module.exports = {
                     payload: t('end.convoEnd_Question_Qr_Nein_Payload'),
                 },
 
-            ]
+            ],
+            disable_input: true,
+            input_placeholder: "Schreiben Sie 'Hallo'"
         }, [
             {
                 default: true,

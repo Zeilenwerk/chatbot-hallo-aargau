@@ -16,7 +16,7 @@ module.exports = {
 
         logUtil.debug("Start kursMenuDialog");
 
-        let kursSuchenMenu = t("kurs.kursSuchen_Menu_Question");
+        let kursSuchenMenu = t("kurs.kursSuchen_Menu_Angaben");
         let angabeVorhanden  = false;
 
         let kursInformationenAltersgruppe = "";
@@ -31,7 +31,7 @@ module.exports = {
         let kursInformationenZeit = "";
         let kursInformationenZiel = "";
 
-        if(convo.vars.kursInformationenAltersgruppe.toLowerCase() === "none"){
+        if(convo.vars.kursInformationenAltersgruppe.toLowerCase() === "keine angabe"){
             let aEntity_kursInformationenAltersgruppe = luisUtil.getEntityFromLuisResponse("kursInformationenAltersgruppe", res);
             if (aEntity_kursInformationenAltersgruppe) {
                 //Set var in convo --> used afterwards to get search results form db
@@ -45,7 +45,7 @@ module.exports = {
             kursSuchenMenu += "<br>" + t("kurs.kursSuchen_KursAltersgruppe", {kursInformationenAltersgruppe: "{{vars.kursInformationenAltersgruppe}}"});
             angabeVorhanden = true;
         }
-        if(convo.vars.kursInformationenAnbieter.toLowerCase() === "none"){
+        if(convo.vars.kursInformationenAnbieter.toLowerCase() === "keine angabe"){
             let aEntity_kursInformationenAnbieter = luisUtil.getEntityFromLuisResponse("kursInformationenAnbieter", res);
             if (aEntity_kursInformationenAnbieter) {
                 //Set var in convo --> used afterwards to get search results form db
@@ -59,7 +59,7 @@ module.exports = {
             kursSuchenMenu += "<br>" + t("kurs.kursSuchen_Anbieter", {kursInformationenAnbieter: "{{vars.kursInformationenAnbieter}}"});
             angabeVorhanden = true;
         }
-        if(convo.vars.kursInformationenGeschlecht.toLowerCase() === "none"){
+        if(convo.vars.kursInformationenGeschlecht.toLowerCase() === "keine angabe"){
             let aEntity_kursInformationenGeschlecht = luisUtil.getEntityFromLuisResponse("kursInformationenGeschlecht", res);
             if (aEntity_kursInformationenGeschlecht) {
                 //Set var in convo --> used afterwards to get search results form db
@@ -73,7 +73,7 @@ module.exports = {
             kursSuchenMenu += "<br>" + t("kurs.kursSuchen_Addresiertes", {kursInformationenGeschlecht: "{{vars.kursInformationenGeschlecht}}"});
             angabeVorhanden = true;
         }
-        if(convo.vars.kursInformationenIntensitaet.toLowerCase() === "none"){
+        if(convo.vars.kursInformationenIntensitaet.toLowerCase() === "keine angabe"){
             let aEntity_kursInformationenIntensitaet = luisUtil.getEntityFromLuisResponse("kursInformationenIntensitaet", res);
             if (aEntity_kursInformationenIntensitaet) {
                 //Set var in convo --> used afterwards to get search results form db
@@ -87,7 +87,7 @@ module.exports = {
             kursSuchenMenu += "<br>" + t("kurs.kursSuchen_Intensität", {kursInformationenIntensitaet: "{{vars.kursInformationenIntensitaet}}"});
             angabeVorhanden = true;
         }
-        if(convo.vars.kursInformationenKonversation.toLowerCase() === "none"){
+        if(convo.vars.kursInformationenKonversation.toLowerCase() === "keine angabe"){
             let aEntity_kursInformationenKonversation = luisUtil.getEntityFromLuisResponse("kursInformationenKonversation", res);
             if (aEntity_kursInformationenKonversation) {
                 //Set var in convo --> used afterwards to get search results form db
@@ -101,7 +101,7 @@ module.exports = {
             kursSuchenMenu += "<br>" + t("kurs.kursSuchen_Konversation", {kursInformationenKonversation: "{{vars.kursInformationenKonversation}}"});
             angabeVorhanden = true;
         }
-        if(convo.vars.kursInformationenKosten.toLowerCase() === "none"){
+        if(convo.vars.kursInformationenKosten.toLowerCase() === "keine angabe"){
             let aEntity_kursInformationenKosten = luisUtil.getEntityFromLuisResponse("kursInformationenKosten", res);
             if (aEntity_kursInformationenKosten) {
                 //Set var in convo --> used afterwards to get search results form db
@@ -115,7 +115,7 @@ module.exports = {
             kursSuchenMenu += "<br>" + t("kurs.kursSuchen_Kosten", {kursInformationenKosten: "{{vars.kursInformationenKosten}}"});
             angabeVorhanden = true;
         }
-        if(convo.vars.kursInformationenNiveau.toLowerCase() === "none"){
+        if(convo.vars.kursInformationenNiveau.toLowerCase() === "keine angabe"){
             let aEntity_kursInformationenNiveau = luisUtil.getEntityFromLuisResponse("kursInformationenNiveau", res);
             if (aEntity_kursInformationenNiveau) {
                 //Set var in convo --> used afterwards to get search results form db
@@ -129,7 +129,7 @@ module.exports = {
             kursSuchenMenu += "<br>" + t("kurs.kursSuchen_Niveau", {kursInformationenNiveau: "{{vars.kursInformationenNiveau}}"});
             angabeVorhanden = true;
         }
-        if(convo.vars.kursInformationenOrt.toLowerCase() === "none"){
+        if(convo.vars.kursInformationenOrt.toLowerCase() === "keine angabe"){
             let aEntity_kursInformationenOrt = luisUtil.getEntityFromLuisResponse("kursInformationenOrt", res);
             if (aEntity_kursInformationenOrt) {
                 //Set var in convo --> used afterwards to get search results form db
@@ -143,7 +143,7 @@ module.exports = {
             kursSuchenMenu += "<br>" + t("kurs.kursSuchen_Ort", {kursInformationenOrt: "{{vars.kursInformationenOrt}}"});
             angabeVorhanden = true;
         }
-        if(convo.vars.kursInformationenTag.toLowerCase() === "none"){
+        if(convo.vars.kursInformationenTag.toLowerCase() === "keine angabe"){
             let aEntity_kursInformationenTag = luisUtil.getEntityFromLuisResponse("kursInformationenTag", res);
             if (aEntity_kursInformationenTag) {
                 //Set var in convo --> used afterwards to get search results form db
@@ -157,7 +157,7 @@ module.exports = {
             kursSuchenMenu += "<br>" + t("kurs.kursSuchen_Tag", {kursInformationenTag: "{{vars.kursInformationenTag}}"});
             angabeVorhanden = true;
         }
-        if(convo.vars.kursInformationenZeit.toLowerCase() === "none"){
+        if(convo.vars.kursInformationenZeit.toLowerCase() === "keine angabe"){
             let aEntity_kursInformationenZeit = luisUtil.getEntityFromLuisResponse("kursInformationenZeit", res);
             if (aEntity_kursInformationenZeit) {
                 //Set var in convo --> used afterwards to get search results form db
@@ -171,7 +171,7 @@ module.exports = {
             kursSuchenMenu += "<br>" + t("kurs.kursSuchen_Zeit", {kursInformationenZeit: "{{vars.kursInformationenZeit}}"});
             angabeVorhanden = true;
         }
-        if(convo.vars.kursInformationenZiel.toLowerCase() === "none"){
+        if(convo.vars.kursInformationenZiel.toLowerCase() === "keine angabe"){
             let aEntity_kursInformationenZiel = luisUtil.getEntityFromLuisResponse("kursInformationenZiel", res);
             if (aEntity_kursInformationenZiel) {
                 //Set var in convo --> used afterwards to get search results form db

@@ -119,10 +119,6 @@ module.exports = function (controller) {
                         title: t('_connection_events.onboarding_Deutschkurs'),
                         payload: t('_connection_events.onboarding_Deutschkurs'),
                     },
-                    // {
-                    //     title: t('_connection_events.onboarding_Aufenthaltsstatus'),
-                    //     payload: t('_connection_events.onboarding_Aufenthaltsstatus'),
-                    // },
                     {
                         title: t('_connection_events.onboarding_Hilfe'),
                         payload: t('_connection_events.onboarding_Hilfe'),
@@ -149,10 +145,6 @@ module.exports = function (controller) {
                         title: t('_connection_events.onboarding_Deutschkurs'),
                         payload: t('_connection_events.onboarding_Deutschkurs'),
                     },
-                    // {
-                    //     title: t('_connection_events.onboarding_Aufenthaltsstatus'),
-                    //     payload: t('_connection_events.onboarding_Aufenthaltsstatus'),
-                    // },
                     {
                         title: t('_connection_events.onboarding_Hilfe'),
                         payload: t('_connection_events.onboarding_Hilfe'),

@@ -31,7 +31,8 @@ module.exports = {
                     title: t('feedback.askFeedback_Qr_5'),
                     payload: t('feedback.askFeedback_Qr_5_Payload'),
                 },
-            ]
+            ],
+            disable_input: true
         }, [
             {
                 default: true,

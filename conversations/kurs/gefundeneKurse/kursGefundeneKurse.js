@@ -12,8 +12,9 @@ module.exports = {
             logUtil.debug("All getMatchedKurseFromDB to display in Convo: " + JSON.stringify(rows));
 
             if (rows.length === 0) {
-                conversation.addMessage(t("kurs.kursInformationen.nicht_in_db_gefunden", {item: t("kurs.kursInformationen.item")}), threadName + "0");
+                //conversation.addMessage(t("kurs.kursInformationen.nicht_in_db_gefunden", {item: t("kurs.kursInformationen.item")}), threadName + "0");
                 //conversation.transitionTo(nextThread, t("kurs.kursInformationen.nicht_in_db_gefunden", {item: t("kurs.kursInformationen.altersgruppe.item")}));
+                conversation.transitionTo("convoEnd", t("kurs.kursInformationen.nicht_in_db_gefunden", {item: t("kurs.kursInformationen.item")}));
             } else {
 
                 let maxQRToDisplay = 1;
@@ -88,21 +89,12 @@ module.exports = {
 
                     conversation.addMessage(t("kurs.kursGefunden_Informationen", {
                         nummer: (c + 1),
-                        kursInformationenAnbieter: kursInformationenAnbieter,
-                        kursInformationenAltersgruppe: kursInformationenAltersgruppe,
-                        kursInformationenGeschlecht: kursInformationenGeschlecht,
                         kursInformationenIntensitaet: kursInformationenIntensitaet,
-                        kursInformationenKonversation: kursInformationenKonversation,
-                        kursInformationenKosten: kursInformationenKosten,
+                        kursInformationenGeschlecht: kursInformationenGeschlecht,
                         kursInformationenNiveau: kursInformationenNiveau,
-                        kursInformationenOrt: kursInformationenOrt,
-                        kursInformationenTag: kursInformationenTag,
-                        kursInformationenZeit_TagStart: kursInformationenZeit_TagStart,
-                        kursInformationenZeit_TagEnde: kursInformationenZeit_TagEnde,
-                        kursInformationenZeit_ZeitStart: kursInformationenZeit_ZeitStart,
-                        kursInformationenZeit_ZeitEnde: kursInformationenZeit_ZeitEnde,
-                        kursInformationenZiel: kursInformationenZiel,
-                        kursInformationenAadressatengruppen: kursInformationenAadressatengruppen
+                        kursInformationenZeit_ZeitEnde: kursInformationenZeit_ZeitEnde.slice(0, -7),
+                        kursInformationenZeit_ZeitStart: kursInformationenZeit_ZeitStart.slice(0, -7),
+                        kursInformationenOrt: kursInformationenOrt
                     }), threadName + c);
 
                     let qr = [];
@@ -132,7 +124,9 @@ module.exports = {
 
                     conversation.addQuestion({
                         text: t("kurs.gefundeneKurse_Question"),
-                        quick_replies: qr
+                        quick_replies: qr,
+                        disable_input: true
+
                     }, [
                         {
                             default: true,
@@ -230,7 +224,7 @@ module.exports = {
             logUtil.debug("All getKursWithId to display in Convo: " + JSON.stringify(rows));
 
             if (rows.length === 0) {
-                conversation.addMessage(t("kurs.kursInformationen.nicht_in_db_gefunden", {item: t("kurs.kursInformationen.item")}), nextThread);
+                conversation.transitionTo("convoEnd", t("kurs.kursInformationen.nicht_in_db_gefunden", {item: t("kurs.kursInformationen.item")}));
             } else {
 
                 let oRow = rows[0];
@@ -260,6 +254,8 @@ module.exports = {
                 let durchfuerungsort_Plz = t("keine_Angabe");
                 let durchfuerungsortKinderhuetedienst = t("keine_Angabe");
 
+                let kursKontakt = "";
+
                 if (null != oRow.kursinformationenanbieter && oRow.kursinformationenanbieter !== t("keine_Angabe") && oRow.kursinformationenanbieter !== "") {
                     kursInformationenAnbieter = oRow.kursinformationenanbieter;
                 }
@@ -283,15 +279,18 @@ module.exports = {
                 }
                 if (null != oRow.kurskontaktperson_name && oRow.kurskontaktperson_name !== t("keine_Angabe") && oRow.kurskontaktperson_name !== "") {
                     kursKontaktperson_Name = oRow.kurskontaktperson_anrede + " " + oRow.kurskontaktperson_name;
+                    kursKontakt += kursKontaktperson_Name + "<br>";
                 }
                 if (null != oRow.kurskontaktperson_telefon && oRow.kurskontaktperson_telefon !== t("keine_Angabe") && oRow.kurskontaktperson_telefon !== "") {
                     kursKontaktperson_Telefon = "<a href=\"tel:" + oRow.kurskontaktperson_telefon + "\" target=\"_blank\">" + oRow.kurskontaktperson_telefon + "</a>";
+                    kursKontakt += kursKontaktperson_Telefon + "<br>";
                 }
                 if (null != oRow.kurskontaktperson_telefon2 && oRow.kurskontaktperson_telefon2 !== t("keine_Angabe") && oRow.kurskontaktperson_telefon2 !== "") {
                     kursKontaktperson_Telefon2 = "<a href=\"tel:" + oRow.kurskontaktperson_telefon2 + "\" target=\"_blank\">" + oRow.kurskontaktperson_telefon2 + "</a>";
                 }
                 if (null != oRow.kurskontaktperson_mail && oRow.kurskontaktperson_mail !== t("keine_Angabe") && oRow.kurskontaktperson_mail !== "") {
                     kursKontaktperson_Mail = "<a href=\"mailto:" + oRow.kurskontaktperson_mail + "\" target=\"_blank\">" + oRow.kurskontaktperson_mail + "</a>";
+                    kursKontakt += kursKontaktperson_Mail + "<br>";
                 }
                 if (null != oRow.kurskontaktperson_mail2 && oRow.kurskontaktperson_mail2 !== t("keine_Angabe") && oRow.kurskontaktperson_mail2 !== "") {
                     kursKontaktperson_Mail2 = "<a href=\"mailto:" + oRow.kurskontaktperson_mail2 + "\" target=\"_blank\">" + oRow.kurskontaktperson_mail2 + "</a>";
@@ -307,6 +306,7 @@ module.exports = {
                 }
                 if (null != oRow.durchfuerungsort_adresse && oRow.durchfuerungsort_adresse !== t("keine_Angabe") && oRow.durchfuerungsort_adresse !== "") {
                     durchfuerungsort_Adresse = oRow.durchfuerungsort_adresse;
+                    kursInformationenAnbieter += + "<br>" + durchfuerungsort_Adresse + "<br>"
                 }
                 if (null != oRow.durchfuerungsort_adresszusatz1 && oRow.durchfuerungsort_adresszusatz1 !== t("keine_Angabe") && oRow.durchfuerungsort_adresszusatz1 !== "") {
                     durchfuerungsort_Adresszusatz1 = oRow.durchfuerungsort_adresszusatz1;
@@ -319,6 +319,7 @@ module.exports = {
                 }
                 if (null != oRow.kursinformationenort && oRow.kursinformationenort !== t("keine_Angabe") && oRow.kursinformationenort !== "") {
                     kursInformationenOrt = oRow.kursinformationenort;
+                    kursInformationenAnbieter += kursInformationenOrt + "<br>";
                 }
                 if (null != oRow.durchfuerungsort_plz && oRow.durchfuerungsort_plz !== t("keine_Angabe") && oRow.durchfuerungsort_plz !== "") {
                     durchfuerungsort_Plz = oRow.durchfuerungsort_plz;
@@ -327,26 +328,12 @@ module.exports = {
                     durchfuerungsortKinderhuetedienst = oRow.durchfuerungsortkinderhuetedienst;
                 }
 
+
+
                 conversation.addMessage(t("kurs.gefundenerKurs_Zusatzinformationen", {
                     kursInformationenAnbieter: kursInformationenAnbieter,
                     kursInformationenKosten: kursInformationenKosten,
-                    kursInformationenTag: kursInformationenTag,
-                    kursInformationenZeit_TagStart: kursInformationenZeit_TagStart,
-                    kursInformationenZeit_TagEnde: kursInformationenZeit_TagEnde,
-                    kursInformationenZeit_ZeitStart: kursInformationenZeit_ZeitStart,
-                    kursInformationenZeit_ZeitEnde: kursInformationenZeit_ZeitEnde,
-                    kursKontaktperson_Name: kursKontaktperson_Name,
-                    kursKontaktperson_Telefon: kursKontaktperson_Telefon,
-                    kursKontaktperson_Telefon2: kursKontaktperson_Telefon2,
-                    kursKontaktperson_Mail: kursKontaktperson_Mail,
-                    kursKontaktperson_Mail2: kursKontaktperson_Mail2,
-                    kursKontaktperson_Formular: kursKontaktperson_Formular,
-                    kursKontaktperson_Url: kursKontaktperson_Url,
-                    durchfuerungsortRaum: durchfuerungsortRaum,
-                    durchfuerungsort_Adresse: durchfuerungsort_Adresse,
-                    kursInformationenOrt: kursInformationenOrt,
-                    durchfuerungsort_Plz: durchfuerungsort_Plz,
-                    durchfuerungsortKinderhuetedienst: durchfuerungsortKinderhuetedienst,
+                    kursKontakt: kursKontakt,
                 }), threadName);
 
 
@@ -361,7 +348,8 @@ module.exports = {
                             title: t('kurs.weiter_feedback'),
                             payload: t('kurs.weiter_feedback'),
                         },
-                    ]
+                    ],
+                    disable_input: true
                 }, [
                     {
                         default: true,
