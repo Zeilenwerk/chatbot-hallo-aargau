@@ -306,7 +306,7 @@ module.exports = {
                 }
                 if (null != oRow.durchfuerungsort_adresse && oRow.durchfuerungsort_adresse !== t("keine_Angabe") && oRow.durchfuerungsort_adresse !== "") {
                     durchfuerungsort_Adresse = oRow.durchfuerungsort_adresse;
-                    kursInformationenAnbieter += + "<br>" + durchfuerungsort_Adresse + "<br>"
+                    kursInformationenAnbieter += "<br>" + durchfuerungsort_Adresse + "<br>"
                 }
                 if (null != oRow.durchfuerungsort_adresszusatz1 && oRow.durchfuerungsort_adresszusatz1 !== t("keine_Angabe") && oRow.durchfuerungsort_adresszusatz1 !== "") {
                     durchfuerungsort_Adresszusatz1 = oRow.durchfuerungsort_adresszusatz1;
